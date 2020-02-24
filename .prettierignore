@@ -1,0 +1,8 @@
+# Configuration and lock files
+.*rc
+*.lock
+.*ignore
+
+# unformattables
+*.sh
+*.cfg

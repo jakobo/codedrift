@@ -1,0 +1,49 @@
+{
+  "name": "codedrift",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "commit:cz": "exec < /dev/tty && git-cz --hook || true",
+    "lint-staged": "lint-staged --shell"
+  },
+  "author": "Jakob Heuser",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@emotion/core": "^10.0.27",
+    "@emotion/styled": "^10.0.27",
+    "date-fns": "^2.9.0",
+    "debug": "^4.1.1",
+    "dotenv": "^8.2.0",
+    "emotion-theming": "^10.0.27",
+    "glamor": "^2.20.40",
+    "glob": "^7.1.6",
+    "gray-matter": "^4.0.2",
+    "next": "^9.2.2",
+    "prop-types": "^15.7.2",
+    "query-string": "^6.11.0",
+    "raw-loader": "^4.0.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-markdown": "^4.3.1",
+    "styled-system": "^5.1.5",
+    "ui-box": "^2.1.3"
+  },
+  "devDependencies": {
+    "commitizen": "^4.0.3",
+    "emoji-cz": "^0.3.0",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.7",
+    "prettier": "^1.19.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged --shell",
+      "post-commit": "git update-index --again",
+      "prepare-commit-msg": "if [ -t 1 ] ; then yarn run commit:cz; fi"
+    }
+  }
+}

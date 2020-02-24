@@ -1,0 +1,93 @@
+<html>
+  <head>
+    <script type="text/javascript" src="example.js"></script>
+    <script type="text/javascript" src="lock.js"></script>
+    <style>
+      button {
+        width: 10em;
+        height: 2em;
+      }
+      table {
+        border: 1px solid #333;
+        border-spacing: 1px;
+        padding: 0;
+        margin: 0;
+      }
+      th {
+        color: #ccc;
+        background: #030;
+        text-align: left;
+        padding: 0.2em 1em 0.2em 1em;
+      }
+      td {
+        border: 1px solid #333;
+        padding: 0.2em 1em 0.2em 1em;
+        margin: 0;
+      }
+      td.fail {
+        background: #fcc;
+      }
+      td.pass {
+        background: #cfc;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="race_example" onclick="RaceExample();">Test Unprotected</button>
+    <button id="prace_example" onclick="ProtectedRaceExample();">
+      Test Protected
+    </button>
+
+    <h3>Unprotected Test Results</h3>
+    <table>
+      <tr>
+        <th>Browser</th>
+        <th>foo IN</th>
+        <th>foo OUT</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>Firefox 2.0.0.8 (OSX)</td>
+        <td>test</td>
+        <td class="fail">destroyer of code!</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Firefox 2.0.0.8 (WinXP)</td>
+        <td>test</td>
+        <td class="fail">destroyer of code!</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Internet Explorer 6 (WinXP)</td>
+        <td>test</td>
+        <td class="pass">test</td>
+        <td>Standalone Version</td>
+      </tr>
+      <tr>
+        <td>Internet Explorer 7 (WinXP)</td>
+        <td>test</td>
+        <td class="pass">test</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Opera 9.22 (OSX)</td>
+        <td>test</td>
+        <td class="pass">test</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Safari 2.0.4 (OSX)</td>
+        <td>test</td>
+        <td class="fail">destroyer of code!</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Safari 3 (OSX)</td>
+        <td>test</td>
+        <td class="fail">destroyer of code!</td>
+        <td>Build 5523.10</td>
+      </tr>
+    </table>
+  </body>
+</html>
