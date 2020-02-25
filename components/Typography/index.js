@@ -1,17 +1,17 @@
-import { forwardRef } from "react";
-import { css } from "@emotion/core";
-import styled from "@emotion/styled";
 import {
-  space,
-  fontSize,
-  fontWeight,
-  fontStyle,
   color,
+  fontSize,
+  fontStyle,
+  fontWeight,
+  space,
   textAlign,
 } from "styled-system";
+import { css } from "@emotion/core";
+import Box from "../Box";
 import PropTypes from "prop-types";
-import NextLink from "next/link";
-import qs from "query-string";
+import React, { forwardRef } from "react";
+import chroma from "chroma-js";
+import styled from "@emotion/styled";
 
 // not needed ... yet
 // const TALL_LINE_HEIGHT = css`
@@ -48,6 +48,7 @@ const Type = forwardRef(
     );
   }
 );
+Type.displayName = "Type";
 Type.propTypes = {
   ...space.propTypes,
   ...fontSize.propTypes,
@@ -83,6 +84,7 @@ const Text = forwardRef(
     />
   )
 );
+Text.displayName = "Text";
 Text.Styled = styled(Type)`
   ${p => (p.truncate ? TRUNCATE : "")}
 `;
@@ -100,19 +102,61 @@ const headingSizeMap = {
   sm: 3,
   xs: 1,
 };
+const headingHMap = {
+  h1: "lg",
+  h2: "md",
+  h3: "sm",
+  h4: "xs",
+  h5: "xs",
+  h6: "xs",
+};
 const Heading = forwardRef(
-  ({ as = "h2", size = "lg", truncate = false, ...rest }, ref) => (
-    <Heading.Styled
-      ref={ref}
-      as={as}
-      fontSize={headingSizeMap[as] || headingSizeMap.lg}
-      truncate={truncate}
-      {...rest}
-    />
-  )
+  (
+    {
+      as = "h2",
+      size = null,
+      id = null,
+      includeAnchor = false,
+      truncate = false,
+      children,
+      ...rest
+    },
+    ref
+  ) => {
+    size = size
+      ? headingSizeMap?.[size] || size
+      : headingSizeMap?.[headingHMap?.[as]] || null;
+    return (
+      <Heading.Styled
+        ref={ref}
+        as={as}
+        fontSize={size}
+        truncate={truncate}
+        id={id}
+        includeAnchor={includeAnchor}
+        {...rest}
+      >
+        {id && includeAnchor && (
+          <Box as="span" display="inline-block" marginLeft="-20px" width="20px">
+            <a className="anchor" href={`#${id}`} aria-hidden>
+              X
+            </a>
+          </Box>
+        )}
+        {children}
+      </Heading.Styled>
+    );
+  }
 );
+Heading.displayName = "Heading";
 Heading.Styled = styled(Type)`
   ${p => (p.truncate ? TRUNCATE : "")}
+  & a.anchor {
+    visibility: hidden;
+  }
+  &:hover a.anchor {
+    visibility: visible;
+  }
 `;
 Heading.propTypes = {
   truncate: PropTypes.bool,
@@ -134,13 +178,23 @@ const Paragraph = forwardRef(({ size = "md", ...rest }, ref) => (
     {...rest}
   />
 ));
+Paragraph.displayName = "Paragraph";
 Paragraph.propTypes = {
   ...Type.propTypes,
   size: PropTypes.oneOf(Object.keys(pSizeMap)),
 };
 
 const Link = forwardRef((props = {}, ref) => {
-  return <Type ref={ref} as="a" {...props} />;
+  return <Link.Styled ref={ref} as="a" color="primary" {...props} />;
 });
+Link.displayName = "Link";
+Link.Styled = styled(Type)`
+  &:hover {
+    color: ${p =>
+      chroma(p.theme.colors[p.color])
+        .darken()
+        .css()};
+  }
+`;
 
 export { Link, Type, Heading, Text, Paragraph };

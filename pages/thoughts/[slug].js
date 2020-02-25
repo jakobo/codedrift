@@ -1,14 +1,21 @@
+import { Heading, Link, Paragraph } from "~/components/Typography";
+import { List, ListItem } from "~/components/List";
+import { getPagePath } from "~/lib/urls/pages";
+import { useEffect, useRef, useState } from "react";
+import Blockquote from "~/components/Blockquote";
+import Box from "~/components/Box";
+import Layout from "~/components/Layout";
+import NextLink from "next/link";
 import React from "react";
+import ReactMarkdown from "react-markdown";
 import d from "debug";
 import matter from "gray-matter";
-import ReactMarkdown from "react-markdown";
-import { Heading, Paragraph, Link } from "~/components/Typography";
-import Blockquote from "~/components/Blockquote";
-import { List, ListItem } from "~/components/List";
-import Layout from "~/components/Layout";
-import Box from "~/components/Box";
-import { getPagePath } from "~/lib/urls/pages";
-import NextLink from "next/link";
+
+const idSlug = s =>
+  s
+    .replace(/[\s]+/g, "-")
+    .replace(/[-]{2,}/g, "-")
+    .toLowerCase();
 
 const ParagraphRenderer = ({ children, ...rest }) => {
   const hasImage = !!children.find(
@@ -37,9 +44,22 @@ const LinkRenderer = ({ href, ...rest }) => {
 
 const ImageRenderer = props => <Box as="img" maxWidth="80%" {...props} />;
 
+const HeadingRender = ({ level, children, ...rest }) => {
+  const el = useRef(null);
+  const [id, setId] = useState("");
+  useEffect(() => {
+    setId(idSlug(el.current.innerHTML.trim()));
+  }, []);
+  return (
+    <Heading ref={el} as={`h${level}`} id={id} includeAnchor {...rest}>
+      {children}
+    </Heading>
+  );
+};
+
 const renderers = {
   paragraph: ParagraphRenderer,
-  heading: Heading,
+  heading: HeadingRender,
   list: List,
   listItem: ListItem,
   blockquote: Blockquote,
@@ -50,7 +70,8 @@ const renderers = {
 const debug = d("CodeDrift:BlogPost");
 const BlogPost = ({ metadata, content }) => {
   return (
-    <Layout>
+    <Layout title={metadata.title}>
+      <Heading as="h1">{metadata.title}</Heading>
       <ReactMarkdown source={content} renderers={renderers} />
     </Layout>
   );

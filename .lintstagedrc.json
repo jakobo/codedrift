@@ -1,4 +1,4 @@
 {
-  "**/*.js": ["cd services/capra && yarn lint --fix", "prettier --write"],
+  "**/*.js": ["yarn lint --fix", "prettier --write"],
   "*.md": ["prettier --write"]
 }

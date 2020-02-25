@@ -1,21 +1,26 @@
-import styled from "@emotion/styled";
-import PropTypes from "prop-types";
 import {
-  space,
-  layout,
-  flexbox,
   background,
   border,
+  compose,
+  flexbox,
+  grid,
+  layout,
   position,
   shadow,
-  compose,
+  space,
   textAlign,
 } from "styled-system";
+import React, { forwardRef } from "react";
+import styled from "@emotion/styled";
 
-const Box = ({ ...rest }) => <Box.Styled {...rest} />;
+const Box = forwardRef(({ ...rest }, ref) => (
+  <Box.Styled ref={ref} {...rest} />
+));
+Box.displayName = "Box";
 Box.Styled = styled("div")(
   compose(
     space,
+    grid,
     layout,
     flexbox,
     background,
@@ -34,6 +39,7 @@ Box.propTypes = {
   ...position.propTypes,
   ...shadow.propTypes,
   ...textAlign.propTypes,
+  ...grid.propTypes,
 };
 
 export default Box;

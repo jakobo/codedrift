@@ -1,11 +1,10 @@
 /** @jsx jsx */
 import "./reset.css";
-import Box from "~/components/Box";
-import { jsx, css, keyframes } from "@emotion/core";
+import { css, jsx, keyframes } from "@emotion/core";
 import { useEffect, useState } from "react";
 import { windowHelpers } from "~/lib/window";
-import { ThemeProvider } from "emotion-theming";
-import theme from "~/style/theme";
+import Box from "~/components/Box";
+import Providers from "~/lib/providers";
 
 const ANIMATION_DURATION = 200;
 const animationEasing = {
@@ -40,11 +39,11 @@ const App = ({ Component, pageProps }) => {
 
   return (
     <>
-      <ThemeProvider theme={theme}>
+      <Providers>
         <Box css={animationStyles} data-state={ready ? "ready" : ""}>
           <Component {...pageProps} />
         </Box>
-      </ThemeProvider>
+      </Providers>
     </>
   );
 };
