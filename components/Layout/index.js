@@ -1,4 +1,7 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "../Typography";
+import { faBars, faEnvelope, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faGithub, faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
 import { useBreakpoint } from "~/hooks/useBreakpoints";
 import { useWindowScroll } from "react-use";
 import Box from "../Box";
@@ -30,20 +33,115 @@ const links = [
   { href: "/about", label: "About" },
 ];
 
-const SlideNav = ({ ...all }) => {
-  return <Box {...all}>A</Box>;
+const UnstyledSlideNav = ({ show, close, ...all }) => {
+  return (
+    <Box
+      position="fixed"
+      height="100vh"
+      width="80vw"
+      maxWidth="80%"
+      right="0px"
+      top="0px"
+      {...all}
+    >
+      <Box
+        position="absolute"
+        right="3"
+        top="2"
+        cursor="pointer"
+        zIndex="1"
+        onClick={close}
+      >
+        <FontAwesomeIcon icon={faTimes} />
+      </Box>
+      <Box
+        position="absolute"
+        right="0px"
+        bottom="0px"
+        width="50%"
+        height="100vh"
+        background="white"
+        aria-hidden
+      />
+      <Box
+        background="white"
+        height="100vh"
+        width="80vw"
+        maxWidth="80%"
+        transform="skewX(-20deg)"
+        position="relative"
+        paddingTop={MENU_HEIGHT}
+        borderLeftWidth="2px"
+        borderLeftColor="darkGray"
+        borderLeftStyle="solid"
+      >
+        {links.map(l => (
+          <Box key={l.label} transform="skewX(20deg)" paddingTop="2">
+            <NavLink href={l.href} marginLeft="1">
+              {l.label}
+            </NavLink>
+          </Box>
+        ))}
+        <Box
+          transform="skewX(20deg)"
+          paddingTop="2"
+          textAlign="center"
+          display="flex"
+          flexDirection="row"
+          justifyContent="center"
+        >
+          <Box>
+            <NextLink href="https://github.com/jakobo" passHref>
+              <Link color="darkGray">
+                <FontAwesomeIcon icon={faGithub} fixedWidth />
+              </Link>
+            </NextLink>
+          </Box>
+          <Box paddingLeft="2" paddingRight="2">
+            <NextLink href="https://linkedin.com/jakobheuser" passHref>
+              <Link color="darkGray">
+                <FontAwesomeIcon icon={faLinkedinIn} fixedWidth />
+              </Link>
+            </NextLink>
+          </Box>
+          <Box>
+            <NextLink href="mailto:hi[at]codedrift.com" passHref>
+              <Link color="darkGray">
+                <FontAwesomeIcon icon={faEnvelope} fixedWidth />
+              </Link>
+            </NextLink>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  );
 };
+
+const SlideNav = styled(UnstyledSlideNav)`
+  opacity: 0;
+  ${p =>
+    p.show
+      ? p.theme.animations.enterSlideLeft
+      : p.theme.animations.exitSlideRight}
+`;
 
 const Layout = ({ children = [], title = null }) => {
   const { y } = useWindowScroll();
   const bp = useBreakpoint();
-  // eslint-disable-next-line no-unused-vars
+  const useMobileMenu = bp.xs;
   const [submenuOpen, setSubmenuOpen] = useState(false);
 
   useEffect(() => {
     if (!bp.md) return;
     setSubmenuOpen(false); // reset submenu
   }, [bp]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    document.body.style.overflowY = submenuOpen ? "hidden" : "auto";
+  }, [submenuOpen]);
 
   return (
     <>
@@ -57,7 +155,7 @@ const Layout = ({ children = [], title = null }) => {
       <Box
         minWidth="405px"
         maxWidth="48rem"
-        background="olive"
+        background="white"
         marginLeft="auto"
         marginRight="auto"
         paddingBottom="2"
@@ -77,7 +175,7 @@ const Layout = ({ children = [], title = null }) => {
           flexDirection="row"
           position="fixed"
           height={MENU_HEIGHT}
-          background="red"
+          background="white"
           width="100%"
           maxWidth="48rem"
         >
@@ -97,15 +195,27 @@ const Layout = ({ children = [], title = null }) => {
             alignItems="center"
             marginLeft="2"
             marginRight="2"
-            justifyContent={bp.xs ? "end" : "start"}
+            justifyContent={useMobileMenu ? "end" : "start"}
           >
-            {bp.sm &&
+            {!useMobileMenu &&
               links.map(l => (
                 <NavLink key={l.label} href={l.href} marginLeft="1">
                   {l.label}
                 </NavLink>
               ))}
-            {bp.xs && <SlideNav marginLeft="1" />}
+            {useMobileMenu && (
+              <>
+                <Box cursor="pointer" onClick={() => setSubmenuOpen(true)}>
+                  <FontAwesomeIcon icon={faBars} />
+                </Box>
+                <Box marginLeft="1">
+                  <SlideNav
+                    show={submenuOpen}
+                    close={() => setSubmenuOpen(false)}
+                  />
+                </Box>
+              </>
+            )}
           </Box>
         </Box>
         <Box
@@ -114,7 +224,9 @@ const Layout = ({ children = [], title = null }) => {
           paddingRight="2"
           minHeight="200vh"
         >
-          <Box paddingTop="2">{children}</Box>
+          <Box paddingTop="2" filter={submenuOpen ? "blur(1px)" : "none"}>
+            {children}
+          </Box>
         </Box>
       </Box>
     </>

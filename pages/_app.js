@@ -40,7 +40,11 @@ const App = ({ Component, pageProps }) => {
   return (
     <>
       <Providers>
-        <Box css={animationStyles} data-state={ready ? "ready" : ""}>
+        <Box
+          css={animationStyles}
+          data-state={ready ? "ready" : ""}
+          overflowX="hidden"
+        >
           <Component {...pageProps} />
         </Box>
       </Providers>

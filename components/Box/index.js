@@ -8,6 +8,7 @@ import {
   position,
   shadow,
   space,
+  system,
   textAlign,
 } from "styled-system";
 import React, { forwardRef } from "react";
@@ -27,7 +28,12 @@ Box.Styled = styled("div")(
     border,
     position,
     shadow,
-    textAlign
+    textAlign,
+    system({
+      transform: true,
+      filter: true,
+      cursor: true,
+    })
   )
 );
 Box.propTypes = {
