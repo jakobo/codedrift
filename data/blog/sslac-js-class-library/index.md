@@ -1,5 +1,5 @@
 ---
-title: Sslac: A JavaScript Class Library
+title: "Sslac: A JavaScript Class Library"
 date: "2011-05-03"
 published: true
 description: A class library that lets you runtime patch methods

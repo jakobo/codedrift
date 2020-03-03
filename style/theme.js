@@ -2,21 +2,34 @@ import { css, keyframes } from "@emotion/core";
 
 const ANIMATION_TIME = 0.42;
 
+const borderShadowColor = `rgba(67, 90, 111, 0.3)`;
+const blurryShadowColor = `rgba(67, 90, 111, 0.47)`;
+
 const fadeIn = keyframes`
   from {
-    opacity: 0
+    opacity: 0;
+    visibility: hidden;
+  }
+  1% {
+    visibility: visible;
   }
   to {
-    opacity: 1
+    opacity: 1;
+    visibility: visible;
   }
 `;
 
 const fadeOut = keyframes`
   from {
-    opacity:1
+    opacity: 1;
+    visibility: visible;
+  }
+  99% {
+    visibility: hidden;
   }
   to {
-    opacity: 0
+    opacity: 0;
+    visibility: hidden;
   }
 `;
 
@@ -39,7 +52,7 @@ const exitSlideRight = keyframes`
 `;
 
 const theme = {
-  fontSizes: [8, 12, 16, 24, 32, 48, 64, 96, 128, 256],
+  fontSizes: [8, 12, 18, 24, 32, 48, 64, 96, 128, 256],
   space: [
     // margin and padding
     4,
@@ -77,15 +90,22 @@ const theme = {
     lightWash: "#e2e2e2",
     darkWash: "#dadada",
   },
+  elevations: [
+    `0 0 1px ${borderShadowColor}`,
+    `0 0 1px ${borderShadowColor}, 0 2px 4px -2px ${blurryShadowColor}`,
+    `0 0 1px ${borderShadowColor}, 0 5px 8px -4px ${blurryShadowColor}`,
+    `0 0 1px ${borderShadowColor}, 0 8px 10px -4px ${blurryShadowColor}`,
+    `0 0 1px ${borderShadowColor}, 0 16px 24px -8px ${blurryShadowColor}`,
+  ],
   animations: {
     fadeIn: css`
       opacity: 0;
-      will-change: opacity;
+      will-change: opacity, visibility;
       animation: ${fadeIn} ${ANIMATION_TIME}s ease-out forwards;
     `,
     fadeOut: css`
       opacity: 1;
-      will-change: opacity;
+      will-change: opacity, visibility;
       animation: ${fadeOut} ${ANIMATION_TIME}s ease-out forwards;
     `,
     enterSlideLeft: css`

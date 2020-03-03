@@ -31,7 +31,7 @@ const DEFAULT_TEXT = css`
     "Droid Sans", "Helvetica Neue", Helvetica, "ヒラギノ角ゴ Pro W3",
     "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  letter-spacing: -0.1px;
+  letter-spacing: 0.3px;
   line-height: 1.4;
   hyphens: auto;
   word-wrap: break-word;

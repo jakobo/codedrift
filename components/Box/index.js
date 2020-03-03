@@ -11,6 +11,7 @@ import {
   system,
   textAlign,
 } from "styled-system";
+import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
 import styled from "@emotion/styled";
 
@@ -46,6 +47,9 @@ Box.propTypes = {
   ...shadow.propTypes,
   ...textAlign.propTypes,
   ...grid.propTypes,
+  transform: PropTypes.string,
+  filter: PropTypes.string,
+  cursor: PropTypes.string,
 };
 
 export default Box;

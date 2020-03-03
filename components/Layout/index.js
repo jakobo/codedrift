@@ -8,9 +8,19 @@ import Box from "../Box";
 import Head from "next/head";
 import Logo from "../Logo";
 import NextLink from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
 // import { useTheme} from "emotion-theming"
+
+const MENU_HEIGHT = "3rem";
+const DIR_UP = "up";
+const DIR_DOWN = "down";
+
+const links = [
+  { href: "/thoughts", label: "Writing" },
+  { href: "/oss", label: "Open Source" },
+  { href: "/about", label: "About" },
+];
 
 const NavLink = ({ href, children, ...rest }) => (
   <NextLink href={href} passHref>
@@ -18,20 +28,12 @@ const NavLink = ({ href, children, ...rest }) => (
   </NextLink>
 );
 
-const MENU_HEIGHT = "3rem";
-
 const MenuDrop = styled(Box)`
   box-shadow: rgba(67, 90, 111, 0.3) 0px 0px 1px,
     rgba(67, 90, 111, 0.47) 0px 2px 4px -2px;
   opacity: 0;
   ${p => (p.show ? p.theme.animations.fadeIn : p.theme.animations.fadeOut)}
 `;
-
-const links = [
-  { href: "/thoughts", label: "Writing" },
-  { href: "/oss", label: "Open Source" },
-  { href: "/about", label: "About" },
-];
 
 const UnstyledSlideNav = ({ show, close, ...all }) => {
   return (
@@ -125,16 +127,71 @@ const SlideNav = styled(UnstyledSlideNav)`
       : p.theme.animations.exitSlideRight}
 `;
 
+const FadingLogo = styled(Logo)`
+  &
+    .${Logo.CLASS_NAMES.word.code.c},
+    &
+    .${Logo.CLASS_NAMES.word.code.o},
+    &
+    .${Logo.CLASS_NAMES.word.code.d},
+    &
+    .${Logo.CLASS_NAMES.word.code.e},
+    &
+    .${Logo.CLASS_NAMES.word.drift.d},
+    &
+    .${Logo.CLASS_NAMES.word.drift.r},
+    &
+    .${Logo.CLASS_NAMES.word.drift.i},
+    &
+    .${Logo.CLASS_NAMES.word.drift.f},
+    &
+    .${Logo.CLASS_NAMES.word.drift.t} {
+    ${p => (p.fade ? p.theme.animations.fadeOut : p.theme.animations.fadeIn)}
+  }
+`;
+
+const FadeBox = styled(Box)`
+  ${p => (p.fade ? p.theme.animations.fadeOut : p.theme.animations.fadeIn)}
+`;
+
 const Layout = ({ children = [], title = null }) => {
+  const top = useRef(null);
   const { y } = useWindowScroll();
   const bp = useBreakpoint();
   const useMobileMenu = bp.xs;
   const [submenuOpen, setSubmenuOpen] = useState(false);
+  const [lastY, setLastY] = useState(y || 0);
+  const [direction, setDirection] = useState(DIR_UP);
+  const fadeMenu = direction === DIR_DOWN;
+
+  const handleLogoClick = useCallback(
+    e => {
+      if (direction === DIR_DOWN) {
+        e.preventDefault();
+        top.current.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
+    },
+    [direction]
+  );
 
   useEffect(() => {
     if (!bp.md) return;
     setSubmenuOpen(false); // reset submenu
   }, [bp]);
+
+  useEffect(() => {
+    setLastY(y);
+  }, [y]);
+
+  useEffect(() => {
+    if (y > lastY) {
+      setDirection(DIR_DOWN);
+    } else if (y < lastY) {
+      setDirection(DIR_UP);
+    }
+  }, [y, lastY]);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -153,6 +210,7 @@ const Layout = ({ children = [], title = null }) => {
         </title>
       </Head>
       <Box
+        ref={top}
         minWidth="405px"
         maxWidth="48rem"
         background="white"
@@ -178,16 +236,21 @@ const Layout = ({ children = [], title = null }) => {
           background="white"
           width="100%"
           maxWidth="48rem"
+          paddingLeft="2"
+          paddingRight="2"
         >
           <NextLink href="/" passHref>
-            <Logo
+            <FadingLogo
+              fade={fadeMenu}
               as="a"
               title="Home"
               maxWidth="10rem"
               maxHeight={MENU_HEIGHT}
+              onClick={handleLogoClick}
             />
           </NextLink>
-          <Box
+          <FadeBox
+            fade={fadeMenu && !useMobileMenu}
             flexGrow="1"
             flexShrink="1"
             display="flex"
@@ -216,7 +279,7 @@ const Layout = ({ children = [], title = null }) => {
                 </Box>
               </>
             )}
-          </Box>
+          </FadeBox>
         </Box>
         <Box
           paddingTop={MENU_HEIGHT}
