@@ -9,7 +9,6 @@ import NextLink from "next/link";
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import d from "debug";
-import matter from "gray-matter";
 
 const idSlug = s =>
   s
@@ -69,6 +68,7 @@ const renderers = {
 
 const debug = d("CodeDrift:BlogPost");
 const BlogPost = ({ metadata, content }) => {
+  debug("Rendering Post: %o", metadata);
   return (
     <Layout title={metadata.title}>
       <Heading as="h1">{metadata.title}</Heading>
@@ -77,17 +77,47 @@ const BlogPost = ({ metadata, content }) => {
   );
 };
 
-BlogPost.getInitialProps = async ctx => {
-  const { slug } = ctx.query;
-  debug("BlogPost slug is: %s", slug);
+export async function getStaticPaths() {
+  const { allPosts } = await import("~/lib/blog/posts");
+  const posts = await allPosts();
 
-  const content = await import(`~/data/blog/${slug}/index.md`);
-  const post = matter(content.default);
+  const paths = [];
+  for (const p of Object.keys(posts)) {
+    const post = posts[p];
+    if (!post.metadata.published) return;
+    for (const lang of Object.keys(post.variants)) {
+      paths.push({
+        params: {
+          slug:
+            lang === "en-us"
+              ? [post.metadata.slug]
+              : [post.metadata.slug, lang],
+        },
+      });
+    }
+  }
 
   return {
-    metadata: post.data,
-    content: post.content.trim(),
+    paths,
+    fallback: false,
   };
-};
+}
+
+export async function getStaticProps({ params }) {
+  // extract post name[0] and lang[1]
+  const { slug } = params;
+  const [name, lang = "en-us"] = slug;
+
+  // get post data
+  const { onePost } = await import("~/lib/blog/posts");
+  const post = await onePost(name, lang);
+
+  return {
+    props: {
+      metadata: post.metadata,
+      content: post.content,
+    },
+  };
+}
 
 export default BlogPost;

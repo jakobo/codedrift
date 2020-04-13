@@ -5,7 +5,8 @@ import Layout from "~/components/Layout";
 import NextLink from "next/link";
 import React from "react";
 import ReadingEstimate, { rawEstimate } from "~/components/ReadingEstimate";
-import posts from "~/data/blog";
+
+const posts = [];
 
 /**
  * TODO list
