@@ -1,20 +1,8 @@
-// required: initialize dotenv
-require("dotenv").config();
+// this file is not transpiled using babel
+// it should work in your node.js environment with no additional changes
 
-const path = require("path");
-
-module.exports = (/* phase, { defaultConfig } */) => {
+module.exports = () => {
   return {
     poweredByHeader: false,
-    webpack: config => {
-      config.resolve.alias["~"] = path.resolve(__dirname);
-
-      config.module.rules.push({
-        test: /\.md$/,
-        use: "raw-loader",
-      });
-
-      return config;
-    },
   };
 };

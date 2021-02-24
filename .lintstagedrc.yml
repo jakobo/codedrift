@@ -1,0 +1,8 @@
+# global configurations, these are always cleaned with prettier
+"{*,**/*}.{json,gql,md,yaml,yml}":
+  - prettier --write
+
+# Good 'ole JavaScript & Friends
+"{*,**/*}.{js,ts,jsx,tsx,vue}":
+  - eslint --fix
+  - prettier --write
