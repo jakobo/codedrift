@@ -1,12 +1,5 @@
-import { css, keyframes } from "@emotion/react";
 import Head from "next/head";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ThemeProvider } from "theme-ui";
 import FontFaceObserver from "fontfaceobserver";
 
@@ -26,14 +19,61 @@ const LINE_HEIGHTS = FONT_SIZES.map(
   (f) => (Math.ceil(f / BASELINE) * BASELINE) / f
 );
 
+// these are the H&Co fonts we're using
+const hCoFonts = {
+  fonts: {
+    body: `"Whitney SSm A", "Whitney SSm B"`,
+    tag: `"Whitney SSm Small Caps A", "Whitney SSm Small Caps B"`,
+    heading: `"Verlag A", "Verlag B"`,
+    mono: `"Operator Mono SSm A", "Operator Mono SSm B"`,
+  },
+  fontSizes: FONT_SIZES,
+  lineHeights: LINE_HEIGHTS,
+  letterSpacings: {
+    body: 0,
+    heading: 0,
+  },
+  fontWeights: {
+    body: 500,
+    heading: 700,
+    bold: 700,
+    black: 800,
+  },
+};
+
+// these are the fallbacks for the FOUT we expect
+const fallbackFonts = {
+  fonts: {
+    body: "Helvetica, system-ui, Sans-Serif",
+    heading: `"Times New Roman", Times, Serif`,
+    mono: `"Courier New", Courer, Monpspace`,
+  },
+  fontSizes: FONT_SIZES,
+  lineHeights: LINE_HEIGHTS,
+  letterSpacings: {
+    body: 0,
+    heading: 0,
+  },
+  fontWeights: {
+    body: 300,
+    heading: 700,
+    bold: 700,
+    black: 900,
+  },
+};
+
+// our spaces are based on the baseline value, allowing for partial spacing when we need
+// something to feel vertically centered and not resting on the baseline
 const SPACES = [0, 1, 2, 4, 8, 16, 32, 48, 56, 64].map((v) => v * BASELINE);
-SPACES.half = 0.5 * BASELINE; // used to add a top + bottom space to uncramp items
+SPACES.quarter = 0.25 * BASELINE; // aesthetic. probably remove
+SPACES.half = 0.5 * BASELINE;
 SPACES.content = "42em";
 SPACES.portable = SPACES[5];
 SPACES.portrait = SPACES[6];
 SPACES.landscape = SPACES[8];
 SPACES.MAX_CONTENT_WIDTH = SPACES.landscape; // over this size, give up and center
 
+// our grayscale exists both normal and inverted for dark mode
 const GRAYSCALE = [
   "#f8f9fa",
   "#e9ecef",
@@ -63,24 +103,17 @@ const GRAYS = {
 };
 
 const retheme = (opts = {}) => ({
+  // growing sizes where we can feasibly add "more things"
   breakpoints: ["501px", "1024px", "1025px"],
-  // breakpoints: [
-  //   SPACES.portable,
-  //   SPACES.portrait,
-  //   SPACES.landscape,
-  //   SPACES.landscape + 1,
-  // ].map((s) => `${s}px`),
   space: SPACES,
   sizes: SPACES,
   useColorSchemeMediaQuery: true,
   colors: {
     text: "#212529",
-    background: "rgb(240,240,245)",
+    background: "#FFF",
     secondary: "gray.900",
     primary: "rgb(70,85,70)",
-    // accent: "rgb(270, 75, 75)",
     highlight: "rgb(183, 226, 216)",
-    muted: GRAYS.regular["600"],
     gray: GRAYS.regular,
     modes: {
       dark: {
@@ -88,11 +121,11 @@ const retheme = (opts = {}) => ({
         background: "#151a15",
         primary: "#e2f201",
         secondary: "gray.900",
-        muted: GRAYS.inverted["400"],
         gray: GRAYS.inverted,
       },
     },
   },
+  // these styles are common for our components, markdown, and more
   styles: {
     root: {
       fontSize: 1,
@@ -115,17 +148,24 @@ const retheme = (opts = {}) => ({
       fontFamily: "heading",
       fontWeight: "heading",
       letterSpacing: "heading",
-      fontSize: [2, null, 3],
-      lineHeight: [2, null, 3],
+      fontSize: [3, null, 4],
+      lineHeight: [3, null, 4],
     },
     h2: {
       fontFamily: "heading",
       fontWeight: "heading",
       letterSpacing: "heading",
+      fontSize: [2, null, 3],
+      lineHeight: [2, null, 3],
+      py: "half",
+    },
+    h3: {
+      fontFamily: "heading",
+      fontWeight: "heading",
+      letterSpacing: "heading",
       fontSize: [1, null, 2],
       lineHeight: [1, null, 2],
-      pt: 1,
-      pb: 1,
+      py: [0, null, "half"],
     },
     p: {
       fontFamily: "body",
@@ -146,46 +186,7 @@ const retheme = (opts = {}) => ({
       ml: "3em",
     },
   },
-  ...(opts.fonts
-    ? {
-        fonts: {
-          body: `"Whitney SSm A", "Whitney SSm B"`,
-          tag: `"Whitney SSm Small Caps A", "Whitney SSm Small Caps B"`,
-          heading: `"Sentinel SSm A", "Sentinel SSm B"`,
-          mono: `"Operator Mono SSm A", "Operator Mono SSm B"`,
-        },
-        fontSizes: FONT_SIZES,
-        lineHeights: LINE_HEIGHTS,
-        letterSpacings: {
-          body: 0,
-          heading: 0,
-        },
-        fontWeights: {
-          body: 300,
-          heading: 700,
-          bold: 700,
-          black: 800,
-        },
-      }
-    : {
-        fonts: {
-          body: "Sans-Serif",
-          heading: `"Times New Roman", Times, Serif`,
-          mono: `"Courier New", Courer, Monpspace`,
-        },
-        fontSizes: FONT_SIZES,
-        lineHeights: LINE_HEIGHTS,
-        letterSpacings: {
-          body: 0,
-          heading: 0,
-        },
-        fontWeights: {
-          body: 300,
-          heading: 700,
-          bold: 700,
-          black: 900,
-        },
-      }),
+  ...(opts.fonts ? hCoFonts : fallbackFonts),
   elevations: [
     `0 0 1px ${borderShadowColor}`,
     `0 0 1px ${borderShadowColor}, 0 2px 4px -2px ${blurryShadowColor}`,
@@ -193,8 +194,8 @@ const retheme = (opts = {}) => ({
     `0 0 1px ${borderShadowColor}, 0 8px 10px -4px ${blurryShadowColor}`,
     `0 0 1px ${borderShadowColor}, 0 16px 24px -8px ${blurryShadowColor}`,
   ],
+  // introduced when using the <Link> element directly
   links: {
-    // nav etc
     category: {
       variant: "styles.a",
       fontFamily: "tag",
@@ -206,7 +207,19 @@ const retheme = (opts = {}) => ({
         border: 0,
       },
     },
+    nav: {
+      fontFamily: "body",
+      fontSize: 1,
+      lineHeight: 1,
+      border: 0,
+      color: "gray.600",
+      textDecoration: "none",
+      "&:hover": {
+        color: "primary",
+      },
+    },
   },
+  // introduced when using the <Text> element directly
   text: {
     default: {
       fontFamily: "body",
@@ -215,11 +228,18 @@ const retheme = (opts = {}) => ({
       lineHeight: 1,
       fontSize: 1,
     },
-    tag: {
+    lead: {
       fontFamily: "tag",
       fontWeight: "bold",
-      color: "muted",
-      // fontVariant: "small-caps", automatically implied by typography.com
+      letterSpacing: "tag",
+      lineHeight: 1,
+      fontSize: 1,
+      color: "gray.400",
+    },
+    aside: {
+      fontFamily: "tag",
+      fontWeight: "bold",
+      color: "gray.700",
       fontSize: 1,
       lineHeight: 1,
     },
@@ -231,25 +251,26 @@ const retheme = (opts = {}) => ({
   },
 });
 
+const fontLoadingList = Object.getOwnPropertyNames(hCoFonts.fonts).reduce(
+  (curr, key) => {
+    const fonts = hCoFonts.fonts[key]
+      .split(",")
+      .map((f) => f.replace(/['"]/g, "").trim());
+    curr.push(...fonts);
+    return curr;
+  },
+  []
+);
+console.log(fontLoadingList);
 export const Provider = ({ children }) => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const fontList = [
-    "Whitney SSm A",
-    "Whitney SSm B",
-    "Sentinel SSm A",
-    "Sentinel SSm B",
-    "Operator Mono SSm A",
-    "Operator Mono SSm B",
-  ];
-
   useEffect(() => {
     const promises = [];
-    fontList.forEach((f) => {
+    fontLoadingList.forEach((f) => {
       promises.push(new FontFaceObserver(f).load());
     });
 
     Promise.allSettled(promises).then(() => {
-      // console.log("fonts loaded", all);
       setFontsLoaded(true);
     });
   }, []);

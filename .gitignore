@@ -9,7 +9,16 @@
 # Most editors are at https://github.com/github/gitignore/tree/master/Global
 
 .env
+.env.local
 .next
+
+# Yarn
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
 
 # ##############################################################################
 # Node

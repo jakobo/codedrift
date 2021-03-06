@@ -56,8 +56,7 @@ const postParser = createParser({
   },
 });
 
-export const Post = ({ post, sx = {} }) => {
-  const content = postParser.processSync(post.content || "").result;
+export const Post = ({ title, description, category, children, sx = {} }) => {
   return (
     <Box sx={{ ...(sx || {}) }}>
       <Flex sx={{ flexDirection: ["column", null, "row"] }}>
@@ -70,14 +69,14 @@ export const Post = ({ post, sx = {} }) => {
         >
           <A
             variant="category"
-            href={`/archives/tag/${post.category.toLowerCase()}`}
+            href={`/archives/tag/${category.toLowerCase()}`}
             sx={{
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
               overflow: "hidden",
             }}
           >
-            {`${post.category}`.toLowerCase()}
+            {`${category}`.toLowerCase()}
           </A>
         </Box>
         <Box
@@ -88,13 +87,18 @@ export const Post = ({ post, sx = {} }) => {
             width: ["100%", null, "content"],
           }}
         >
-          <Box sx={{}}>
-            <Text variant="tag">{`${post.description}`.toLowerCase()}</Text>
-          </Box>
-          <H1 as="h2" sx={{ my: ["half", null, 0] }}>
-            {post.title}
-          </H1>
-          <Box>{content}</Box>
+          <Text
+            variant="lead"
+            sx={{
+              overflow: [null, null, "hidden"],
+              textOverflow: [null, null, "ellipsis"],
+              whiteSpace: [null, null, "nowrap"],
+            }}
+          >
+            {`${description}`.toLowerCase()}
+          </Text>
+          <H1 as="h2">{title}</H1>
+          <Box>{children}</Box>
         </Box>
       </Flex>
     </Box>

@@ -1,4 +1,4 @@
-import Layout from "src/components/layout/old";
+import Layout from "src/components/Layout/old";
 import React from "react";
 
 /**
