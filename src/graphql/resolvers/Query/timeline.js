@@ -1,8 +1,8 @@
+import { TimelineEntryContentType, TimelineEntryType } from "../../typeDefs";
+import { decodeCursor, encodeCursor } from "../../util";
 import { getClient, pager } from "src/lib/ghost";
-import { encodeCursor, decodeCursor } from "../../util";
-import { TimelineEntryType } from "../../typeDefs";
 
-const TIMELINE_FILTER = "tags:[hash-post, hash-revised-post]";
+const TIMELINE_FILTER = "tags:[hash-post, hash-revised-post, hash-event]";
 const HARD_LIMIT = 15;
 
 const getSlug = (s) => {
@@ -10,14 +10,15 @@ const getSlug = (s) => {
   return `${u.pathname}`.substr(1).split("/")[0];
 };
 
-// transforms based on internal tags
+// transforms based on tags
 const transforms = {
   "hash-post": (post) => ({
     id: post.id,
     type: TimelineEntryType.Post,
     slug: post.slug,
     title: post.title,
-    excerpt: post.excerpt,
+    content: post.excerpt,
+    contentType: TimelineEntryContentType.text,
     image: post.featured_image,
     createdAt: post.published_at,
   }),
@@ -26,7 +27,18 @@ const transforms = {
     type: TimelineEntryType.RevisedPost,
     slug: getSlug(post.canonical_url),
     title: post.title,
-    excerpt: post.excerpt,
+    content: post.html,
+    contentType: TimelineEntryContentType.html,
+    image: post.featured_image,
+    createdAt: post.published_at,
+  }),
+  "hash-event": (post) => ({
+    id: post.id,
+    type: TimelineEntryType.Event,
+    slug: null,
+    title: post.title,
+    content: post.html,
+    contentType: TimelineEntryContentType.html,
     image: post.featured_image,
     createdAt: post.published_at,
   }),
@@ -72,10 +84,9 @@ export default async function timeline(
 
   // trusted cursor, can use graphql inputs and get same result. Offset is in cursor
   const filter = ghostFilter
-    ? `${TIMELINE_FILTER}+${ghostFilter}`
+    ? `${ghostFilter}+${TIMELINE_FILTER}`
     : TIMELINE_FILTER;
   const first = Math.min(firstLimit, HARD_LIMIT);
-
   // next item is +1
   const { page, limit, waste } =
     after === null ? pager(0, first) : pager(cursor.offset + 1, first);

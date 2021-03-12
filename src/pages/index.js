@@ -1,17 +1,46 @@
-import React from "react";
-import Layout from "src/components/Layout";
+import { A, H1, H2, H3, H4, H5, H6, P } from "src/components/markup";
 import { Box, Flex, Text } from "theme-ui";
-import { A, P } from "src/components/markup";
-import { useResponsiveValue } from "@theme-ui/match-media";
-import Timeline from "src/components/Timeline";
+import { Brief } from "src/components/Post";
+import { FiniteTimeline } from "src/components/Timeline";
+import { gql } from "@urql/core";
+import { html2React } from "src/components/markup/rehype";
+import { useQuery } from "urql";
+import Layout from "src/components/Layout";
+import React from "react";
 
-// The power spectral density (PSD) of the signal describes the
-// power present in the signal as a function of frequency, per
-// unit frequency. Power spectral density is commonly expressed
-// in watts per hertz (W/Hz).
+const HOMEPAGE = gql`
+  query Homepage {
+    posts(first: 3) {
+      edges {
+        node {
+          id
+          title
+          excerpt
+          category {
+            id
+            name
+          }
+          tags {
+            id
+            name
+          }
+          html
+          slug
+          publishedAt
+        }
+      }
+    }
+  }
+`;
+
 export default function Home() {
-  const showAboutColumn = useResponsiveValue([false, null, true]);
-  const posts = [];
+  const [{ data }] = useQuery({
+    query: HOMEPAGE,
+  });
+
+  const timelineSize = data?.posts?.edges ? 5 : 0;
+  const omit = (data?.posts?.edges || []).map((ed) => ed.node.id);
+
   return (
     <Layout>
       <Flex
@@ -21,23 +50,51 @@ export default function Home() {
           width: ["100%", null, "auto"],
         }}
       >
-        <Timeline limit="5" />
+        <Box
+          sx={{
+            maxWidth: "reading",
+            ml: [1, null, 0],
+            mr: [1, null, 0],
+          }}
+        >
+          <H1 sx={{ py: "half" }}>Hey, I&rsquo;m Jakob</H1>
+          <P>
+            I build <A href="/thunk/tag/leadership">teams</A>,{" "}
+            <A href="/thunk/tag/product">products</A>, and{" "}
+            <A href="/thunk/tag/code">code</A>; writing about all three.
+            Currently I&rsquo;m exploring the tools that help us all be better
+            mentors at a startup I co-founded.
+          </P>
+        </Box>
+        {(data?.posts?.edges || []).map((ed) => (
+          <Brief
+            key={ed.node.id}
+            title={ed.node.title}
+            description={ed.node.excerpt}
+            category={ed.node.category?.name || ""}
+            titleTag={H2}
+            tags={ed.node.tags}
+            sx={{ mb: 2 }}
+          >
+            {html2React(ed.node.html, {
+              paragraphs: 1,
+              headings: [H2, H3, H4, H5, H6, H6],
+            })}
+          </Brief>
+        ))}
+        <Box
+          sx={{
+            borderTopWidth: 1,
+            borderTopColor: "gray.400",
+            borderTopStyle: "solid",
+            pt: 1,
+          }}
+        >
+          <H2>Recently, I...</H2>
+          <FiniteTimeline size={timelineSize} omit={omit} />
+          <Text>⌛ Browse the timeline</Text>
+        </Box>
       </Flex>
-      {!showAboutColumn ? null : (
-        <Flex sx={{ flexDirection: "column", flexGrow: 1, ml: 2, maxWidth: 4 }}>
-          <Box>
-            <Text as="aside" variant="aside">
-              About
-            </Text>
-            <P sx={{ fontSize: 0, lineHeight: 0 }}>
-              I&rsquo;m Jakob. I build teams, products, and UI; I also{" "}
-              <A href="/investing">angel-invest</A> in these passion areas.
-              Currently, I&rsquo;m building{" "}
-              <A href="https://aibex.com">Aibex</A> with an amazing co-founder.
-            </P>
-          </Box>
-        </Flex>
-      )}
     </Layout>
   );
 }

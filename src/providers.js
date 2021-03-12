@@ -1,6 +1,7 @@
-import React from "react";
 import { Provider as ThemeProvider } from "src/theme";
-import { createClient, Provider as UrqlProvider } from "urql";
+import { Provider as UrqlProvider, createClient } from "urql";
+import FoutProvider from "src/hooks/useFout";
+import React from "react";
 
 const GRAPHQL_ENDPOINT = "/api/v1/graphql";
 
@@ -10,7 +11,9 @@ export default function Providers({ children } = {}) {
   });
   return (
     <UrqlProvider value={client}>
-      <ThemeProvider>{children}</ThemeProvider>
+      <FoutProvider>
+        <ThemeProvider>{children}</ThemeProvider>
+      </FoutProvider>
     </UrqlProvider>
   );
 }

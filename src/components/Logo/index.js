@@ -1,7 +1,7 @@
 import { Box } from "theme-ui";
-import React, { forwardRef } from "react";
-import { useThemeUI } from "theme-ui";
 import { get } from "@theme-ui/css";
+import { useThemeUI } from "theme-ui";
+import React, { forwardRef } from "react";
 
 const VIEWBOX = {
   ICON: [104, 127],

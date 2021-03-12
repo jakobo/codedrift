@@ -898,6 +898,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ngsctt/remark-smartypants@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@ngsctt/remark-smartypants@npm:0.2.0"
+  dependencies:
+    retext: ^7.0.1
+    retext-smartypants: ^3.0.3
+    unist-util-visit: ^2.0.2
+  checksum: bcf545878520abb0a095075d5ade5644dfb67ff035cf00a7fb9bf77b67c073a73df95a5dea3a30781ac81898c85a07f17694a31833d755b727756322317be0b9
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.3":
   version: 2.1.3
   resolution: "@nodelib/fs.scandir@npm:2.1.3"
@@ -4205,6 +4216,7 @@ __metadata:
     "@commitlint/config-conventional": ^11.0.0
     "@emotion/react": ^11.1.5
     "@emotion/styled": ^11.1.5
+    "@ngsctt/remark-smartypants": ^0.2.0
     "@silvenon/remark-smartypants": ^1.0.0
     "@theme-ui/css": ^0.3.5
     "@theme-ui/match-media": ^0.3.5
@@ -4242,6 +4254,7 @@ __metadata:
     react-markdown: ^5.0.3
     react-use: ^17.1.1
     reading-time: ^1.3.0
+    rehype-autolink-headings: ^5.0.1
     rehype-highlight: ^4.0.0
     rehype-parse: ^7.0.1
     rehype-react: ^6.2.0
@@ -4262,6 +4275,7 @@ __metadata:
     unified: ^9.2.0
     unist-util-visit: ^2.0.3
     urql: ^2.0.1
+    values.js: ^2.0.0
   languageName: unknown
   linkType: soft
 
@@ -4300,7 +4314,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color-name@npm:^1.0.0, color-name@npm:~1.1.4":
+"color-name@npm:^1.0.0, color-name@npm:^1.1.4, color-name@npm:~1.1.4":
   version: 1.1.4
   resolution: "color-name@npm:1.1.4"
   checksum: 3e1c9a4dee12eada307436f61614dd11fe300469db2b83f80c8b7a7cd8a1015f0f18dd13403f018927b249003777ff60baba4a03c65f12e6bddc0dfd9642021f
@@ -7244,6 +7258,13 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"hex-rgb@npm:^4.1.0":
+  version: 4.2.0
+  resolution: "hex-rgb@npm:4.2.0"
+  checksum: 57b3cd8462a8b7608996522290fd3f01331833016429f9f6badee5baea09d7aeb54326326e96bb367cf0f371b429815cce7ab9be464f2e04c4bd14eabb046124
+  languageName: node
+  linkType: hard
+
 "highlight.js@npm:~10.6.0":
   version: 10.6.0
   resolution: "highlight.js@npm:10.6.0"
@@ -9256,6 +9277,16 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"mix-css-color@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "mix-css-color@npm:0.1.1"
+  dependencies:
+    parse-css-color: ^0.1.2
+    pure-color: ^1.3.0
+  checksum: 14f81868028b608b58c342f33ab972e34034e6f8142df755ee4067fe5a9fdaa9028a974783345baa547f8ebfc49af0d9ce5d1f79a58c6a6db2199ff328f59ad5
+  languageName: node
+  linkType: hard
+
 "mixin-deep@npm:^1.2.0":
   version: 1.3.2
   resolution: "mixin-deep@npm:1.3.2"
@@ -10172,6 +10203,16 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"parse-css-color@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "parse-css-color@npm:0.1.2"
+  dependencies:
+    color-name: ^1.1.4
+    hex-rgb: ^4.1.0
+  checksum: e259e65c73f11b75d73e11cb2919d50ebccbf6faaf6bec36b58fa44359f7bdd44132e594a65abcd7f78f55eb27488964b99a00d5c65ead453bcdc451316c2f00
+  languageName: node
+  linkType: hard
+
 "parse-entities@npm:^2.0.0":
   version: 2.0.0
   resolution: "parse-entities@npm:2.0.0"
@@ -10632,6 +10673,13 @@ fsevents@~2.3.1:
   version: 2.1.1
   resolution: "punycode@npm:2.1.1"
   checksum: 0202dc191cb35bfd88870ac99a1e824b03486d4cee20b543ef337a6dee8d8b11017da32a3e4c40b69b19976e982c030b62bd72bba42884acb691bc5ef91354c8
+  languageName: node
+  linkType: hard
+
+"pure-color@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "pure-color@npm:1.3.0"
+  checksum: 73ceb18cf945bd632e98b068dff16fb50178a067df3af8c7aa5c2bbd847ed3f3d158e7dd0f6ff705c23fe69bf215ca94af36cd4ca7cef4da0ce57031f8238a7a
   languageName: node
   linkType: hard
 
@@ -11135,6 +11183,18 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"rehype-autolink-headings@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "rehype-autolink-headings@npm:5.0.1"
+  dependencies:
+    extend: ^3.0.0
+    hast-util-has-property: ^1.0.0
+    hast-util-heading-rank: ^1.0.0
+    unist-util-visit: ^2.0.0
+  checksum: a65627d70377deac7898f428671035fa14e7f77524b37d99f55b7b2318f373a204bea56fbb5063dc09aacde5a69f20b2ad5ba5f5dc4c823069d73da9c8e5e4ec
+  languageName: node
+  linkType: hard
+
 "rehype-highlight@npm:^4.0.0":
   version: 4.0.0
   resolution: "rehype-highlight@npm:4.0.0"
@@ -11469,6 +11529,16 @@ fsevents@~2.3.1:
     parse-latin: ^4.0.0
     unherit: ^1.0.4
   checksum: 080c6472f86f7bbfdc17a2adbd440d4e664286d95a296465310c5255f9993efef379dcdb87348a3517750e36f977b3ae1baa34db13488036a7e0b3b0f2fc4ddb
+  languageName: node
+  linkType: hard
+
+"retext-smartypants@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "retext-smartypants@npm:3.0.3"
+  dependencies:
+    nlcst-to-string: ^2.0.0
+    unist-util-visit: ^1.0.0
+  checksum: 749f4f66ca3606c16d0c4690b36cca955881140f5b2a71adf4241409f1d05e86f27bfd5c13e4f76c118eba932003ea20f1b28cc2d56c19f47abf74cf3fd9a5a7
   languageName: node
   linkType: hard
 
@@ -13369,7 +13439,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"unist-util-visit@npm:^1.3.0":
+"unist-util-visit@npm:^1.0.0, unist-util-visit@npm:^1.3.0":
   version: 1.4.1
   resolution: "unist-util-visit@npm:1.4.1"
   dependencies:
@@ -13556,6 +13626,17 @@ fsevents@~2.3.1:
     spdx-correct: ^3.0.0
     spdx-expression-parse: ^3.0.0
   checksum: 940899bd4eacfa012ceecb10a5814ba0e8103da5243aa74d0d62f1f8a405efcd23e034fb7193e2d05b392870c53aabcb1f66439b062075cdcb28bc5d562a8ff6
+  languageName: node
+  linkType: hard
+
+"values.js@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "values.js@npm:2.0.0"
+  dependencies:
+    mix-css-color: ^0.1.1
+    parse-css-color: ^0.1.2
+    pure-color: ^1.3.0
+  checksum: 06d8ebc08d7d2a4d19991e68995fff8b460d0592379e2c20231e2b0d946d74e9920fc9619b9523834f929530c3ae57f01a9d573c4f8438be853572b49959a7e6
   languageName: node
   linkType: hard
 

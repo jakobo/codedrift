@@ -73,9 +73,10 @@ export default gql`
   type TimelineEntry implements Node {
     id: ID!
     type: TimelineEntryType!
-    slug: String!
+    slug: String
     title: String!
-    excerpt: String
+    content: String
+    contentType: TimelineEntryContentType!
     image: String
     createdAt: String
   }
@@ -83,6 +84,12 @@ export default gql`
   enum TimelineEntryType {
     Post
     RevisedPost
+    Event
+  }
+
+  enum TimelineEntryContentType {
+    text
+    html
   }
 
   type TimelineEntryConnection {
@@ -121,7 +128,7 @@ export default gql`
     "YAML Frontmatter conversion detailing the list of changes"
     changelog: [PostChangelog]
     "The post's primary category"
-    category: Tag!
+    category: Tag
     "Additional categories associated with the post. Not enough to warrant a connection"
     tags: [Tag]
     html: String
@@ -219,6 +226,12 @@ To implement
 export const TimelineEntryType = {
   Post: "Post",
   RevisedPost: "RevisedPost",
+  Event: "Event",
+};
+
+export const TimelineEntryContentType = {
+  html: "html",
+  text: "text",
 };
 
 export const PostFields = [

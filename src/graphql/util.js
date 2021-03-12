@@ -1,8 +1,8 @@
+import { PostFields, TagFields } from "./typeDefs";
+import { readingTime } from "@tryghost/helpers";
 import caseKeys from "camelcase-keys";
 import filterObj from "filter-obj";
-import { PostFields, TagFields } from "./typeDefs";
 import yaml from "js-yaml";
-import { readingTime } from "@tryghost/helpers";
 
 export const encodeCursor = (o) =>
   Buffer.from(JSON.stringify(o)).toString("base64");
@@ -17,11 +17,17 @@ export const ghostTags = (tags = []) =>
 
 export const ghost2Post = (post) => {
   const clean = filterObj(caseKeys(post, { deep: true }), PostFields);
-  clean.tags = ghostTags(clean.tags);
 
   clean.changelog = post.codeinjection_foot
     ? yaml.load(post.codeinjection_foot)
     : null;
+
+  // set category, remove from tags, drop #tags
+  clean.category = ghostTags([post.primary_tag])[0];
+  clean.tags = ghostTags(clean.tags)
+    .filter((tag) => tag.id !== clean.category.id)
+    .filter((tag) => tag.name.indexOf("#") !== 0);
+
   clean.readingTime = parseInt(
     readingTime(post, {
       minute: "1",

@@ -1,5 +1,5 @@
+import { decodeCursor, encodeCursor, ghost2Post } from "../../util";
 import { getClient, pager } from "src/lib/ghost";
-import { encodeCursor, decodeCursor, ghost2Post } from "../../util";
 
 const POST_FILTER = "tag:hash-post";
 const HARD_LIMIT = 15;
@@ -20,7 +20,6 @@ export default async function posts(
         filter: ghostFilter,
         orderBy,
         id: null,
-        include: "tags",
         offset: 0,
       };
 
@@ -43,6 +42,7 @@ export default async function posts(
     filter,
     limit,
     page: page + 1,
+    include: "tags",
     ...(orderBy ? { order: orderBy } : {}),
   });
 

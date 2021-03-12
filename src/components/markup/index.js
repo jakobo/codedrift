@@ -1,7 +1,6 @@
-import React, { forwardRef } from "react";
+import { Box, Heading, Link, Text } from "theme-ui";
 import NextLink from "next/link";
-import NextImage from "next/image";
-import { Text, Heading, Box, Link } from "theme-ui";
+import React, { forwardRef } from "react";
 
 /**
  * About these React Objects
@@ -14,10 +13,13 @@ import { Text, Heading, Box, Link } from "theme-ui";
 const createElement = (Component, as, variant) => {
   const el = forwardRef((props, ref) => (
     <Component
-      as={as}
       ref={ref}
+      as={as}
       {...props}
-      variant={props.variant || variant}
+      sx={{
+        variant: props?.variant || variant || null,
+        ...(props?.sx || {}),
+      }}
     />
   ));
   el.displayName = as;
@@ -35,6 +37,13 @@ export const P = createElement(Text, "p", "styles.p");
 export const UL = createElement(Box, "ul", "styles.ul");
 export const OL = createElement(Box, "ol", "styles.ol");
 export const LI = createElement(Box, "li", "styles.li");
+export const Blockquote = createElement(
+  Text,
+  "blockquote",
+  "styles.blockquote"
+);
+
+export const Code = createElement(Text, "code", "styles.code");
 
 // custom A tag
 export const A = forwardRef(({ href, ...props }, ref) => (
@@ -43,3 +52,18 @@ export const A = forwardRef(({ href, ...props }, ref) => (
   </NextLink>
 ));
 A.displayName = "a";
+
+// custom img tag
+// TODO take size and reset padding to baseline
+export const Img = forwardRef(({ style = {}, ...props }, ref) => (
+  <img
+    ref={ref}
+    style={{
+      ...(style || {}),
+      maxWidth: "100%",
+      maxHeight: "100%",
+    }}
+    {...props}
+  />
+));
+Img.displayName = "img";

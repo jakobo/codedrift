@@ -1,5 +1,4 @@
 import GhostContentAPI from "@tryghost/content-api";
-import caseKeys from "camelcase-keys";
 
 const endpoint = process.env.GHOST_ENDPOINT;
 const apiKey = process.env.GHOST_CONTENT_KEY;

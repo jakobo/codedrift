@@ -1,8 +1,8 @@
-import React, { useCallback } from "react";
-import { Box, Flex, useThemeUI } from "theme-ui";
-import Logo from "../logo";
 import { A } from "../markup";
+import { Box, Flex, useThemeUI } from "theme-ui";
 import { useResponsiveValue } from "@theme-ui/match-media";
+import Logo from "../Logo";
+import React, { useCallback } from "react";
 
 const LARGE_ONLY = [false, false, true];
 const MEDIUM_PLUS = [false, true, true];
@@ -16,8 +16,8 @@ const headerNavigation = [
   },
   {
     sizes: ALL_SIZES,
-    title: "Archives",
-    url: "/archives",
+    title: "Writing",
+    url: "/thunked",
   },
   {
     sizes: ALL_SIZES,
@@ -25,17 +25,12 @@ const headerNavigation = [
     url: "https://coda.io/d/Jakobs-Notes_dFBvQLDXnR5",
   },
   {
-    sizes: MEDIUM_PLUS,
+    sizes: LARGE_ONLY,
     title: "Speaking",
     url: "/speaking",
   },
   {
     sizes: MEDIUM_PLUS,
-    title: "Code",
-    url: "https://github.com/jakobo",
-  },
-  {
-    sizes: LARGE_ONLY,
     title: "Aibex",
     url: "https://aibex.com",
   },
@@ -49,13 +44,18 @@ const headerNavigation = [
 const footerNavigation = [
   {
     sizes: ALL_SIZES,
+    title: "Top",
+    url: "#",
+  },
+  {
+    sizes: ALL_SIZES,
     title: "Home",
     url: "/",
   },
   {
     sizes: ALL_SIZES,
-    title: "Archives",
-    url: "/archives",
+    title: "Writing",
+    url: "/thunked",
   },
   {
     sizes: ALL_SIZES,
@@ -79,54 +79,72 @@ function TitleBar() {
 
   return (
     <Flex sx={{ flexDirection: "column", alignItems: "center" }}>
-      <Box sx={{ bg: "gray.200", width: "100%" }}>
-        <Flex
+      <Box
+        sx={{
+          bg: "gray.200",
+          width: "100%",
+          height: 1,
+          borderBottomStyle: "solid",
+          borderBottomColor: "gray.400",
+          borderBottomWidth: "1px",
+        }}
+      >
+        {/* todo hamburger here... maybe. Ideally not */}
+      </Box>
+      <Flex
+        sx={{
+          pb: 1,
+          px: 1,
+          flexDirection: "row",
+          justifyContent: "center",
+          width: "100%",
+          maxWidth: "MAX_CONTENT_WIDTH",
+        }}
+      >
+        <Box
           sx={{
-            flexDirection: "row",
-            alignItems: "center",
-            py: 1,
-            px: 2,
-            mx: "auto",
-            maxWidth: "MAX_CONTENT_WIDTH",
+            // lovingly set on a 24px baseline
+            mt: -1,
+            bg: "gray.200",
+            px: 1,
+            py: "10px",
+            borderBottomStyle: "solid",
+            borderBottomColor: "primary",
+            borderBottomWidth: "4px",
+            borderRadius: "4px",
           }}
         >
           <Logo
             left="secondary"
             right="primary"
-            text={["secondary", "primary"]}
-            sx={{ height: "30px" }}
+            text={false}
+            sx={{ height: "80px" }}
           />
-        </Flex>
-      </Box>
-      <Flex
-        sx={{
-          pb: 1,
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-          maxWidth: "MAX_CONTENT_WIDTH",
-        }}
-      >
-        {headerNavigation
-          .filter((item) => item.sizes[navFilter])
-          .map((item, idx) => {
-            const first = idx === 0;
-            return (
-              <Box
-                key={item.url}
-                sx={{
-                  ml: first ? 0 : "quarter",
-                }}
-              >
-                <A href={item.url} variant="nav">
-                  {item.title}
-                </A>
-              </Box>
-            );
-          })}
-        <Box sx={{ ml: "half" }} onClick={flipLights}>
-          T | IN | B
         </Box>
+        <Flex
+          sx={{ flexGrow: 1, flexDirection: "row", justifyContent: "flex-end" }}
+        >
+          {headerNavigation
+            .filter((item) => item.sizes[navFilter])
+            .map((item, idx) => {
+              const first = idx === 0;
+              return (
+                <Box
+                  key={item.url}
+                  sx={{
+                    ml: first ? 0 : "quarter",
+                  }}
+                >
+                  <A href={item.url} variant="nav">
+                    {item.title}
+                  </A>
+                </Box>
+              );
+            })}
+          <Box sx={{ ml: "half" }} onClick={flipLights}>
+            T | IN | GH | B
+          </Box>
+        </Flex>
       </Flex>
     </Flex>
   );
