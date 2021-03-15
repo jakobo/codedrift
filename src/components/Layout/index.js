@@ -8,6 +8,21 @@ const LARGE_ONLY = [false, false, true];
 const MEDIUM_PLUS = [false, true, true];
 const ALL_SIZES = [true, true, true];
 
+const Twitter = () => <span>T</span>;
+const LinkedIn = () => <span>IN</span>;
+const GitHub = () => <span>G</span>;
+const LightSwitch = () => {
+  const { colorMode, setColorMode } = useThemeUI();
+  const flipLights = useCallback(() => {
+    setColorMode((last) => (last === "dark" ? "light" : "dark"));
+  }, []);
+  return (
+    <Box onClick={flipLights} sx={{ cursor: "pointer" }}>
+      {colorMode === "light" ? "🌙" : "🔆"}
+    </Box>
+  );
+};
+
 const headerNavigation = [
   {
     sizes: LARGE_ONLY,
@@ -41,6 +56,29 @@ const headerNavigation = [
   },
 ];
 
+const headerIcons = [
+  {
+    sizes: ALL_SIZES,
+    name: "twitter",
+    Component: Twitter,
+  },
+  {
+    sizes: LARGE_ONLY,
+    name: "linkedin",
+    Component: LinkedIn,
+  },
+  {
+    sizes: LARGE_ONLY,
+    name: "github",
+    Component: GitHub,
+  },
+  {
+    sizes: ALL_SIZES,
+    name: "darkmode",
+    Component: LightSwitch,
+  },
+];
+
 const footerNavigation = [
   {
     sizes: ALL_SIZES,
@@ -70,12 +108,7 @@ const footerNavigation = [
 ];
 
 function TitleBar() {
-  const { colorMode, setColorMode } = useThemeUI();
   const navFilter = useResponsiveValue([0, 1, 2]);
-
-  const flipLights = useCallback(() => {
-    setColorMode(colorMode === "dark" ? "light" : "dark");
-  }, [colorMode]);
 
   return (
     <Flex sx={{ flexDirection: "column", alignItems: "center" }}>
@@ -132,7 +165,7 @@ function TitleBar() {
                 <Box
                   key={item.url}
                   sx={{
-                    ml: first ? 0 : "quarter",
+                    ml: first ? 0 : "half",
                   }}
                 >
                   <A href={item.url} variant="nav">
@@ -141,9 +174,26 @@ function TitleBar() {
                 </Box>
               );
             })}
-          <Box sx={{ ml: "half" }} onClick={flipLights}>
-            T | IN | GH | B
-          </Box>
+          <Flex
+            sx={{
+              flexDirection: "row",
+              ml: "half",
+              height: 1,
+              alignItems: "center",
+            }}
+          >
+            {headerIcons
+              .filter((item) => item.sizes[navFilter])
+              .map((item) => {
+                // const first = idx === 0;
+                const Component = item.Component;
+                return (
+                  <Box key={item.name} sx={{ ml: "half" }}>
+                    <Component />
+                  </Box>
+                );
+              })}
+          </Flex>
         </Flex>
       </Flex>
     </Flex>

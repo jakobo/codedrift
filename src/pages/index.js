@@ -1,7 +1,6 @@
 import { A, H1, H2, H3, H4, H5, H6, P } from "src/components/markup";
-import { Box, Flex, Text } from "theme-ui";
+import { Box, Flex } from "theme-ui";
 import { Brief } from "src/components/Post";
-import { FiniteTimeline } from "src/components/Timeline";
 import { gql } from "@urql/core";
 import { html2React } from "src/components/markup/rehype";
 import { useQuery } from "urql";
@@ -37,9 +36,6 @@ export default function Home() {
   const [{ data }] = useQuery({
     query: HOMEPAGE,
   });
-
-  const timelineSize = data?.posts?.edges ? 5 : 0;
-  const omit = (data?.posts?.edges || []).map((ed) => ed.node.id);
 
   return (
     <Layout>
@@ -82,18 +78,6 @@ export default function Home() {
             })}
           </Brief>
         ))}
-        <Box
-          sx={{
-            borderTopWidth: 1,
-            borderTopColor: "gray.400",
-            borderTopStyle: "solid",
-            pt: 1,
-          }}
-        >
-          <H2>Recently, I...</H2>
-          <FiniteTimeline size={timelineSize} omit={omit} />
-          <Text>⌛ Browse the timeline</Text>
-        </Box>
       </Flex>
     </Layout>
   );

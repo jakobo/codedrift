@@ -175,6 +175,7 @@ export const hcoDefinitions = {
 const SPACES = [0, 1, 2, 4, 8, 16, 32, 48, 56, 64].map(
   (v) => `${v * BASELINE}px`
 );
+SPACES.quarter = 0.25 * BASELINE; // usually for tightly coupled objects that are non-textual
 SPACES.half = 0.5 * BASELINE; // often used to pad the top & bottom of something to "center" it in the baseline
 SPACES.reading = "42em"; // a comfortable reading width
 SPACES.margin = "9em"; // when I want to "bleed" off the left column
@@ -258,14 +259,14 @@ const retheme = (opts = {}) => {
       background: "#FFF",
       secondary: "gray.900",
       primary: "#128458",
-      highlight: "#a3f2d4",
+      highlight: "#FFF",
       gray: GRAYS.regular,
       modes: {
         dark: {
           text: "rgb(240,240,240)",
           background: "#151a15",
           primary: "#e2f201",
-          highlight: "#e2f201",
+          highlight: "#151a15",
           secondary: "gray.900",
           gray: GRAYS.inverted,
         },
@@ -393,6 +394,7 @@ const retheme = (opts = {}) => {
       nav: {
         ...typography.IdealSans.medium,
       },
+      typography,
     },
   };
 };
