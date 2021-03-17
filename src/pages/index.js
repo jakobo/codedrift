@@ -1,9 +1,9 @@
 import { A, H1, H2, H3, H4, H5, H6, P } from "src/components/markup";
 import { Box, Flex } from "theme-ui";
 import { Brief } from "src/components/Post";
+import { createClient } from "src/lib/urql";
 import { gql } from "@urql/core";
 import { html2React } from "src/components/markup/rehype";
-import { useQuery } from "urql";
 import Layout from "src/components/Layout";
 import React from "react";
 
@@ -32,11 +32,7 @@ const HOMEPAGE = gql`
   }
 `;
 
-export default function Home() {
-  const [{ data }] = useQuery({
-    query: HOMEPAGE,
-  });
-
+export default function Home({ data }) {
   return (
     <Layout>
       <Flex
@@ -58,14 +54,15 @@ export default function Home() {
             I build <A href="/thunk/tag/leadership">teams</A>,{" "}
             <A href="/thunk/tag/product">products</A>, and{" "}
             <A href="/thunk/tag/code">code</A>; writing about all three.
-            Currently I&rsquo;m exploring the tools that help us all be better
-            mentors at a startup I co-founded.
+            Currently I&rsquo;m exploring how we collaborate towards common
+            goals.
           </P>
         </Box>
         {(data?.posts?.edges || []).map((ed) => (
           <Brief
             key={ed.node.id}
             title={ed.node.title}
+            slug={ed.node.slug}
             description={ed.node.excerpt}
             category={ed.node.category?.name || ""}
             titleTag={H2}
@@ -81,4 +78,16 @@ export default function Home() {
       </Flex>
     </Layout>
   );
+}
+
+export async function getStaticProps() {
+  const client = createClient();
+  const { data } = await client.query(HOMEPAGE).toPromise();
+
+  return {
+    props: {
+      data,
+    },
+    revalidate: 300,
+  };
 }

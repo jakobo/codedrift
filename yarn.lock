@@ -4247,10 +4247,12 @@ __metadata:
     js-yaml: ^4.0.0
     lint-staged: ^10.5.4
     next: ^10.0.6
+    next-urql: ^3.0.0
     prettier: ^2.2.1
     react: ^17.0.1
     react-children-utilities: ^2.2.4
     react-dom: ^17.0.1
+    react-is: ^17.0.1
     react-markdown: ^5.0.3
     react-use: ^17.1.1
     reading-time: ^1.3.0
@@ -9457,6 +9459,18 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"next-urql@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "next-urql@npm:3.0.0"
+  dependencies:
+    react-ssr-prepass: ^1.2.1
+  peerDependencies:
+    react: ">=16.8.0"
+    urql: ^2.0.0
+  checksum: deeed29bc1fb8dfb380dc35ad1258b343ee0467239226754abcd0df9545e20dfa8c30eda4c9693b00015f9d5f3850c079c90dab3f0e65c237acec574a5a29540
+  languageName: node
+  linkType: hard
+
 "next@npm:^10.0.6":
   version: 10.0.6
   resolution: "next@npm:10.0.6"
@@ -10829,6 +10843,13 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"react-is@npm:^17.0.1":
+  version: 17.0.1
+  resolution: "react-is@npm:17.0.1"
+  checksum: 5a83dfc78e7adcb93d632bf367b0733db650e3abd2e9c57c33b87e50d201212c1884b0d7bcf13e692f1556189fa1b87f9f3e0ba10fe858fd6aebe83ed4fcd1ea
+  languageName: node
+  linkType: hard
+
 "react-markdown@npm:^5.0.3":
   version: 5.0.3
   resolution: "react-markdown@npm:5.0.3"
@@ -10854,6 +10875,15 @@ fsevents@~2.3.1:
   version: 0.8.3
   resolution: "react-refresh@npm:0.8.3"
   checksum: 38f06df8e0a20701b96e5d680838a3528d66cfb53db79843d30cb9517df3262ec596607147439975267bf0634bee77101db37298ea79b5742cc28664632f3c76
+  languageName: node
+  linkType: hard
+
+"react-ssr-prepass@npm:^1.2.1":
+  version: 1.4.0
+  resolution: "react-ssr-prepass@npm:1.4.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0
+  checksum: 2edb796a5ae0c0ad8b7e66afa5a75ac048c3219139ce7f9cd8577876bacb3741b79ecb6acdf37a80b5ccd8314a3f9c6bae8c8aa76ac05f2d930ccda1c8ebd8f2
   languageName: node
   linkType: hard
 
