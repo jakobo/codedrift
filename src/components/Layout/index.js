@@ -1,6 +1,7 @@
 import { A } from "../markup";
 import { Box, Flex, useThemeUI } from "theme-ui";
 import { useResponsiveValue } from "@theme-ui/match-media";
+import Icon from "../Icon";
 import Logo from "../Logo";
 import React, { useCallback } from "react";
 
@@ -8,9 +9,24 @@ const LARGE_ONLY = [false, false, true];
 const MEDIUM_PLUS = [false, true, true];
 const ALL_SIZES = [true, true, true];
 
-const Twitter = () => <span>T</span>;
-const LinkedIn = () => <span>IN</span>;
-const GitHub = () => <span>G</span>;
+const Twitter = () => (
+  <A href="https://twitter.com/jakobo" sx={{ borderBottomWidth: 0 }}>
+    <Icon
+      height="16"
+      icon="twitter"
+      sx={{ fill: "text", "&:hover": { fill: "primary" } }}
+    />
+  </A>
+);
+const GitHub = () => (
+  <A href="https://github.com/jakobo" sx={{ borderBottomWidth: 0 }}>
+    <Icon
+      height="16"
+      icon="github"
+      sx={{ fill: "text", "&:hover": { fill: "primary" } }}
+    />
+  </A>
+);
 const LightSwitch = () => {
   const { colorMode, setColorMode } = useThemeUI();
   const flipLights = useCallback(() => {
@@ -61,11 +77,6 @@ const headerIcons = [
     sizes: ALL_SIZES,
     name: "twitter",
     Component: Twitter,
-  },
-  {
-    sizes: LARGE_ONLY,
-    name: "linkedin",
-    Component: LinkedIn,
   },
   {
     sizes: LARGE_ONLY,
