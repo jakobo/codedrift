@@ -42,31 +42,37 @@ const LightSwitch = () => {
 const headerNavigation = [
   {
     sizes: LARGE_ONLY,
+    id: "home",
     title: "Home",
     url: "/",
   },
   {
     sizes: ALL_SIZES,
+    id: "writing",
     title: "Writing",
     url: "/thunked",
   },
   {
     sizes: ALL_SIZES,
+    id: "notes",
     title: "Notes",
     url: "https://coda.io/d/Jakobs-Notes_dFBvQLDXnR5",
   },
   {
     sizes: LARGE_ONLY,
+    id: "speaking",
     title: "Speaking",
     url: "/speaking",
   },
   {
     sizes: MEDIUM_PLUS,
+    id: "aibex",
     title: "Aibex",
     url: "https://aibex.com",
   },
   {
     sizes: ALL_SIZES,
+    id: "about",
     title: "About",
     url: "/about",
   },
@@ -173,16 +179,14 @@ function TitleBar() {
             .map((item, idx) => {
               const first = idx === 0;
               return (
-                <Box
-                  key={item.url}
-                  sx={{
-                    ml: first ? 0 : "half",
-                  }}
+                <A
+                  key={item.id}
+                  href={item.url}
+                  variant="nav"
+                  sx={{ ml: first ? 0 : "half" }}
                 >
-                  <A href={item.url} variant="nav">
-                    {item.title}
-                  </A>
-                </Box>
+                  {item.title}
+                </A>
               );
             })}
           <Flex

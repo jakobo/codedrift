@@ -16,10 +16,7 @@ const createElement = (Component, as, variant) => {
       ref={ref}
       as={as}
       {...props}
-      sx={{
-        variant: props?.variant || variant || null,
-        ...(props?.sx || {}),
-      }}
+      variant={props?.variant ? props.variant : variant || null}
     />
   ));
   el.displayName = as;
@@ -46,11 +43,13 @@ export const Blockquote = createElement(
 export const Code = createElement(Text, "code", "styles.code");
 
 // custom A tag
-export const A = forwardRef(({ href, ...props }, ref) => (
-  <NextLink href={href} passHref>
-    <Link ref={ref} {...props} variant={props.variant || "styles.a"} />
-  </NextLink>
-));
+export const A = forwardRef(({ href, variant, ...props }, ref) => {
+  return (
+    <NextLink href={href} passHref>
+      <Link as="a" ref={ref} variant={variant || "styles.a"} {...props} />
+    </NextLink>
+  );
+});
 A.displayName = "a";
 
 // custom img tag
