@@ -80,6 +80,7 @@ export default function Home({ data }) {
   );
 }
 
+// todo: return to getStaticProps
 export async function getServerSideProps() {
   const client = createClient();
   const { data } = await client.query(HOMEPAGE).toPromise();
@@ -88,6 +89,6 @@ export async function getServerSideProps() {
     props: {
       data,
     },
-    revalidate: 300,
+    // revalidate: 300,
   };
 }

@@ -55,6 +55,7 @@ export default function ThunkedBySlug({ data }) {
   );
 }
 
+// todo: return to getstaticprops
 export async function getServerSideProps(ctx) {
   const client = createClient();
   const { data } = await client
@@ -65,7 +66,7 @@ export async function getServerSideProps(ctx) {
     props: {
       data,
     },
-    revalidate: 300,
+    // revalidate: 300,
   };
 }
 
