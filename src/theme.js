@@ -4,6 +4,9 @@ import FontFaceObserver from "fontfaceobserver";
 import Head from "next/head";
 import React, { useEffect, useMemo, useState } from "react";
 
+// Dear future self
+// this is why you wanted to use tailwind...
+
 /**
  * Remaining Tasks
  * [ ] Make the H&Co fonts load even faster, utlilizing the media toggle from

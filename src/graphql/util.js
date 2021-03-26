@@ -1,3 +1,4 @@
+import { P } from "src/components/markup";
 import { PostFields, TagFields } from "./typeDefs";
 import { readingTime } from "@tryghost/helpers";
 import caseKeys from "camelcase-keys";
@@ -10,30 +11,65 @@ export const encodeCursor = (o) =>
 export const decodeCursor = (s) =>
   JSON.parse(Buffer.from(s, "base64").toString());
 
-export const ghostTags = (tags = []) =>
-  (tags || []).map((tag) => {
-    return filterObj(tag, TagFields);
-  });
-
+// a wrapper for converting a ghost post object to graphql
 export const ghost2Post = (post) => {
-  const clean = filterObj(caseKeys(post, { deep: true }), PostFields);
+  return ghost2Graph(post, PostFields, {
+    changelog: createChangelog,
+    category: extractGhostCategory,
+    tags: extractGhostTags,
+    readingTime: extractReadingTime,
+  });
+};
 
-  clean.changelog = post.codeinjection_foot
-    ? yaml.load(post.codeinjection_foot)
+export const ghost2Graph = (o, filter, additionalFilters) => {
+  if (!o) {
+    return null;
+  }
+
+  const clean = caseKeys(o, { deep: true });
+  if (additionalFilters) {
+    Object.getOwnPropertyNames(additionalFilters).forEach((f) => {
+      clean[f] = additionalFilters[f](clean);
+    });
+  }
+
+  return filterObj(clean, filter);
+};
+
+export const extractGhostCategory = (p) => {
+  const primary = p.primaryTag;
+  const firstTag = p.tags?.[0];
+  return primary || firstTag
+    ? ghost2Graph(primary || firstTag, TagFields)
+    : null;
+};
+
+export const extractGhostTags = (p) =>
+  !P.tags
+    ? []
+    : P.tags
+        .map((tag) => ghost2Graph(tag, TagFields))
+        .filter((tag) => tag.id !== p.category.id)
+        .filter((tag) => tag.name.indexOf("#") !== 0);
+
+export const extractReadingTime = (p) =>
+  p.html || p.text
+    ? parseInt(
+        readingTime(p, {
+          minute: "1",
+          minutes: "%",
+        }),
+        10
+      )
     : null;
 
-  // set category, remove from tags, drop #tags
-  clean.category = ghostTags([post.primary_tag])[0];
-  clean.tags = ghostTags(clean.tags)
-    .filter((tag) => tag.id !== clean.category.id)
-    .filter((tag) => tag.name.indexOf("#") !== 0);
-
-  clean.readingTime = parseInt(
-    readingTime(post, {
-      minute: "1",
-      minutes: "%",
-    }),
-    10
-  );
-  return clean;
+export const createChangelog = (p) => {
+  try {
+    return p.codeinjectionFoot
+      ? yaml.load(p.codeinjectionFoot)?.changelog || null
+      : null;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 };

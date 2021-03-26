@@ -1,6 +1,7 @@
-import { A } from "../markup";
+import { A, P } from "../markup";
 import { Box, Flex, useThemeUI } from "theme-ui";
 import { useResponsiveValue } from "@theme-ui/match-media";
+import { useRouter } from "next/router";
 import Icon from "../Icon";
 import Logo from "../Logo";
 import React, { useCallback } from "react";
@@ -58,12 +59,12 @@ const headerNavigation = [
     title: "Notes",
     url: "https://coda.io/d/Jakobs-Notes_dFBvQLDXnR5",
   },
-  {
-    sizes: LARGE_ONLY,
-    id: "speaking",
-    title: "Speaking",
-    url: "/speaking",
-  },
+  // {
+  //   sizes: LARGE_ONLY,
+  //   id: "speaking",
+  //   title: "Speaking",
+  //   url: "/speaking",
+  // },
   {
     sizes: MEDIUM_PLUS,
     id: "aibex",
@@ -126,6 +127,7 @@ const footerNavigation = [
 
 function TitleBar() {
   const navFilter = useResponsiveValue([0, 1, 2]);
+  const router = useRouter();
 
   return (
     <Flex sx={{ flexDirection: "column", alignItems: "center" }}>
@@ -154,6 +156,7 @@ function TitleBar() {
         <Box
           sx={{
             // lovingly set on a 24px baseline
+            // doubles as a visual reference
             mt: -1,
             bg: "gray.200",
             px: 1,
@@ -168,7 +171,8 @@ function TitleBar() {
             left="secondary"
             right="primary"
             text={false}
-            sx={{ height: "80px" }}
+            sx={{ height: "80px", cursor: "pointer" }}
+            onClick={() => router.push("/")}
           />
         </Box>
         <Flex
@@ -217,27 +221,72 @@ function TitleBar() {
 
 const Footer = () => {
   const navFilter = useResponsiveValue([0, 1, 2]);
+
   return (
-    <Flex sx={{ flexDirection: "column", alignItems: "center", mt: 2 }}>
-      <Box sx={{ bg: "secondary", width: "100%" }}>
-        <Flex
-          sx={{ flexDirection: "row", pt: 2, pb: 2, justifyContent: "center" }}
-        >
+    <Box
+      sx={{
+        width: "100%",
+        height: "360px",
+        bg: "gray.800",
+        borderTopStyle: "solid",
+        borderTopColor: "gray.400",
+        borderTopWidth: "1px",
+      }}
+    >
+      <Flex sx={{ flexDirection: ["column", null, "row"], mx: 2 }}>
+        <Box sx={{ mt: 1, pr: [0, null, 2] }}>
           {footerNavigation
             .filter((item) => item.sizes[navFilter])
-            .map((item, idx) => {
-              const first = idx === 0;
+            .map((item) => {
               return (
-                <Box key={item.url} sx={{ ml: first ? 0 : "quarter" }}>
-                  <A href={item.url} variant="nav.footer">
+                <Box key={item.url}>
+                  <A
+                    href={item.url}
+                    variant="nav"
+                    sx={{
+                      color: "background",
+                      "&:hover": {
+                        color: "white",
+                        textDecoration: "underline",
+                      },
+                    }}
+                  >
                     {item.title}
                   </A>
                 </Box>
               );
             })}
-        </Flex>
-      </Box>
-    </Flex>
+        </Box>
+        <Box sx={{ mt: 1, flexGrow: 1, pr: [0, null, 2] }}>
+          <P sx={{ color: "background" }}>
+            Code Drift is the personal website of Rudolph Jakob Heuser
+          </P>
+        </Box>
+        <Box>
+          <Flex
+            sx={{
+              px: 1,
+              pb: "half",
+              bg: [null, null, "background"],
+              mt: [1, null, "-1px"],
+              borderBottomStyle: [null, null, "solid"],
+              borderBottomColor: "gray.500",
+              borderBottomWidth: [0, null, "4px"],
+              borderRadius: "4px",
+              alignItems: ["center", null, "flex-end"],
+              flexDirection: "column",
+            }}
+          >
+            <Logo
+              left="gray.500"
+              right="gray.600"
+              text={false}
+              sx={{ height: "80px" }}
+            />
+          </Flex>
+        </Box>
+      </Flex>
+    </Box>
   );
 };
 

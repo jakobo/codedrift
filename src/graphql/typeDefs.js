@@ -45,6 +45,9 @@ export default gql`
   don't have to think about things like authorizations, etc. Sometimes,
   you just want to write.
 
+  Todo: Not supporting bookmarks right now. In fact, I'd rather use a dedicated
+  service... but those really don't exist anymore.
+
   See https://ghost.org/docs/content-api/#posts
   """
   type Bookmark {
@@ -109,6 +112,28 @@ export default gql`
   }
 
   """
+  Post summaries are shortened information about posts. Just enough
+  to make something useful for a search engine to work with. All data
+  comes from Ghost. Not optimized for cursor based pagination
+
+  See: https://ghost.org/docs/content-api/#posts
+  """
+  type PostDirectoryEntry {
+    id: ID!
+    slug: String!
+    title: String!
+    excerpt: String
+    publishedAt: String!
+    updatedAt: String!
+    "The post's primary category"
+    category: Tag
+    "Additional categories associated with the post. Not enough to warrant a connection"
+    tags: [Tag]
+    "YAML Frontmatter conversion detailing the list of changes"
+    changelog: [PostChangelog]
+  }
+
+  """
   Posts come from Ghost and are tagged with the #post tag internally
   Most fields have an equivalent in Ghost, though they might also
   receive some data massaging. If a field looks non-ghostey, it's
@@ -153,6 +178,7 @@ export default gql`
     cursor: String!
   }
 
+  # From github?
   # type Repository {
   #   id: String!
   #   org: String
@@ -161,6 +187,7 @@ export default gql`
   #   stars: Int
   # }
 
+  # AMA from github?
   # type AMA {
   #   id: String
   #   postedAt: String!
@@ -180,24 +207,12 @@ export default gql`
     ): PostConnection!
 
     """
-    Retrieve the Timeline of events
+    Get a list of all posts, often for a search engine
     """
-    timeline(
-      ${forwardConnectionArgs(
-        `"A valid filter parameter. See https://ghost.org/docs/content-api/#filtering" filter: String`,
-        `"A valid ordering parameter. See https://ghost.org/docs/content-api/#order" orderBy: String`
-      )}
-    ): TimelineEntryConnection!
-
-    """
-    Retrieve a list of bookmarks
-    """
-    bookmarks(
-      ${forwardConnectionArgs(
-        `"A valid filter parameter. See https://ghost.org/docs/content-api/#filtering" filter: String`,
-        `"A valid ordering parameter. See https://ghost.org/docs/content-api/#order" orderBy: String`
-      )}
-    ): BookmarkConnection!
+    postDirectory(
+      "A valid filter parameter. See https://ghost.org/docs/content-api/#filtering" filter: String
+      "A valid ordering parameter. See https://ghost.org/docs/content-api/#order" orderBy: String
+    ): [PostDirectoryEntry]
 
     """
     Retrieve a single post by its id or slug
@@ -209,30 +224,6 @@ export default gql`
 
   }
 `;
-/*
-To implement
-
-    """
-    Retrieve a list of bookmarks
-    """
-    bookmarks(
-      ${forwardConnectionArgs(
-        `"A valid filter parameter. See https://ghost.org/docs/content-api/#filtering" filter: String`,
-        `"A valid ordering parameter. See https://ghost.org/docs/content-api/#order" orderBy: String`
-      )}
-    ): BookmarkConnection!
-*/
-
-export const TimelineEntryType = {
-  Post: "Post",
-  RevisedPost: "RevisedPost",
-  Event: "Event",
-};
-
-export const TimelineEntryContentType = {
-  html: "html",
-  text: "text",
-};
 
 export const PostFields = [
   "id",
@@ -255,6 +246,18 @@ export const PostFields = [
   "twitterTitle",
   "metaTitle",
   "metaDescription",
+];
+
+export const PostDirectoryEntryFields = [
+  "id",
+  "slug",
+  "title",
+  "excerpt",
+  "publishedAt",
+  "updatedAt",
+  "category",
+  "tags",
+  "changelog",
 ];
 
 export const TagFields = [

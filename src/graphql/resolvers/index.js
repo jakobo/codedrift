@@ -1,14 +1,12 @@
-import posts from "./Query/posts";
 import post from "./Query/post";
-import timeline from "./Query/timeline";
-import bookmarks from "./Query/bookmarks";
+import postDirectory from "./Query/postDirectory";
+import posts from "./Query/posts";
 
 export default {
   Query: {
     posts,
     post,
-    timeline,
-    bookmarks,
+    postDirectory,
   },
   Node: {
     __resolveType: (obj) => obj.__typeName,

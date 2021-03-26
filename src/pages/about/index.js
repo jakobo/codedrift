@@ -81,7 +81,7 @@ export default function About() {
   return (
     <Layout>
       <Box sx={{ width: "100vw", maxWidth: "reading", px: [1, null, 0] }}>
-        <H1>About Jakob</H1>
+        <H1>About</H1>
         <P>
           Over the last 15 years, I&rsquo;ve had the joy of creating meaningful
           software in the world. I&rsquo;m never done learning.
@@ -91,7 +91,7 @@ export default function About() {
           thoughts on code, management, and the vastness of software with the
           world. Building engineering teams is messy work; so are software
           projects. It&rsquo;s my hope that others can learn from these
-          experiences as I have from others.
+          experiences just as I have from so many others.
         </P>
 
         <H2>How We Got Here</H2>
