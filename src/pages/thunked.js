@@ -63,11 +63,10 @@ export default function Thunked({ data }) {
   );
 }
 
-export async function getStaticProps() {
+// todo: return to getStaticProps with build time query
+export async function getServerSideProps() {
   const client = createClient();
   const { data } = await client.query(BLOG).toPromise();
-
-  console.log(data);
 
   return {
     props: {

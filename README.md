@@ -10,6 +10,8 @@ Personal Website of Jakob Heuser
 
 By listing these here, I'm accepting that this site is not only a work in progress, but that these items shouldn't prevent me from putting myself out into the world.
 
+- [ ] Tag listing pages
+- [ ] Switch to getStaticProps with a local call to the graphql resolver
 - [ ] Track active tab w/ underline or bold in header
 - [ ] Change to Tailwind, away from styled-system. Keep the vertical rythym!
 - [ ] Permalinks in an obvious place

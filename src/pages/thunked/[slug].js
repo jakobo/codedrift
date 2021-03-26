@@ -55,7 +55,7 @@ export default function ThunkedBySlug({ data }) {
   );
 }
 
-export async function getStaticProps(ctx) {
+export async function getServerSideProps(ctx) {
   const client = createClient();
   const { data } = await client
     .query(GET_POST, { slug: ctx.params.slug })
@@ -69,10 +69,11 @@ export async function getStaticProps(ctx) {
   };
 }
 
+// TODO: call graphql locally
 // we are abusing fallback here to avoid a huge query on ghost
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: true,
-  };
-}
+// export async function getStaticPaths() {
+//   return {
+//     paths: [],
+//     fallback: true,
+//   };
+// }

@@ -1,20 +1,20 @@
 import { Box, Checkbox, Flex, Text } from "@theme-ui/components";
 import { H1, H2, P } from "src/components/markup";
-import Aibex from "./events/2018/Aibex";
-import ApplyWithLinkedIn from "./events/2011/ApplyWithLinkedIn";
-import ArtDecoFoundations from "./events/2014/ArtDecoFoundations";
-import ConnectSDK from "./events/2010/ConnectSDK";
-import FacetedSearch from "./events/2009/FacetedSearch";
-import GaiaRedesign from "./events/2007/GaiaRedesign";
-import GaiaTradingSystem from "./events/2006/GaiaTradingSystem";
-import HSDL from "./events/2004/HSDL";
-import KatyDavinci from "./events/2012/KatyDavinci";
+import Aibex from "../../components/Timeline/events/2018/Aibex";
+import ApplyWithLinkedIn from "../../components/Timeline/events/2011/ApplyWithLinkedIn";
+import ArtDecoFoundations from "../../components/Timeline/events/2014/ArtDecoFoundations";
+import ConnectSDK from "../../components/Timeline/events/2010/ConnectSDK";
+import FacetedSearch from "../../components/Timeline/events/2009/FacetedSearch";
+import GaiaRedesign from "../../components/Timeline/events/2007/GaiaRedesign";
+import GaiaTradingSystem from "../../components/Timeline/events/2006/GaiaTradingSystem";
+import HSDL from "../../components/Timeline/events/2004/HSDL";
+import KatyDavinci from "../../components/Timeline/events/2012/KatyDavinci";
 import Layout from "src/components/Layout";
-import LinkedInMobileWeb from "./events/2011/LinkedInMobileWeb";
+import LinkedInMobileWeb from "../../components/Timeline/events/2011/LinkedInMobileWeb";
 import React from "react";
-import ReactAtPinterest from "./events/2016/React";
-import ReactReady from "./events/2017/ReactReady";
-import Texture from "./events/2017/Texture";
+import ReactAtPinterest from "../../components/Timeline/events/2016/React";
+import ReactReady from "../../components/Timeline/events/2017/ReactReady";
+import Texture from "../../components/Timeline/events/2017/Texture";
 import Timeline, { useTimeline } from "src/components/Timeline";
 
 const catSx = {

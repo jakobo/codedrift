@@ -36,7 +36,6 @@ export const Entry = ({
   }, false);
 
   const show = Object.getOwnPropertyNames(ctx.filters).reduce((prev, cat) => {
-    console.log(nc, cat);
     return prev && nc.includes(cat);
   }, true);
 
@@ -150,8 +149,6 @@ export default function Timeline({ initialFilters = {}, children } = {}) {
     }),
     [register, toggleFilter, facetCounts, filters]
   );
-
-  console.log("RERENDER");
 
   return <Context.Provider value={payload}>{children}</Context.Provider>;
 }
