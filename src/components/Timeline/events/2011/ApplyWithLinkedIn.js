@@ -1,5 +1,4 @@
 import { Entry } from "src/components/Timeline";
-import { P } from "src/components/markup";
 import React from "react";
 
 export default function ApplyWithLinkedIn() {
@@ -11,11 +10,11 @@ export default function ApplyWithLinkedIn() {
       href="https://blog.linkedin.com/2011/07/24/apply-with-linkedin"
       categories={["Engineering"]}
     >
-      <P>
+      <p>
         Built on top of the LinkedIn Connect SDK, &ldquo;Apply With
         LinkedIn&rdquo; gave job applicants 1-click job applications using their
         LinkedIn profile inside third party talent management applications.
-      </P>
+      </p>
     </Entry>
   );
 }

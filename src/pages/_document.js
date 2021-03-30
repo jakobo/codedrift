@@ -12,7 +12,13 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head />
-        <body style={bodyStyles}>
+        <body
+          className="bg-light dark:bg-dark text-dark dark:text-light"
+          style={{
+            ...bodyStyles,
+            transition: "all 0.5s",
+          }}
+        >
           <Main />
           <NextScript />
         </body>

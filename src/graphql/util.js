@@ -1,4 +1,3 @@
-import { P } from "src/components/markup";
 import { PostFields, TagFields } from "./typeDefs";
 import { readingTime } from "@tryghost/helpers";
 import caseKeys from "camelcase-keys";
@@ -45,9 +44,9 @@ export const extractGhostCategory = (p) => {
 };
 
 export const extractGhostTags = (p) =>
-  !P.tags
+  !p.tags
     ? []
-    : P.tags
+    : p.tags
         .map((tag) => ghost2Graph(tag, TagFields))
         .filter((tag) => tag.id !== p.category.id)
         .filter((tag) => tag.name.indexOf("#") !== 0);

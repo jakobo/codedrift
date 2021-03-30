@@ -1,8 +1,7 @@
-import { A, H1, H2, LI, P, UL } from "src/components/markup";
-import { Box } from "@theme-ui/components";
 import { createClient } from "src/lib/urql";
 import { gql } from "@urql/core";
 import Layout from "src/components/Layout";
+import Link from "next/link";
 import React from "react";
 
 const BLOG = gql`
@@ -35,30 +34,51 @@ export default function Thunked({ data }) {
 
   return (
     <Layout>
-      <Box sx={{ width: "100vw", maxWidth: "reading", px: [1, null, 0] }}>
-        <H1>Thunked</H1>
-        <P>
+      <div className="w-full max-w-reading">
+        <h1 className="font-sans-lg font-bold text-7xl mb-3">Thunked</h1>
+        <p>
           Thoughts thought through. Esasys on products, leadership, engineering,
           culture, and more.
-        </P>
-        <Box>
+        </p>
+        <div className="pt-5">
           {Object.getOwnPropertyNames(byYear)
             .sort()
             .reverse()
             .map((year) => (
-              <Box key={year}>
-                <H2>{year}</H2>
-                <UL>
+              <div key={year}>
+                <h2 className="w-full lg:-ml-36 lg:w-36 font-sans-lg font-bold text-lg text-left lg:text-right pr-5 text-gray-300">
+                  {year}
+                </h2>
+                <ul className="-mt-7">
                   {byYear[year].map((post) => (
-                    <LI key={post.id}>
-                      <A href={`/thunked/${post.slug}`}>{post.title}</A>
-                    </LI>
+                    <li key={post.id} className="mb-5">
+                      <Link href={`/thunked/${post.slug}`} passHref>
+                        <a
+                          className={`
+                            border-b
+                            border-dotted 
+
+                            text-brand-500
+                            hover:text-brand-700
+                            border-brand-500
+                            hover:border-brand-700
+
+                            dark:text-brand-invert-500
+                            dark:hover:text-brand-invert-700
+                            dark:border-brand-invert-500
+                            dark:hover:border-invert-brand-700
+                        `}
+                        >
+                          {post.title}
+                        </a>
+                      </Link>
+                    </li>
                   ))}
-                </UL>
-              </Box>
+                </ul>
+              </div>
             ))}
-        </Box>
-      </Box>
+        </div>
+      </div>
     </Layout>
   );
 }

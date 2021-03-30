@@ -1,5 +1,3 @@
-import { Flex } from "theme-ui";
-import { H2, H3, H4, H5, H6 } from "src/components/markup";
 import { Post } from "src/components/Post";
 import { createClient } from "src/lib/urql";
 import { gql } from "@urql/core";
@@ -32,25 +30,26 @@ export default function ThunkedBySlug({ data }) {
   const post = data?.post || {};
   return (
     <Layout>
-      <Flex
-        sx={{
-          flexDirection: "column",
-          flexShrink: 0,
-          width: ["100%", null, "auto"],
-        }}
-      >
+      <div className="flex-col w-full">
         <Post
           title={post?.title}
+          date={post?.publishedAt}
           slug={post?.slug}
           description={post?.excerpt}
           category={post?.category?.name}
           tags={post?.tags}
+          titleTag={(props) => (
+            <h1
+              {...props}
+              className={`${
+                props.className || ""
+              } font-sans font-bold text-4xl`}
+            />
+          )}
         >
-          {html2React(post.html, {
-            headings: [H2, H3, H4, H5, H6, H6],
-          })}
+          {html2React(post.html)}
         </Post>
-      </Flex>
+      </div>
     </Layout>
   );
 }

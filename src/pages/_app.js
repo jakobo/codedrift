@@ -1,7 +1,8 @@
-import "./reset.css";
+import "./globals.css";
+import "tailwindcss/tailwind.css";
+import Head from "next/head";
 import Providers from "src/providers";
 import React from "react";
-import Head from "next/head";
 
 const App = ({ Component, pageProps }) => {
   return (

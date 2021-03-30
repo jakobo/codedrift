@@ -1,5 +1,3 @@
-import { Box, Flex, Text } from "@theme-ui/components";
-import { H3 } from "../markup";
 import React, {
   useCallback,
   useContext,
@@ -44,28 +42,21 @@ export const Entry = ({
   }
 
   return (
-    <Flex sx={{ flexDirection: "row", mt: 1, mb: 2 }}>
-      <Box>
-        <Box
-          sx={{
-            pr: 1,
-            textAlign: ["left", null, "right"],
-            width: ["100%", null, "margin"],
-            ml: [0, null, "negativeMargin"],
-          }}
-        >
-          <Text variant="typography.IdealSans.medium">{year}</Text>
-        </Box>
-      </Box>
-      <Box>
-        <Flex sx={{ flexDirection: "row" }}>
+    <div className="flex flex-row mb-10">
+      <div>
+        <div className="pr-5 text-left lg:text-right w-full lg:w-36 ml-0 lg:-ml-36 pt-3">
+          {year}
+        </div>
+      </div>
+      <div>
+        <div className="flex flex-row">
           {!icon ? null : <></>}
-          <H3 sx={{ py: 0 }}>{product}</H3>
-        </Flex>
-        <Text variant="typography.IdealSans.small">{title}</Text>
-        <Box sx={{ mt: 1 }}>{children}</Box>
-      </Box>
-    </Flex>
+          <h3 className="py-0 font-bold text-3xl">{product}</h3>
+        </div>
+        <div className="text-gray-500 italic mt-2">{title}</div>
+        <div className="mt-5 prose max-w-none">{children}</div>
+      </div>
+    </div>
   );
 };
 

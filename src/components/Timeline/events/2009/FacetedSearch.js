@@ -1,5 +1,4 @@
 import { Entry } from "src/components/Timeline";
-import { P } from "src/components/markup";
 import React from "react";
 
 export default function FacetedSearch() {
@@ -11,11 +10,11 @@ export default function FacetedSearch() {
       href="https://blog.linkedin.com/2009/12/14/linkedin-faceted-search"
       categories={["Engineering"]}
     >
-      <P>
+      <p>
         Real time filters that adjust with every interactionm offering true
         guided navigation and gets rid of the frustrating boolean searches that
         were assumed by search engine interfaces at the time.
-      </P>
+      </p>
     </Entry>
   );
 }

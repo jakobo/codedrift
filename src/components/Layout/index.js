@@ -1,319 +1,159 @@
-import { A, P } from "../markup";
-import { Box, Flex, useThemeUI } from "theme-ui";
-import { useResponsiveValue } from "@theme-ui/match-media";
+import { useColorScheme } from "src/hooks/useColorScheme";
 import { useRouter } from "next/router";
 import Icon from "../Icon";
+import Link from "next/link";
 import Logo from "../Logo";
 import React, { useCallback } from "react";
 
-const LARGE_ONLY = [false, false, true];
-const MEDIUM_PLUS = [false, true, true];
-const ALL_SIZES = [true, true, true];
+const Twitter = ({ className }) => (
+  <a
+    href="https://twitter.com/jakobo"
+    className={`no-underline hover:text-brand-500 dark:hover:text-brand-invert-500 ${
+      className || ""
+    }`}
+  >
+    <Icon height="16" icon="twitter" className="fill-current" />
+  </a>
+);
+const GitHub = ({ className }) => (
+  <a
+    href="https://github.com/jakobo"
+    className={`no-underline hover:text-brand-500 dark:hover:text-brand-invert-500 ${
+      className || ""
+    }`}
+  >
+    <Icon height="16" icon="github" className="fill-current" />
+  </a>
+);
+const LightSwitch = ({ className }) => {
+  const { mode, setColorScheme } = useColorScheme();
 
-const Twitter = () => (
-  <A href="https://twitter.com/jakobo" sx={{ borderBottomWidth: 0 }}>
-    <Icon
-      height="16"
-      icon="twitter"
-      sx={{ fill: "text", "&:hover": { fill: "primary" } }}
-    />
-  </A>
-);
-const GitHub = () => (
-  <A href="https://github.com/jakobo" sx={{ borderBottomWidth: 0 }}>
-    <Icon
-      height="16"
-      icon="github"
-      sx={{ fill: "text", "&:hover": { fill: "primary" } }}
-    />
-  </A>
-);
-const LightSwitch = () => {
-  const { colorMode, setColorMode } = useThemeUI();
   const flipLights = useCallback(() => {
-    setColorMode((last) => (last === "dark" ? "light" : "dark"));
-  }, []);
+    setColorScheme(mode === "dark" ? "light" : "dark");
+  }, [mode]);
+
   return (
-    <Box onClick={flipLights} sx={{ cursor: "pointer" }}>
-      {colorMode === "light" ? "🌙" : "🔆"}
-    </Box>
+    <div onClick={flipLights} className={`cursor-pointer ${className || ""}`}>
+      {mode === "light" ? "🌙" : "🔆"}
+    </div>
   );
 };
 
-const headerNavigation = [
+const navLinks = [
+  { title: "Home", url: "/", className: "hidden lg:inline-block" },
+  { title: "Writing", url: "/thunked", className: "" },
   {
-    sizes: LARGE_ONLY,
-    id: "home",
-    title: "Home",
-    url: "/",
-  },
-  {
-    sizes: ALL_SIZES,
-    id: "writing",
-    title: "Writing",
-    url: "/thunked",
-  },
-  {
-    sizes: ALL_SIZES,
-    id: "notes",
     title: "Notes",
     url: "https://coda.io/d/Jakobs-Notes_dFBvQLDXnR5",
+    className: "",
   },
-  // {
-  //   sizes: LARGE_ONLY,
-  //   id: "speaking",
-  //   title: "Speaking",
-  //   url: "/speaking",
-  // },
   {
-    sizes: MEDIUM_PLUS,
-    id: "aibex",
     title: "Aibex",
     url: "https://aibex.com",
+    className: "hidden md:inline-block",
   },
-  {
-    sizes: ALL_SIZES,
-    id: "about",
-    title: "About",
-    url: "/about",
-  },
+  { title: "About", url: "/about", className: "" },
+  { title: "Twitter", Component: Twitter, className: "pt-1" },
+  { title: "GitHub", Component: GitHub, className: "pt-1" },
+  { title: "LightSwitch", Component: LightSwitch, className: "" },
 ];
 
-const headerIcons = [
-  {
-    sizes: ALL_SIZES,
-    name: "twitter",
-    Component: Twitter,
-  },
-  {
-    sizes: LARGE_ONLY,
-    name: "github",
-    Component: GitHub,
-  },
-  {
-    sizes: ALL_SIZES,
-    name: "darkmode",
-    Component: LightSwitch,
-  },
-];
-
-const footerNavigation = [
-  {
-    sizes: ALL_SIZES,
-    title: "Top",
-    url: "#",
-  },
-  {
-    sizes: ALL_SIZES,
-    title: "Home",
-    url: "/",
-  },
-  {
-    sizes: ALL_SIZES,
-    title: "Writing",
-    url: "/thunked",
-  },
-  {
-    sizes: ALL_SIZES,
-    title: "About",
-    url: "/about",
-  },
-  {
-    sizes: ALL_SIZES,
-    title: "Contact",
-    url: "/contact",
-  },
+const footerLinks = [
+  { title: "Back to Top", url: "#", className: "" },
+  { title: "Home", url: "/", className: "" },
+  { title: "Writing", url: "/thunked", className: "" },
+  { title: "About", url: "/about", className: "" },
+  { title: "Contact", url: "/contact", className: "" },
 ];
 
 function TitleBar() {
-  const navFilter = useResponsiveValue([0, 1, 2]);
   const router = useRouter();
 
   return (
-    <Flex sx={{ flexDirection: "column", alignItems: "center" }}>
-      <Box
-        sx={{
-          bg: "gray.200",
-          width: "100%",
-          height: 1,
-          borderBottomStyle: "solid",
-          borderBottomColor: "gray.400",
-          borderBottomWidth: "1px",
-        }}
-      >
+    <div className="flex flex-col items-center justify-center w-full">
+      <div className="bg-gray-100 dark:bg-gray-800 w-full h-5 border-b border-gray-300 border-solid">
         {/* todo hamburger here... maybe. Ideally not */}
-      </Box>
-      <Flex
-        sx={{
-          pb: 1,
-          px: 1,
-          flexDirection: "row",
-          justifyContent: "center",
-          width: "100%",
-          maxWidth: "MAX_CONTENT_WIDTH",
-        }}
-      >
-        <Box
-          sx={{
-            // lovingly set on a 24px baseline
-            // doubles as a visual reference
-            mt: -1,
-            bg: "gray.200",
-            px: 1,
-            py: "10px",
-            borderBottomStyle: "solid",
-            borderBottomColor: "primary",
-            borderBottomWidth: "4px",
-            borderRadius: "4px",
-          }}
-        >
+      </div>
+      <div className="flex flex-row pb-5 px-5 w-full max-w-7xl">
+        <div className="-mt-5 bg-gray-100 dark:bg-gray-800 justify-center items-center px-5 py-2 border-b-4 rounded-lg border-solid w-auto">
           <Logo
-            left="secondary"
-            right="primary"
+            left="text-gray-400"
+            right="text-brand-500 dark:text-brand-invert-500"
             text={false}
-            sx={{ height: "80px", cursor: "pointer" }}
+            style={{ height: "80px" }}
+            className="pointer"
             onClick={() => router.push("/")}
           />
-        </Box>
-        <Flex
-          sx={{ flexGrow: 1, flexDirection: "row", justifyContent: "flex-end" }}
-        >
-          {headerNavigation
-            .filter((item) => item.sizes[navFilter])
-            .map((item, idx) => {
-              const first = idx === 0;
-              return (
-                <A
-                  key={item.id}
-                  href={item.url}
-                  variant="nav"
-                  sx={{ ml: first ? 0 : "half" }}
-                >
-                  {item.title}
-                </A>
-              );
-            })}
-          <Flex
-            sx={{
-              flexDirection: "row",
-              ml: "half",
-              height: 1,
-              alignItems: "center",
-            }}
-          >
-            {headerIcons
-              .filter((item) => item.sizes[navFilter])
-              .map((item) => {
-                // const first = idx === 0;
-                const Component = item.Component;
-                return (
-                  <Box key={item.name} sx={{ ml: "half" }}>
-                    <Component />
-                  </Box>
-                );
-              })}
-          </Flex>
-        </Flex>
-      </Flex>
-    </Flex>
+        </div>
+        <div className="flex-grow flex flex-row justify-end self-start pt-1">
+          {navLinks.map((item, idx) => (
+            <React.Fragment key={item.title}>
+              {item.Component ? (
+                <item.Component
+                  className={`${item.className} ${idx === 0 ? "" : "ml-2"}`}
+                />
+              ) : (
+                <Link href={item.url} passHref>
+                  <a className={`${item.className} ${idx === 0 ? "" : "ml-2"}`}>
+                    {item.title}
+                  </a>
+                </Link>
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
 const Footer = () => {
-  const navFilter = useResponsiveValue([0, 1, 2]);
-
   return (
-    <Box
-      sx={{
-        width: "100%",
-        height: "360px",
-        bg: "gray.800",
-        borderTopStyle: "solid",
-        borderTopColor: "gray.400",
-        borderTopWidth: "1px",
-      }}
-    >
-      <Flex sx={{ flexDirection: ["column", null, "row"], mx: 2 }}>
-        <Box sx={{ mt: 1, pr: [0, null, 2] }}>
-          {footerNavigation
-            .filter((item) => item.sizes[navFilter])
-            .map((item) => {
-              return (
-                <Box key={item.url}>
-                  <A
-                    href={item.url}
-                    variant="nav"
-                    sx={{
-                      color: "background",
-                      "&:hover": {
-                        color: "white",
-                        textDecoration: "underline",
-                      },
-                    }}
-                  >
-                    {item.title}
-                  </A>
-                </Box>
-              );
-            })}
-        </Box>
-        <Box sx={{ mt: 1, flexGrow: 1, pr: [0, null, 2] }}>
-          <P sx={{ color: "background" }}>
+    <div className="w-full bg-dark dark:bg-gray-800 border-t border-t-gray-300 px-5 pb-5">
+      <div className="flex flex-col lg:flex-row mx-2 space-x-5 pt-5">
+        <div className="flex flex-col space-y-2">
+          {footerLinks.map((item) => (
+            <React.Fragment key={item.title}>
+              <Link href={item.url} passHref>
+                <a
+                  className={`${item.className} text-white no-underline hover:no-underline`}
+                >
+                  {item.title}
+                </a>
+              </Link>
+            </React.Fragment>
+          ))}
+        </div>
+        <div className="flex-grow">
+          <p className="text-gray-400">
             Code Drift is the personal website of Rudolph Jakob Heuser
-          </P>
-        </Box>
-        <Box>
-          <Flex
-            sx={{
-              px: 1,
-              pb: "half",
-              bg: [null, null, "background"],
-              mt: [1, null, "-1px"],
-              borderBottomStyle: [null, null, "solid"],
-              borderBottomColor: "gray.500",
-              borderBottomWidth: [0, null, "4px"],
-              borderRadius: "4px",
-              alignItems: ["center", null, "flex-end"],
-              flexDirection: "column",
-            }}
-          >
-            <Logo
-              left="gray.500"
-              right="gray.600"
-              text={false}
-              sx={{ height: "80px" }}
-            />
-          </Flex>
-        </Box>
-      </Flex>
-    </Box>
+          </p>
+        </div>
+        <div>
+          <div className="flex flex-col items=center lg:items-end -mt-5">
+            <div className="-mt-1 px-5 py-2 bg-light dark:bg-dark border-b-0 lg:border-b-4 border-t-none border-b-gray-900 rounded-lg rounded-t-none mb-5">
+              <Logo
+                left="text-gray-600"
+                right="text-gray-500"
+                text={false}
+                style={{ height: "80px" }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default function Layout({ sx = {}, children }) {
+export default function Layout({ children }) {
   return (
-    <Flex
-      sx={{
-        flexDirection: "column",
-        minHeight: "100vh",
-        minWidth: "100%",
-        maxWidth: "100%",
-      }}
-    >
+    <div className="flex flex-col min-h-screen min-w-full max-w-full">
       <TitleBar />
-      <Flex
-        sx={{
-          flexGrow: 1,
-          flexDirection: "row",
-          margin: [0, null, "0 auto"],
-          px: 0,
-          maxWidth: "MAX_CONTENT_WIDTH",
-          ...(sx || {}),
-        }}
-      >
+      <div className="flex flex-row flex-grow mx-0 lg:mx-auto px-0 max-w-full mb-10">
         {children}
-      </Flex>
+      </div>
       <Footer />
-    </Flex>
+    </div>
   );
 }

@@ -1,5 +1,3 @@
-import { Box, Checkbox, Flex, Text } from "@theme-ui/components";
-import { H1, H2, P } from "src/components/markup";
 import Aibex from "../../components/Timeline/events/2018/Aibex";
 import ApplyWithLinkedIn from "../../components/Timeline/events/2011/ApplyWithLinkedIn";
 import ArtDecoFoundations from "../../components/Timeline/events/2014/ArtDecoFoundations";
@@ -17,13 +15,6 @@ import ReactReady from "../../components/Timeline/events/2017/ReactReady";
 import Texture from "../../components/Timeline/events/2017/Texture";
 import Timeline, { useTimeline } from "src/components/Timeline";
 
-const catSx = {
-  ml: "half",
-  pl: "half",
-  borderLeftWidth: "1px",
-  borderStyle: "solid",
-  borderColor: "gray.300",
-};
 export const TimelineFilters = () => {
   const ctx = useTimeline();
   const { filters, toggleFilter, facetCounts } = ctx;
@@ -36,67 +27,63 @@ export const TimelineFilters = () => {
   );
 
   return (
-    <Flex sx={{ flexDirection: ["column", null, "row"] }}>
-      <Flex as="label" sx={{ flexDirection: "row" }}>
-        <Checkbox
-          id="All"
+    <div className="flex flex-col lg:flex-row pb-5">
+      <label className="flex flex-row">
+        <input
+          type="checkbox"
           checked={all}
           onChange={() => toggleFilter("All")}
-          sx={{ mr: "quarter" }}
+          className="mr-2"
         />
-        <Text variant="typography.IdealSans.small">
-          All ({facetCounts.all})
-        </Text>
-      </Flex>
-      <Flex as="label" sx={{ ...catSx, flexDirection: "row" }}>
-        <Checkbox
-          id="Featured"
-          defaultChecked={true}
+        All ({facetCounts.all})
+      </label>
+      <label className="flex flex-row border-l border-l-solid border-gray-400 ml-2 pl-2">
+        <input
+          type="checkbox"
           checked={filters.Featured || false}
           onChange={() => toggleFilter("Featured")}
-          sx={{ mr: "quarter" }}
+          className="mr-2"
         />
-        <Text variant="typography.IdealSans.small">
-          Featured ({facetCounts.Featured || 0})
-        </Text>
-      </Flex>
+        Featured ({facetCounts.Featured || 0})
+      </label>
       {categories.map((c) => (
-        <Flex key={c} as="label" sx={{ ...catSx, flexDirection: "row" }}>
-          <Checkbox
-            id={c}
+        <label
+          key={c}
+          className="flex flex-row border-l border-l-solid border-gray-400 ml-2 pl-2"
+        >
+          <input
+            type="checkbox"
             checked={filters[c] || false}
             onChange={() => toggleFilter(c)}
-            sx={{ mr: "quarter" }}
+            className="mr-2"
           />
-          <Text variant="typography.IdealSans.small">
-            {c} ({facetCounts[c]})
-          </Text>
-        </Flex>
+          {c} ({facetCounts[c]})
+        </label>
       ))}
-    </Flex>
+    </div>
   );
 };
 
 export default function About() {
   return (
     <Layout>
-      <Box sx={{ width: "100vw", maxWidth: "reading", px: [1, null, 0] }}>
-        <H1>About</H1>
-        <P>
-          Over the last 15 years, I&rsquo;ve had the joy of creating meaningful
-          software in the world. I&rsquo;m never done learning.
-        </P>
-        <P>
-          Code Drift is the place where I share my work, my experiences, and my
-          thoughts on code, management, and the vastness of software with the
-          world. Building engineering teams is messy work; so are software
-          projects. It&rsquo;s my hope that others can learn from these
-          experiences just as I have from so many others.
-        </P>
+      <div className="flex-col w-full max-w-reading">
+        <h1 className="font-sans-lg font-bold text-7xl mb-3">About</h1>
+        <div className="prose max-w-none pb-3">
+          <p>
+            Over the last 15 years, I&rsquo;ve had the joy of creating
+            meaningful software in the world. I&rsquo;m never done learning.
+          </p>
+          <p>
+            Code Drift is the place where I share my work, my experiences, and
+            my thoughts on code, management, and the vastness of software with
+            the world. Building engineering teams is messy work; so are software
+            projects. It&rsquo;s my hope that others can learn from these
+            experiences just as I have from so many others.
+          </p>
 
-        <H2>How We Got Here</H2>
-        <P>Always a work in progress...</P>
-
+          <h2>How We Got Here</h2>
+        </div>
         <Timeline initialFilters={{ Featured: true }}>
           <TimelineFilters />
           <Aibex />
@@ -113,7 +100,7 @@ export default function About() {
           <GaiaTradingSystem />
           <HSDL />
         </Timeline>
-      </Box>
+      </div>
     </Layout>
   );
 }
