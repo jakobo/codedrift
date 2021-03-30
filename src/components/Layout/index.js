@@ -44,7 +44,7 @@ const navLinks = [
   { title: "Writing", url: "/thunked", className: "" },
   {
     title: "Notes",
-    url: "https://coda.io/d/Jakobs-Notes_dFBvQLDXnR5",
+    url: "https://coda.io/d/Jakobs-Notes_dFBvQLDXnR5/Home_suijF#_lu2BJ",
     className: "",
   },
   {
