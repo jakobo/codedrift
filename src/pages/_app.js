@@ -1,4 +1,3 @@
-import "./globals.css";
 import "tailwindcss/tailwind.css";
 import Head from "next/head";
 import Providers from "src/providers";
@@ -18,8 +17,4 @@ const App = ({ Component, pageProps }) => {
   );
 };
 
-// Only uncomment this method if you have blocking data requirements for
-// every single page in your application. This disables the ability to
-// perform automatic static optimization, causing every page in your app to
-// be server-side rendered.
 export default App;

@@ -35,8 +35,6 @@ const Logo = forwardRef(
       )}${unit}`;
     }
 
-    console.log(left);
-
     return (
       <div ref={ref} {...rest} style={styles}>
         {text.length === 0 || text === false ? (
