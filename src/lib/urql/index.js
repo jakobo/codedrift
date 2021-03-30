@@ -18,7 +18,7 @@ const generateEndpoint = () => {
     ? ""
     : process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : process.env.VERCEL_URL;
+    : "https://codedrift.com";
   const url = `${base}/api/v1/graphql`;
   return url;
 };
