@@ -222,6 +222,14 @@ export default gql`
       slug: String
     ): Post
 
+    """
+    Retrieve tag details by its id or name
+    """
+    tag(
+      id: ID
+      name: String
+    ): Tag
+
   }
 `;
 

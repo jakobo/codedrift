@@ -15,7 +15,7 @@ export const Post = ({
 }) => (
   <div className={className}>
     <div className="flex-col lg:flex-row px-1">
-      <div className="w-full lg:w-36 lg:-ml-36 pr-4 font-sans-caps text-right">
+      <div className="flex flex-row space-x-2 lg:flex-col w-full lg:w-36 lg:-ml-36 pr-4 font-sans-caps lg:text-right leading-none">
         <Link href={`/thunked/tag/${category.toLowerCase()}`} passHref>
           <a className="block text-brand-500">{category}</a>
         </Link>

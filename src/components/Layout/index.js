@@ -150,7 +150,7 @@ export default function Layout({ children }) {
   return (
     <div className="flex flex-col min-h-screen min-w-full max-w-full">
       <TitleBar />
-      <div className="flex flex-row flex-grow mx-0 lg:mx-auto px-0 max-w-full mb-10">
+      <div className="flex flex-row flex-grow mx-0 lg:mx-auto px-5 lg:px-0 max-w-full mb-10">
         {children}
       </div>
       <Footer />
