@@ -1,6 +1,7 @@
 import { PostDirectoryEntryFields } from "../../typeDefs";
 import {
   createChangelog,
+  extractExcerpt,
   extractGhostCategory,
   extractGhostTags,
   ghost2Graph,
@@ -24,6 +25,7 @@ export default async function postDirectory(
       "title",
       "slug",
       "excerpt",
+      "custom_excerpt",
       "published_at",
       "updated_at",
       "codeinjection_foot",
@@ -39,6 +41,7 @@ export default async function postDirectory(
       category: extractGhostCategory,
       tags: extractGhostTags,
       changelog: createChangelog,
+      excerpt: extractExcerpt,
     })
   );
 }

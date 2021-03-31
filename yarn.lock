@@ -712,6 +712,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tailwindcss/forms@npm:^0.3.2":
+  version: 0.3.2
+  resolution: "@tailwindcss/forms@npm:0.3.2"
+  dependencies:
+    mini-svg-data-uri: ^1.2.3
+  peerDependencies:
+    tailwindcss: ">=2.0.0"
+  checksum: a400fa0dbc9773a29484c0d9d20b95b6f4e8364b9ed598fd8529e08ad99962612e102b20efd0f0b5320c9bf41f38dae89416af13dd8ac1ad17fbbf811113c656
+  languageName: node
+  linkType: hard
+
 "@tailwindcss/typography@npm:^0.4.0":
   version: 0.4.0
   resolution: "@tailwindcss/typography@npm:0.4.0"
@@ -3715,6 +3726,7 @@ __metadata:
     "@commitlint/config-conventional": ^11.0.0
     "@ngsctt/remark-smartypants": ^0.2.0
     "@silvenon/remark-smartypants": ^1.0.0
+    "@tailwindcss/forms": ^0.3.2
     "@tailwindcss/typography": ^0.4.0
     "@tryghost/content-api": ^1.4.14
     "@tryghost/helpers": ^1.1.39
@@ -8592,6 +8604,13 @@ fsevents@~2.3.1:
   version: 1.0.1
   resolution: "min-indent@npm:1.0.1"
   checksum: c3aeea46bc432e6ce69b86717e98fbb544e338abb5e3c93cfa196c427e3d5a4a6ee4f76e6931a9e424fb53e83451b90fc417ce7db04440a92d68369704ad11d1
+  languageName: node
+  linkType: hard
+
+"mini-svg-data-uri@npm:^1.2.3":
+  version: 1.2.3
+  resolution: "mini-svg-data-uri@npm:1.2.3"
+  checksum: a354646418956856a3906dbe3418684d83084296a4d47a9d8945c256a7f9f9e06600e3d3760a0555229f09d8bf37a4817facd7ac5000cca334d3a6d7ec42a02f
   languageName: node
   linkType: hard
 

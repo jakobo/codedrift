@@ -17,6 +17,7 @@ export const ghost2Post = (post) => {
     category: extractGhostCategory,
     tags: extractGhostTags,
     readingTime: extractReadingTime,
+    excerpt: extractExcerpt,
   });
 };
 
@@ -71,4 +72,8 @@ export const createChangelog = (p) => {
     console.error(e);
     return null;
   }
+};
+
+export const extractExcerpt = (p) => {
+  return p.customExcerpt || p.excerpt || null;
 };

@@ -8,13 +8,4 @@ Personal Website of Jakob Heuser
 
 # The Neverending List of TODOs
 
-By listing these here, I'm accepting that this site is not only a work in progress, but that these items shouldn't prevent me from putting myself out into the world.
-
-- [ ] Tag listing pages
-- [ ] Switch to getStaticProps with a local call to the graphql resolver
-- [ ] Track active tab w/ underline or bold in header
-- [ ] Change to Tailwind, away from styled-system. Keep the vertical rythym!
-- [ ] Permalinks in an obvious place
-- [ ] Scale down About heading
-- [ ] New section: Speaking or Projects. Links to talks, podcasts, and slides. Maybe replace Aibex link
-- [ ] Dark mode footer shouldn't invert
+[I've connected my neverending list of TODOs with where I work in public](https://coda.io/d/Jakobs-Notes_dFBvQLDXnR5/CodeDrift_suuaz#_lutQ7)

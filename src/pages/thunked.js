@@ -10,6 +10,7 @@ const BLOG = gql`
       id
       title
       slug
+      excerpt
       updatedAt
       publishedAt
       changelog {
@@ -49,14 +50,21 @@ export default function Thunked({ data }) {
                 <h2 className="w-full lg:-ml-36 lg:w-36 font-sans-lg font-bold text-lg text-left lg:text-right pr-5 text-gray-300">
                   {year}
                 </h2>
-                <ul className="-mt-7">
+                <ul className="-mt-6 flex flex-row flex-wrap">
                   {byYear[year].map((post) => (
-                    <li key={post.id} className="mb-5">
-                      <Link href={`/thunked/${post.slug}`} passHref>
-                        <a
-                          className={`
+                    <li
+                      key={post.id}
+                      className="mb-10 w-1/2 even:pl-4 odd:pr-4"
+                    >
+                      <h2>
+                        <Link href={`/thunked/${post.slug}`} passHref>
+                          <a
+                            className={`
                             border-b
                             border-dotted 
+
+                            font-sans
+                            font-bold
 
                             text-brand-500
                             hover:text-brand-700
@@ -68,10 +76,14 @@ export default function Thunked({ data }) {
                             dark:border-brand-invert-500
                             dark:hover:border-invert-brand-700
                         `}
-                        >
-                          {post.title}
-                        </a>
-                      </Link>
+                          >
+                            {post.title}
+                          </a>
+                        </Link>
+                      </h2>
+                      <div className="max-w-none prose">
+                        <p>{post.excerpt}</p>
+                      </div>
                     </li>
                   ))}
                 </ul>

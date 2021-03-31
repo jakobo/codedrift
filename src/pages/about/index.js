@@ -28,34 +28,34 @@ export const TimelineFilters = () => {
 
   return (
     <div className="flex flex-col lg:flex-row pb-5">
-      <label className="flex flex-row">
+      <label className="inline-flex flex-row items-center">
         <input
           type="checkbox"
           checked={all}
           onChange={() => toggleFilter("All")}
-          className="mr-2"
+          className="mr-2 form-checkbox h-5 w-5 text-brand-500"
         />
         All ({facetCounts.all})
       </label>
-      <label className="flex flex-row border-l border-l-solid border-gray-400 ml-2 pl-2">
+      <label className="inline-flex flex-row items-center border-l border-l-solid border-gray-400 ml-2 pl-2">
         <input
           type="checkbox"
           checked={filters.Featured || false}
           onChange={() => toggleFilter("Featured")}
-          className="mr-2"
+          className="mr-2 form-checkbox h-5 w-5 text-brand-500"
         />
         Featured ({facetCounts.Featured || 0})
       </label>
       {categories.map((c) => (
         <label
           key={c}
-          className="flex flex-row border-l border-l-solid border-gray-400 ml-2 pl-2"
+          className="inline-flex flex-row items-center border-l border-l-solid border-gray-400 ml-2 pl-2"
         >
           <input
             type="checkbox"
             checked={filters[c] || false}
             onChange={() => toggleFilter(c)}
-            className="mr-2"
+            className="mr-2  form-checkbox h-5 w-5 text-brand-500"
           />
           {c} ({facetCounts[c]})
         </label>

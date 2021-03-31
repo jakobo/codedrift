@@ -59,8 +59,11 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      margin: ["even", "odd"],
+      padding: ["even", "odd"],
+    },
     typography: ["dark"],
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],
 };
