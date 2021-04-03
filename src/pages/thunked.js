@@ -1,4 +1,4 @@
-import { createClient } from "src/lib/urql";
+import { createStaticClient } from "src/graphql/local";
 import { gql } from "@urql/core";
 import Layout from "src/components/Layout";
 import PostDirectory, { groupPostsByYear } from "src/components/Post/Directory";
@@ -38,15 +38,14 @@ export default function Thunked({ data }) {
   );
 }
 
-// todo: return to getStaticProps with build time query
-export async function getServerSideProps() {
-  const client = createClient();
-  const { data } = await client.query(BLOG).toPromise();
+export async function getStaticProps() {
+  const client = createStaticClient();
+  const { data } = await client.query(BLOG);
 
   return {
     props: {
       data,
     },
-    // revalidate: 300,
+    revalidate: 300,
   };
 }

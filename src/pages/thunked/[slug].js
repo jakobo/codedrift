@@ -1,5 +1,5 @@
 import { Post } from "src/components/Post";
-import { createClient } from "src/lib/urql";
+import { createStaticClient } from "src/graphql/local";
 import { gql } from "@urql/core";
 import { html2React } from "src/components/markup/rehype";
 import Layout from "src/components/Layout";
@@ -28,6 +28,7 @@ const GET_POST = gql`
 
 export default function ThunkedBySlug({ data }) {
   const post = data?.post || {};
+  if (!post.id) return null;
   return (
     <Layout>
       <div className="flex-col w-full">
@@ -54,26 +55,24 @@ export default function ThunkedBySlug({ data }) {
   );
 }
 
-// todo: return to getstaticprops
-export async function getServerSideProps(ctx) {
-  const client = createClient();
-  const { data } = await client
-    .query(GET_POST, { slug: ctx.params.slug })
-    .toPromise();
+export async function getStaticProps(ctx) {
+  const client = createStaticClient();
+  const { data } = await client.query(GET_POST, { slug: ctx.params.slug });
 
   return {
     props: {
       data,
     },
-    // revalidate: 300,
+    revalidate: 1,
   };
 }
 
-// TODO: call graphql locally
 // we are abusing fallback here to avoid a huge query on ghost
-// export async function getStaticPaths() {
-//   return {
-//     paths: [],
-//     fallback: true,
-//   };
-// }
+// which would also impact build times. If we end up favoring build times
+// we'll make a call to the post directory to get paths
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
+}

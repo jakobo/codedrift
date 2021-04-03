@@ -1,4 +1,4 @@
-import { createClient } from "src/lib/urql";
+import { createStaticClient } from "src/graphql/local";
 import { gql } from "@urql/core";
 import { html2React } from "src/components/markup/rehype";
 import Layout from "src/components/Layout";
@@ -90,7 +90,7 @@ export default function Home({ data }) {
                 </Link>
                 {ed.node.tags.length > 0 ? <>&nbsp;+&nbsp;</> : null}
                 {ed.node.tags.map((tag, idx) => (
-                  <span key={tag} className={dullLinkClasses}>
+                  <span key={tag.id} className={dullLinkClasses}>
                     {idx !== 0 ? ", " : null}
                     <Link
                       href={`/thunked/tag/${tag.name.toLowerCase()}`}
@@ -135,15 +135,14 @@ export default function Home({ data }) {
   );
 }
 
-// todo: return to getStaticProps
-export async function getServerSideProps() {
-  const client = createClient();
-  const { data } = await client.query(HOMEPAGE).toPromise();
+export async function getStaticProps() {
+  const client = createStaticClient();
+  const { data } = await client.query(HOMEPAGE);
 
   return {
     props: {
       data,
     },
-    // revalidate: 300,
+    revalidate: 300,
   };
 }

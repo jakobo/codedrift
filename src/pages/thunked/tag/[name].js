@@ -1,4 +1,4 @@
-import { createClient } from "src/lib/urql";
+import { createStaticClient } from "src/graphql/local";
 import { gql } from "@urql/core";
 import { useRouter } from "next/router";
 import Layout from "src/components/Layout";
@@ -49,20 +49,17 @@ export default function ThunkedByTagName({ data }) {
   );
 }
 
-// todo: take this to getstaticprops
-export async function getServerSideProps(ctx) {
-  const client = createClient();
-  const { data } = await client
-    .query(GET_TAG_PAGE, {
-      tag: ctx.params.name,
-      filterTag: `tag:${ctx.params.name}`,
-    })
-    .toPromise();
+export async function getStaticProps(ctx) {
+  const client = createStaticClient();
+  const { data } = await client.query(GET_TAG_PAGE, {
+    tag: ctx.params.name,
+    filterTag: `tag:${ctx.params.name}`,
+  });
 
   return {
     props: {
       data,
     },
-    // revalidate: 300,
+    revalidate: 300,
   };
 }
