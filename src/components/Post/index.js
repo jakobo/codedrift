@@ -2,10 +2,13 @@ import Link from "next/link";
 import React from "react";
 import format from "date-fns/format";
 
+const permalinkClass =
+  "block font-sans-caps text-gray-300 text-sm no-underline";
+
 export const Post = ({
   title,
   titleTag: TitleTag,
-  // slug = "/",
+  slug = "/",
   category,
   children,
   date,
@@ -19,10 +22,14 @@ export const Post = ({
         <Link href={`/thunked/tag/${category.toLowerCase()}`} passHref>
           <a className="block text-brand-500">{category}</a>
         </Link>
-        {!date ? null : (
-          <span className="block font-sans-caps text-gray-300 text-sm">
-            {format(new Date(date), "P")}
-          </span>
+        {!date ? (
+          <Link href={`/thunked/${slug}`} passHref>
+            <a className={permalinkClass}>#</a>
+          </Link>
+        ) : (
+          <Link href={`/thunked/${slug}`} passHref>
+            <a className={permalinkClass}>{format(new Date(date), "P")}</a>
+          </Link>
         )}
       </div>
       <div
