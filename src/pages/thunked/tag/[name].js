@@ -74,3 +74,13 @@ export async function getStaticProps(ctx) {
     revalidate: 300,
   };
 }
+
+// we are abusing fallback here to avoid a huge query on ghost
+// which would also impact build times. If we end up favoring build times
+// we'll make a call to the post directory to get paths
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
+}
