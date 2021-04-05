@@ -5,6 +5,7 @@ import React from "react";
 
 // https://csswizardry.com/2019/08/making-cloud-typography-faster/
 // next/head requires an inline onload handler
+// begin preloading the h&co font file before we know we need it
 const App = ({ Component, pageProps }) => {
   return (
     <>
@@ -14,6 +15,11 @@ const App = ({ Component, pageProps }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="referrer" content="no-referrer-when-downgrade" />
         <meta property="og:site_name" content="Code Drift" />
+        <link
+          rel="preload"
+          as="style"
+          href="/fonts/816011/3A49B144B2A5763FD.css"
+        />
         <link
           onLoad="this.media='all'"
           rel="stylesheet"
