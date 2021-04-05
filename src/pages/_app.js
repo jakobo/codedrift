@@ -16,6 +16,7 @@ const App = ({ Component, pageProps }) => {
         <meta property="og:site_name" content="Code Drift" />
         <link
           onLoad="this.media='all'"
+          media="print"
           rel="stylesheet"
           type="text/css"
           href="https://cloud.typography.com/7828318/7442832/css/fonts.css"
