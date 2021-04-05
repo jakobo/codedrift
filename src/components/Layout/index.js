@@ -59,7 +59,16 @@ const navLinks = [
 ];
 
 const footerLinks = [
-  { title: "Back to Top", url: "#", className: "" },
+  {
+    title: "Back to Top",
+    url: "#",
+    className: "",
+    onClick: () => {
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    },
+  },
   { title: "Home", url: "/", className: "" },
   { title: "Writing", url: "/thunked", className: "" },
   { title: "About", url: "/about", className: "" },
@@ -114,13 +123,23 @@ const Footer = () => {
         <div className="flex flex-col space-y-2">
           {footerLinks.map((item) => (
             <React.Fragment key={item.title}>
-              <Link href={item.url} passHref>
+              {item.onClick ? (
                 <a
+                  href={item.url || "#"}
                   className={`${item.className} text-white no-underline hover:no-underline`}
+                  onClick={item.onClick}
                 >
                   {item.title}
                 </a>
-              </Link>
+              ) : (
+                <Link href={item.url} passHref>
+                  <a
+                    className={`${item.className} text-white no-underline hover:no-underline`}
+                  >
+                    {item.title}
+                  </a>
+                </Link>
+              )}
             </React.Fragment>
           ))}
         </div>
@@ -145,6 +164,8 @@ const Footer = () => {
     </div>
   );
 };
+
+export const Title = ({ children }) => <>{children} on Code Drift</>;
 
 export default function Layout({ children }) {
   return (

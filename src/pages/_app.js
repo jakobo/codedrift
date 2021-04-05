@@ -8,7 +8,10 @@ const App = ({ Component, pageProps }) => {
     <>
       <Head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="referrer" content="no-referrer-when-downgrade" />
+        <meta property="og:site_name" content="Code Drift" />
         <link
           rel="stylesheet"
           type="text/css"

@@ -1,7 +1,8 @@
 import { createStaticClient } from "src/graphql/local";
 import { gql } from "@urql/core";
 import { useRouter } from "next/router";
-import Layout from "src/components/Layout";
+import Head from "next/head";
+import Layout, { Title } from "src/components/Layout";
 import PostDirectory, { groupPostsByYear } from "src/components/Post/Directory";
 import React from "react";
 
@@ -35,17 +36,27 @@ const prettyTagCase = (tag) =>
 export default function ThunkedByTagName({ data }) {
   const route = useRouter();
   const byYear = groupPostsByYear(data?.postDirectory || []);
+  const tagName = `${route?.query?.name}`;
 
   return (
-    <Layout>
-      <div className="w-full max-w-reading">
-        <h1 className="font-sans-lg font-bold text-3xl mb-3">
-          Tag: {prettyTagCase(route.query.name)}
-        </h1>
-        <p>{data?.tag?.description || ""}</p>
-        <PostDirectory postsByYear={byYear} className="pt-10" />
-      </div>
-    </Layout>
+    <>
+      <Head>
+        <meta
+          name="description"
+          content={`Posts about ${prettyTagCase(tagName)} on Code Drift`}
+        />
+        <Title>Posts about {prettyTagCase(tagName)}</Title>
+      </Head>
+      <Layout>
+        <div className="w-full max-w-reading">
+          <h1 className="font-sans-lg font-bold text-3xl mb-3">
+            Tag: {prettyTagCase(tagName)}
+          </h1>
+          <p>{data?.tag?.description || ""}</p>
+          <PostDirectory postsByYear={byYear} className="pt-10" />
+        </div>
+      </Layout>
+    </>
   );
 }
 
