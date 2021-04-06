@@ -1,5 +1,6 @@
 import { useColorScheme } from "src/hooks/useColorScheme";
 import { useRouter } from "next/router";
+import Head from "next/head";
 import Icon from "../Icon";
 import Link from "next/link";
 import Logo from "../Logo";
@@ -165,6 +166,15 @@ const Footer = () => {
   );
 };
 
+const IndieAuth = () => (
+  <Head>
+    <link rel="me" href="https://twitter.com/jakobo" />
+    <link rel="me" href="https://linkedin.com/in/jakobheuser" />
+    <link rel="me" href="https://github.com/jakobo" />
+    <link rel="me" href="https://twitch.tv/jakobox" />
+  </Head>
+);
+
 export const Title = ({ children }) => <>{children} on Code Drift</>;
 
 export default function Layout({ children }) {
@@ -175,6 +185,7 @@ export default function Layout({ children }) {
         {children}
       </div>
       <Footer />
+      <IndieAuth />
     </div>
   );
 }
