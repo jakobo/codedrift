@@ -172,6 +172,18 @@ const IndieAuth = () => (
     <link rel="me" href="https://linkedin.com/in/jakobheuser" />
     <link rel="me" href="https://github.com/jakobo" />
     <link rel="me" href="https://twitch.tv/jakobox" />
+    <link rel="me" href="https://www.instagram.com/jakobheuser/" />
+    <link rel="me" href="https://www.reddit.com/user/Jakobox" />
+  </Head>
+);
+
+const WebMentionSupport = () => (
+  <Head>
+    <link
+      rel="webmention"
+      href="https://webmention.io/codedrift.com/webmention"
+    />
+    <link rel="pingback" href="https://webmention.io/codedrift.com/xmlrpc" />
   </Head>
 );
 
@@ -186,6 +198,7 @@ export default function Layout({ children }) {
       </div>
       <Footer />
       <IndieAuth />
+      <WebMentionSupport />
     </div>
   );
 }
