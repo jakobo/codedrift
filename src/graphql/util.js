@@ -10,6 +10,27 @@ export const encodeCursor = (o) =>
 export const decodeCursor = (s) =>
   JSON.parse(Buffer.from(s, "base64").toString());
 
+// convert offset/limit to ghost's page/limit syntax
+export const pager = (offset, limit) => {
+  let range;
+  let leftShift;
+  for (range = limit; range <= offset + limit; range++) {
+    for (leftShift = 0; leftShift <= range - limit; leftShift++) {
+      if ((offset - leftShift) % range === 0) {
+        const page = (offset - leftShift) / range;
+        return {
+          limit: range,
+          page,
+          waste: {
+            head: leftShift,
+            tail: (page + 1) * range - (offset + limit),
+          },
+        };
+      }
+    }
+  }
+};
+
 // a wrapper for converting a ghost post object to graphql
 export const ghost2Post = (post) => {
   return ghost2Graph(post, PostFields, {

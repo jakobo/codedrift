@@ -1,11 +1,10 @@
 import { gql } from "apollo-server-micro";
 
-const forwardConnectionArgs = (...additionalArgs) => `
+const forwardConnectionArgs = `
   "Returns the first n elements from the list"
   first: Int
   "Returns the elements in the list that come after the specified cursor"
   after: String
-  ${additionalArgs.join("\n")}
 `;
 
 export default gql`
@@ -178,32 +177,41 @@ export default gql`
     cursor: String!
   }
 
-  # From github?
-  # type Repository {
-  #   id: String!
-  #   org: String
-  #   name: String!
-  #   description: String
-  #   stars: Int
-  # }
+  type WebmentionAuthor {
+    id: String!
+    name: String
+    url: String
+    photo: String
+  }
 
-  # AMA from github?
-  # type AMA {
-  #   id: String
-  #   postedAt: String!
-  #   question: String!
-  #   url: String!
-  # }
+  type Webmention {
+    id: String!
+    type: String!
+    source: String!
+    url: String!
+    author: WebmentionAuthor
+    publishedAt: String!
+    content: String
+  }
+
+  type WebmentionConnection {
+    pageInfo: PageInfo!
+    edges: [WebmentionEdge]
+  }
+
+  type WebmentionEdge {
+    node: Webmention
+    cursor: String!
+  }
 
   type Query {
     """
     Retrieve a list of posts
     """
     posts(
-      ${forwardConnectionArgs(
-        `"A valid filter parameter. See https://ghost.org/docs/content-api/#filtering" filter: String`,
-        `"A valid ordering parameter. See https://ghost.org/docs/content-api/#order" orderBy: String`
-      )}
+      ${forwardConnectionArgs}
+      "A valid filter parameter. See https://ghost.org/docs/content-api/#filtering" filter: String
+      "A valid ordering parameter. See https://ghost.org/docs/content-api/#order" orderBy: String
     ): PostConnection!
 
     """
@@ -229,6 +237,18 @@ export default gql`
       id: ID
       name: String
     ): Tag
+
+    """
+    Get a list of pingbacks and mentions for a given URL
+    """
+    webmentions(
+      ${forwardConnectionArgs}
+      "The URL to check mentions for. See https://github.com/aaronpk/webmention.io#api" url: String!
+      "A filtering string, comma separated. See https://github.com/aaronpk/webmention.io#api" filter: String
+      "A valid sort-by parameter. See https://github.com/aaronpk/webmention.io#api" sortBy: String = "published"
+      "A valid sort-dir parameter. See https://github.com/aaronpk/webmention.io#api" sortDir: String = "up"
+      "Should the URL be interpreted literally, or should variations be considered?" literal: Boolean = "false"
+    ): WebmentionConnection!
 
   }
 `;
