@@ -181,8 +181,8 @@ export default function ThunkedBySlug({ data }) {
 
   return (
     <>
+      <Title>{post?.title || defaults.title}</Title>
       <Head>
-        <Title>{post?.title || defaults.title}</Title>
         <link rel="canonical" href={canonicalUrl} />
         {Object.getOwnPropertyNames(meta).map((name) => {
           const value = Array.isArray(meta[name]) ? meta[name] : [meta[name]];

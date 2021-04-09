@@ -187,7 +187,11 @@ const WebMentionSupport = () => (
   </Head>
 );
 
-export const Title = ({ children }) => <>{children} on Code Drift</>;
+export const Title = ({ children }) => (
+  <Head>
+    <title>{children} on Code Drift</title>
+  </Head>
+);
 
 export default function Layout({ children }) {
   return (

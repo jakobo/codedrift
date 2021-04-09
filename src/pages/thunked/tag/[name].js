@@ -40,15 +40,15 @@ export default function ThunkedByTagName({ data }) {
 
   return (
     <>
+      <Title>Posts about {prettyTagCase(tagName)}</Title>
       <Head>
         <meta
           name="description"
           content={`Posts about ${prettyTagCase(tagName)} on Code Drift`}
         />
-        <Title>Posts about {prettyTagCase(tagName)}</Title>
       </Head>
       <Layout>
-        <div className="w-full max-w-reading">
+        <div className="w-screen max-w-reading">
           <h1 className="font-sans-lg font-bold text-3xl mb-3">
             Tag: {prettyTagCase(tagName)}
           </h1>

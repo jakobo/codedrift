@@ -6,9 +6,8 @@ import FacetedSearch from "../components/Timeline/events/2009/FacetedSearch";
 import GaiaRedesign from "../components/Timeline/events/2007/GaiaRedesign";
 import GaiaTradingSystem from "../components/Timeline/events/2006/GaiaTradingSystem";
 import HSDL from "../components/Timeline/events/2004/HSDL";
-import Head from "next/head";
 import KatyDavinci from "../components/Timeline/events/2012/KatyDavinci";
-import Layout from "src/components/Layout";
+import Layout, { Title } from "src/components/Layout";
 import LinkedInMobileWeb from "../components/Timeline/events/2011/LinkedInMobileWeb";
 import React from "react";
 import ReactAtPinterest from "../components/Timeline/events/2016/React";
@@ -68,9 +67,7 @@ export const TimelineFilters = () => {
 export default function About() {
   return (
     <>
-      <Head>
-        <title>Learn more about Jakob Heuser</title>
-      </Head>
+      <Title>Learn more about Jakob Heuser</Title>
       <Layout>
         <div className="flex-col w-full max-w-reading">
           <h1 className="font-sans-lg font-bold text-7xl mb-3">About</h1>

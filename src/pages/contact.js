@@ -1,13 +1,10 @@
-import Head from "next/head";
-import Layout from "src/components/Layout";
+import Layout, { Title } from "src/components/Layout";
 import React from "react";
 
 export default function ThunkedByTagName() {
   return (
     <>
-      <Head>
-        <title>Contact Jakob - Code Drift</title>
-      </Head>
+      <Title>Contact Jakob</Title>
       <Layout>
         <div className="flex-col w-full max-w-reading">
           <h1 className="font-sans-lg font-bold text-7xl mb-3">Contact</h1>
