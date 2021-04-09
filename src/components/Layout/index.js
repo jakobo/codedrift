@@ -9,21 +9,21 @@ import React, { useCallback } from "react";
 const Twitter = ({ className }) => (
   <a
     href="https://twitter.com/jakobo"
-    className={`no-underline hover:text-brand-500 dark:hover:text-brand-invert-500 ${
+    className={`no-underline text-gray-300 dark:text-gray-500 hover:text-brand-500 dark:hover:text-brand-invert-500 ${
       className || ""
     }`}
   >
-    <Icon height="16" icon="twitter" className="fill-current" />
+    <Icon icon="twitter" className="h-4 w-4 fill-current" />
   </a>
 );
 const GitHub = ({ className }) => (
   <a
     href="https://github.com/jakobo"
-    className={`no-underline hover:text-brand-500 dark:hover:text-brand-invert-500 ${
+    className={`no-underline text-gray-300 dark:text-gray-500 hover:text-brand-500 dark:hover:text-brand-invert-500 ${
       className || ""
     }`}
   >
-    <Icon height="16" icon="github" className="fill-current" />
+    <Icon icon="github" className="h-4 w-4 fill-current" />
   </a>
 );
 const LightSwitch = ({ className }) => {
@@ -35,7 +35,7 @@ const LightSwitch = ({ className }) => {
 
   return (
     <div onClick={flipLights} className={`cursor-pointer ${className || ""}`}>
-      {mode === "light" ? "🌙" : "🔆"}
+      <Icon icon={mode === "light" ? "moon" : "sun"} className="h-4 w-4" />
     </div>
   );
 };
@@ -56,7 +56,7 @@ const navLinks = [
   { title: "About", url: "/about", className: "" },
   { title: "Twitter", Component: Twitter, className: "pt-1" },
   { title: "GitHub", Component: GitHub, className: "pt-1" },
-  { title: "LightSwitch", Component: LightSwitch, className: "" },
+  { title: "LightSwitch", Component: LightSwitch, className: "pt-1" },
 ];
 
 const footerLinks = [

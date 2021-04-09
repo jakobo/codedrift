@@ -1,0 +1,102 @@
+[
+  {
+    "node": {
+      "id": "1",
+      "type": "like",
+      "url": "https://twitter.com/swyx/status/1227424568270368768#favorited-by-215437099",
+      "author": {
+        "id": "1",
+        "name": "Michael Adam Berry",
+        "url": "https://twitter.com/_Adam_Berry",
+        "photo": "https://webmention.io/avatar/pbs.twimg.com/cc39988a7f9cc38f8fcf05de70648ef05cd1208d823fe478017af43fbf8ce4b1.jpg"
+      },
+      "content": null,
+      "publishedAt": "2020-02-19T12:32:53+00:00"
+    }
+  },
+  {
+    "node": {
+      "id": "2",
+      "type": "reply",
+      "url": "https://twitter.com/swyx/status/1227599095780474880",
+      "author": {
+        "id": "2",
+        "name": "shawn swyx wang🤗",
+        "url": "https://twitter.com/swyx",
+        "photo": "https://webmention.io/avatar/pbs.twimg.com/b91fcf264e59aa729dce9c122c263c8b556748c53201359278f5e077cfc3e955.jpg"
+      },
+      "content": "til of utterances!\n<a class=\"u-mention\" href=\"http://webmentions.io/\"></a>\n<a class=\"u-mention\" href=\"https://twitter.com/transitive_bs\"></a>",
+      "publishedAt": "2020-02-19T12:32:53+00:00"
+    }
+  },
+  {
+    "node": {
+      "id": "3",
+      "type": "reply",
+      "url": "https://twitter.com/transitive_bs/status/1227516361188007937",
+      "author": {
+        "id": "3",
+        "name": "Travis Fischer",
+        "url": "https://twitter.com/transitive_bs",
+        "photo": "https://webmention.io/avatar/pbs.twimg.com/b821a1c776f59aaf75fe0a0d07f756ab8c6f43f11981a777ab9c580d2a5fe5c4.jpg"
+      },
+      "content": "This is really interesting. I had no idea what webmentions are 😄\n\nWould be really interesting to create a mashup with <a href=\"https://github.com/utterance/utterances\">github.com/utterance/utte…</a> as the UI and record of storage.\n<a class=\"u-mention\" href=\"http://webmentions.io/\"></a>\n<a class=\"u-mention\" href=\"https://twitter.com/aaronpk\"></a>\n<a class=\"u-mention\" href=\"https://twitter.com/mxstbr\"></a>\n<a class=\"u-mention\" href=\"https://twitter.com/sveltejs\"></a>\n<a class=\"u-mention\" href=\"https://twitter.com/swyx\"></a>\n<a class=\"u-mention\" href=\"https://www.swyx.io/\"></a>",
+      "publishedAt": "2020-02-19T12:32:53+00:00"
+    }
+  },
+  {
+    "node": {
+      "id": "4",
+      "type": "reply",
+      "url": "https://twitter.com/andrey_sitnik/status/1227465991468339203",
+      "author": {
+        "id": "4",
+        "name": "Андрей Ситник",
+        "url": "https://twitter.com/andrey_sitnik",
+        "photo": "https://webmention.io/avatar/pbs.twimg.com/1052a755ace70dc1b694e0c4b7faa5a943dd6fcc8a91c651244dc1146b94d748.png"
+      },
+      "content": "✍️Clientside Webmentions: Joining the IndieWeb with @Sveltejs\n\nswyx.io/writing/client…\n\nFinally got around to an initial implementation of @",
+      "publishedAt": "2020-02-19T12:32:53+00:00"
+    }
+  },
+  {
+    "node": {
+      "id": "5",
+      "type": "link",
+      "url": "https://twitter.com/dance2die/status/1227454459015503877",
+      "author": {
+        "id": "5",
+        "name": "Sung M. Kim",
+        "url": "https://twitter.com/dance2die",
+        "photo": "https://webmention.io/avatar/pbs.twimg.com/c9290d18b9d2a6b88a5826c5227115eda5d6e5a9d10d2071a1a657f703599237.jpg"
+      },
+      "content": "Webmentions sounds like a shiny new thing I will work on over the long weekend :)\n\nThankfully Gatsby has a plugin, and the instruction can be found here - <a href=\"https://www.knutmelvaer.no/blog/2019/06/getting-started-with-webmentions-in-gatsby/\">knutmelvaer.no/blog/2019/06/g…</a>\n\n<a class=\"u-mention\" href=\"https://www.swyx.io/writing/clientside-webmentions\"></a>\n<a class=\"u-mention\" href=\"https://www.swyx.io/writing/clientside-webmentions/\"></a>",
+      "publishedAt": "2020-02-19T12:32:53+00:00"
+    }
+  },
+  {
+    "node": {
+      "id": "6",
+      "type": "link",
+      "url": "https://nicolas-hoizey.com/articles/2020/05/05/jamstack-is-fast-only-if-you-make-it-so/",
+      "author": null,
+      "content": "<p>JAMstack is often promoted as a good way to provide performant sites. It's even the first listed benefit on <a href=\"https://jamstack.wtf/\">jamstack.wtf</a>, a \"guide [which] gathers the concept of JAMstack in a straight-forward guide to encourage other developers to adopt the workflow\". But too many JAMstack sites are very slow.</p><p>You may have seen <a href=\"https://infrequently.org/\">Alex Russell</a>'s frequent rants about Gatsby:</p><blockquote>\n\n<a href=\"https://twitter.com/slightlylate\"><img src=\"https://res.cloudinary.com/nho/image/fetch/q_auto,f_auto,w_800,c_limit/https://pbs.twimg.com/profile_images/1129167550175014912/MXbENwsA_normal.jpg\" alt=\"Avatar for slightlylate\" /></a>\n<a href=\"https://twitter.com/slightlylate\">Alex Russell </a><a href=\"https://twitter.com/slightlylate\">@slightlylate</a>\n\n<a href=\"https://twitter.com/slightlylate/status/1184959830819106816\"></a>\n\n<p><a href=\"https://twitter.com/matthewcp\">@matthewcp</a> <a href=\"https://twitter.com/justinfagnani\">@justinfagnani</a> <a href=\"https://twitter.com/gatsbyjs\">@gatsbyjs</a> <a href=\"https://twitter.com/kylemathews\">@kylemathews</a> <a href=\"https://twitter.com/addyosmani\">@addyosmani</a> Looking across the full set of traces, modern Gatsby seems to produce pages that take 2-3x as long as they should to become interactive.<br /><br />This is not OK. Gatsby/NPM/React regressively tax access to content.<br /><br />In less generous moments, I'd go as far as to say it's unethical.</p>\n\n\n<a href=\"https://twitter.com/intent/like?tweet_id=1184959830819106816\">\n<span>14 </span></a><a title=\"Time Posted: Oct 17, 2019 10:30:13 (UTC)\" href=\"https://twitter.com/slightlylate/status/1184959830819106816\">12:30 AM · Oct 18, 2019</a>\n\n</blockquote><p>Gatsby is an easy target (among many others) because it is currently not optimized for performance out of the box, despite what's <a href=\"https://store.gatsbyjs.org/product/gatsby-sticker-6-pack\">promoted</a>. It is possible to fix it, for example with <a href=\"https://www.gatsbyjs.org/packages/gatsby-plugin-no-javascript/\">this plugin</a>, and I believe good React developers can make it shine, but it should be the default, not an afterthought.</p><p>Eleventy is very different, as Zach Leatherman reminds us in <a href=\"https://www.zachleat.com/web/performance-dashboard/\">Eleventy’s New Performance Leaderboard</a>:</p><blockquote><p>Eleventy doesn’t do any special optimizations out of the box to make your sites fast. It doesn’t protect you from making a slow site. But importantly <strong>it also doesn’t add anything extra either</strong>.</p></blockquote><p>The issue with most slow JAMstack sites is that they load a loooot of JavaScript. Remember that any added JavaScript has to be sent to the browser, which will also need more computation for it. <a href=\"https://v8.dev/blog/cost-of-javascript-2019\">It quickly impacts performance</a>.</p><p>Sometimes, using the server side build is enough to get data from an API and serve HTML to all visitors, which is much better for performance.</p><p>For example, <a href=\"https://www.swyx.io/\">swyx</a> wrote <a href=\"https://www.swyx.io/writing/clientside-webmentions/\">Clientside Webmentions</a> about implementing Webmention with <a href=\"https://svelte.dev/\">Svelte</a>. Any article promoting <a href=\"https://nicolas-hoizey.com/tags/webmention/\">Webmention</a> and easing its adoption is welcome! But even if it's nice for a demo of Webmention and Svelte, I wouldn't recommend doing it client side.</p>",
+      "publishedAt": "2020-02-19T12:32:53+00:00"
+    }
+  },
+  {
+    "node": {
+      "id": "7",
+      "type": "bookmark",
+      "url": "https://notes.dt.in.th/20201208T142542Z5967",
+      "author": {
+        "id": "7",
+        "name": "@dtinth",
+        "url": "https://dt.in.th",
+        "photo": "https://webmention.io/avatar/notes.dt.in.th/21a86660467fa70e159a162624f9ca0a4107790fe1ecf2641c412be038b16261.png"
+      },
+      "content": "<p><strong><a href=\"https://indieweb.org/\">IndieWeb<span><span>(opens new window)</span></span></a></strong> is \"a people-focused alternative to the corporate web.\"</p> <p><strong>About</strong></p> <ul><li><a href=\"https://boffosocko.com/2018/06/15/defining-the-indieweb/\" class=\"u-bookmark-of\"><img alt=\"🔖\" src=\"https://twemoji.maxcdn.com/v/13.0.1/72x72/1f516.png\" /> Chris Aldrich (2018), \"Defining the IndieWeb\"<span><span>(opens new window)</span></span></a></li> <li><a href=\"https://boffosocko.com/2017/07/28/an-introduction-to-the-indieweb/\" class=\"u-bookmark-of\"><img alt=\"🔖\" src=\"https://twemoji.maxcdn.com/v/13.0.1/72x72/1f516.png\" /> Chris Aldrich (2017), \"An Introduction to the IndieWeb\"<span><span>(opens new window)</span></span></a></li> <li>\n<a href=\"https://indiewebify.me/\" class=\"u-bookmark-of\"><img alt=\"🔖\" src=\"https://twemoji.maxcdn.com/v/13.0.1/72x72/1f516.png\" /> IndieWebify.me<span><span>(opens new window)</span></span></a> is \"a guide to getting you on the IndieWeb.\"</li>\n</ul><p><strong>WebMentions</strong></p> <ul><li><a href=\"https://amberwilson.co.uk/blog/grow-the-indieweb-with-webmentions/\" class=\"u-bookmark-of\"><img alt=\"🔖\" src=\"https://twemoji.maxcdn.com/v/13.0.1/72x72/1f516.png\" /> Amber Wilson (2020), \"Grow the IndieWeb with Webmentions\"<span><span>(opens new window)</span></span></a></li> <li><a href=\"https://www.swyx.io/clientside-webmentions/\" class=\"u-bookmark-of\"><img alt=\"🔖\" src=\"https://twemoji.maxcdn.com/v/13.0.1/72x72/1f516.png\" /> Shawn \"swyx\" Wang (2020), Clientside Webmentions<span><span>(opens new window)</span></span></a></li></ul>",
+      "publishedAt": "2020-02-19T12:32:53+00:00"
+    }
+  }
+]

@@ -1,26 +1,32 @@
+import {
+  AlertTriangle,
+  ExternalLink,
+  Facebook,
+  GitHub,
+  Heart,
+  HelpCircle,
+  Moon,
+  Share2,
+  Sun,
+  Twitter,
+} from "react-feather";
 import React from "react";
-import iconPaths from "./selection.json";
 
-function getPath(iconName) {
-  const idx = iconPaths.selection.findIndex((icon) => icon.name === iconName);
-  if (idx) {
-    const icon = iconPaths.icons[idx];
-    return icon.paths.join(" ");
-  } else {
-    console.warn(`icon ${iconName} does not exist.`);
-    return null;
-  }
+const featherIcons = {
+  sun: Sun,
+  moon: Moon,
+  heart: Heart,
+  "external-link": ExternalLink,
+  twitter: Twitter,
+  github: GitHub,
+  warning: AlertTriangle,
+  question: HelpCircle,
+  "wm-source-twitter": Twitter,
+  "wm-source-facebook": Facebook,
+  "wm-source-other": Share2,
+};
+
+export default function Icon({ icon, ...rest }) {
+  const Component = featherIcons[icon] || featherIcons.warning;
+  return <Component size={null} {...rest} />;
 }
-
-const Icon = ({ icon, width, height, className } = {}) => (
-  <svg
-    className={`${className}`}
-    width={height || width}
-    height={height || width}
-    viewBox="0 0 1024 1024"
-  >
-    <path d={getPath(icon)}></path>
-  </svg>
-);
-
-export default Icon;

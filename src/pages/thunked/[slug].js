@@ -2,9 +2,13 @@ import { Post } from "src/components/Post";
 import { createStaticClient } from "src/graphql/local";
 import { gql } from "@urql/core";
 import { html2React } from "src/components/markup/rehype";
+import { useQuery } from "urql";
 import Head from "next/head";
+import Icon from "src/components/Icon";
 import Layout, { Title } from "src/components/Layout";
-import React from "react";
+import React, { useState } from "react";
+import Webmention from "src/components/Webmention";
+import useInfiniteScroll from "react-infinite-scroll-hook";
 
 const defaults = {
   metaDescription:
@@ -35,6 +39,38 @@ const GET_POST = gql`
   }
 `;
 
+const GET_MENTIONS = gql`
+  query GetPostWebmentions(
+    $url: String!
+    $first: Int!
+    $after: String
+    $filter: String
+  ) {
+    webmentions(url: $url, first: $first, after: $after, filter: $filter) {
+      pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+      }
+      edges {
+        node {
+          id
+          type
+          url
+          author {
+            id
+            name
+            url
+            photo
+          }
+          content
+          publishedAt
+        }
+      }
+    }
+  }
+`;
+
 const selectMetaAttribute = (n) => {
   if (n.indexOf("og:") === 0) {
     return "property";
@@ -45,13 +81,32 @@ const selectMetaAttribute = (n) => {
 
 export default function ThunkedBySlug({ data }) {
   const post = data?.post || {};
-  if (!post.id) return null;
-
   const tagList = [
-    post?.category.name,
+    post?.category?.name,
     ...(post?.tags || []).map((t) => t.name),
-  ];
+  ].filter((t) => !!t);
   const canonicalUrl = `https://codedrift.com/thunked/${post?.slug || ""}`;
+  const [mentionsCursor, setMentionsCursor] = useState(null);
+  const { data: { webmentions = {} } = {}, fetching, error } = useQuery({
+    pause: !post?.id,
+    query: GET_MENTIONS,
+    variables: {
+      url: canonicalUrl,
+      first: 15,
+      after: mentionsCursor,
+      filter: "in-reply-to, repost-of, mention-of",
+    },
+  });
+  const [infiniteRef] = useInfiniteScroll({
+    loading: fetching,
+    hasNextPage: webmentions?.pageInfo?.hasNextPage,
+    onLoadMore: () => {
+      if (webmentions?.pageInfo?.endCursor) {
+        setMentionsCursor(webmentions?.pageInfo?.endCursor);
+      }
+    },
+    disabled: !!error,
+  });
 
   const meta = {
     description: post?.metaDescription || defaults.metaDescription,
@@ -119,6 +174,11 @@ export default function ThunkedBySlug({ data }) {
     },
   };
 
+  const tweetSlug = `${post.title} on Code Drift`;
+  const hasMentions = (webmentions?.edges || []).length > 0;
+
+  if (!post.id) return null;
+
   return (
     <>
       <Head>
@@ -161,6 +221,59 @@ export default function ThunkedBySlug({ data }) {
           >
             {html2React(post.html)}
           </Post>
+          <div className="border-t border-t-gray-500 mt-4 pt-4 max-w-reading">
+            <div className="flex flex-row pb-2">
+              <div className="flex-grow font-sans-caps font-bold">
+                Webmentions
+              </div>
+              <a
+                className="font-sans-caps block no-underline"
+                href="https://indieweb.org/Webmention"
+              >
+                <Icon
+                  icon="question"
+                  className="inline-block h-3 w-3 -mt-1 mr-1"
+                />
+                What&rsquo;s this?
+              </a>
+            </div>
+            <div className="pb-4">
+              <p>
+                <span className="prose dark:prose-dark mr-2">
+                  Tweets, mentions, and trackbacks
+                </span>
+                <a
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                    tweetSlug
+                  )}&url=${encodeURIComponent(canonicalUrl)}&via=jakobo`}
+                  style={{ color: "#1DA1F2" }}
+                >
+                  <Icon
+                    icon="twitter"
+                    className="inline-block h-3 w-4 fill-current mr-1 mb-1"
+                  />
+                  Share your thoughts
+                </a>
+              </p>
+            </div>
+            {hasMentions ? null : (
+              <div className="prose dark:prose-dark">
+                <p>As this gets discussed, comments will show up here</p>
+              </div>
+            )}
+            <div>
+              {(webmentions?.edges || []).map((wm) => (
+                <Webmention
+                  key={wm.node.id}
+                  mention={wm.node}
+                  className="pb-8"
+                />
+              ))}
+              {!webmentions?.pageInfo?.hasNextPage ? null : (
+                <div ref={infiniteRef}>Loading More</div>
+              )}
+            </div>
+          </div>
         </div>
       </Layout>
     </>
