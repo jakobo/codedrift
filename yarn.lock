@@ -601,6 +601,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nodelib/fs.scandir@npm:2.1.4":
+  version: 2.1.4
+  resolution: "@nodelib/fs.scandir@npm:2.1.4"
+  dependencies:
+    "@nodelib/fs.stat": 2.0.4
+    run-parallel: ^1.1.9
+  checksum: 30b3102ee37e1c1a0cb939a8e93f9a58b1637e2b4b546bb9143b3fb5efacd2abde3237a5313d5329bf1bc4231c418a77c3cb7f5434ce410e61a91ff4051cf215
+  languageName: node
+  linkType: hard
+
+"@nodelib/fs.stat@npm:2.0.4, @nodelib/fs.stat@npm:^2.0.2":
+  version: 2.0.4
+  resolution: "@nodelib/fs.stat@npm:2.0.4"
+  checksum: 6454a79e945dd55102b5c2e158813804ed349f9c1cc806f8754fca4587688a5d8e4115fc3eedbdf3d8a6b343169a6b664ecd8a7a42289eed210c686a4d0897c4
+  languageName: node
+  linkType: hard
+
+"@nodelib/fs.walk@npm:^1.2.3":
+  version: 1.2.6
+  resolution: "@nodelib/fs.walk@npm:1.2.6"
+  dependencies:
+    "@nodelib/fs.scandir": 2.1.4
+    fastq: ^1.6.0
+  checksum: d0503ffd0bb4172d5ac5d23993b14665f5f6d42a460a719ad97743ce71e60588d134cc60df12ca76be0e5e3a93c9a3156904d9296b78a8cdf19425c3423c0b58
+  languageName: node
+  linkType: hard
+
 "@opentelemetry/api@npm:0.14.0":
   version: 0.14.0
   resolution: "@opentelemetry/api@npm:0.14.0"
@@ -3531,7 +3558,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:3.5.1":
+"chokidar@npm:3.5.1, chokidar@npm:^3.5.1":
   version: 3.5.1
   resolution: "chokidar@npm:3.5.1"
   dependencies:
@@ -3728,6 +3755,7 @@ __metadata:
     lint-staged: ^10.5.4
     next: ^10.0.6
     next-urql: ^3.0.0
+    nightwind: ^1.1.11
     postcss: ^8.2.8
     prettier: ^2.2.1
     react: ^17.0.1
@@ -4631,6 +4659,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dlv@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "dlv@npm:1.1.3"
+  checksum: 3ed2cd5054ed51e3778b5939ec58b16a970ee7447c3fc02b9b75ccd0788cf596b705d0f3060f2f1593432c10809d4289a17166a5723282ab2ead5c37d7c45cf0
+  languageName: node
+  linkType: hard
+
 "doctrine@npm:^2.1.0":
   version: 2.1.0
   resolution: "doctrine@npm:2.1.0"
@@ -5527,6 +5562,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-glob@npm:^3.2.5":
+  version: 3.2.5
+  resolution: "fast-glob@npm:3.2.5"
+  dependencies:
+    "@nodelib/fs.stat": ^2.0.2
+    "@nodelib/fs.walk": ^1.2.3
+    glob-parent: ^5.1.0
+    merge2: ^1.3.0
+    micromatch: ^4.0.2
+    picomatch: ^2.2.1
+  checksum: 1a33c4a68d14cb2314c07a451689bc311bde87b09c525dd2064321165127a38a553457d121e2d3ecdd022374e3d53afb82cbb57f5694414d3406ce14ed6c0a1f
+  languageName: node
+  linkType: hard
+
 "fast-json-stable-stringify@npm:^2.0.0":
   version: 2.1.0
   resolution: "fast-json-stable-stringify@npm:2.1.0"
@@ -5552,6 +5601,15 @@ __metadata:
   version: 2.0.2
   resolution: "fastest-stable-stringify@npm:2.0.2"
   checksum: 41bd4f7a045e57111455c1367d014a93ab789528339a42c0662e1668767256f81b1c0898821fa4f80261ef371dd02c378f92e0ae1ecad6a9069292ff4294544a
+  languageName: node
+  linkType: hard
+
+"fastq@npm:^1.6.0":
+  version: 1.11.0
+  resolution: "fastq@npm:1.11.0"
+  dependencies:
+    reusify: ^1.0.4
+  checksum: 22822313d66aa7ef7fd392bf2da1cdf074dce902460bf73c0f0da6d58eb394ea8d74b8cce6c9466f5d659a51caeb732f4305cf8514ca8325490a4e3d873f5aa0
   languageName: node
   linkType: hard
 
@@ -6105,6 +6163,15 @@ fsevents@~2.3.1:
   dependencies:
     is-glob: ^4.0.1
   checksum: da8fb21548ae42b8707c1cda69998c2f714ae908a81dd4708dfb6ed98e93acc51ced4162afe6e3c843a631d489cdd83e21987c3a387b7102c275a29fbad6f1c5
+  languageName: node
+  linkType: hard
+
+"glob-parent@npm:^5.1.0":
+  version: 5.1.2
+  resolution: "glob-parent@npm:5.1.2"
+  dependencies:
+    is-glob: ^4.0.1
+  checksum: 82fcaa4ce102a0ae01370ed8fd5299ca32184af0418e1c1b613ed851240160558c0cc9712868eb9ca1924f687b07cd9c70c25f303f39f9f376d9a32f94f28e76
   languageName: node
   linkType: hard
 
@@ -8176,6 +8243,13 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"lodash.topath@npm:^4.5.2":
+  version: 4.5.2
+  resolution: "lodash.topath@npm:4.5.2"
+  checksum: c635ffd3586817e6beeff174d0e39015a1df88b885d9ba742587a2bd047af13cd9662870e0cce90ef706f6468127105488a96a8778d5d7c4af0358d025782c6b
+  languageName: node
+  linkType: hard
+
 "lodash.uniq@npm:^4.5.0":
   version: 4.5.0
   resolution: "lodash.uniq@npm:4.5.0"
@@ -8399,6 +8473,13 @@ fsevents@~2.3.1:
   version: 2.0.0
   resolution: "merge-stream@npm:2.0.0"
   checksum: cde834809a0e65485e474de3162af9853ab2a07977fd36d328947b7b3e6207df719ffb115b11085ecc570501e15a2aa8bacd772ac53f77873f53b0626e52a39a
+  languageName: node
+  linkType: hard
+
+"merge2@npm:^1.3.0":
+  version: 1.4.1
+  resolution: "merge2@npm:1.4.1"
+  checksum: 7ad40d8b140a5ed4e621b916858410e4f0dd4ced1e5a2b675563347e70f0661d95ba6c3c8007dd3c4e242d0b8eee44559fa75bb90a146cf168debffc0cbc18f3
   languageName: node
   linkType: hard
 
@@ -8909,6 +8990,15 @@ fsevents@~2.3.1:
   version: 1.0.5
   resolution: "nice-try@npm:1.0.5"
   checksum: 330f190bf68146a560008b661e1ddbb2eac667c16990b6bf791516d89cceb707ec67901ad647d2b32674bfa816b916489cead5c2fb6e96864c659573ab5aa3bb
+  languageName: node
+  linkType: hard
+
+"nightwind@npm:^1.1.11":
+  version: 1.1.11
+  resolution: "nightwind@npm:1.1.11"
+  dependencies:
+    tailwindcss: ^2.0.0
+  checksum: 65de38854f380e2b961430052fc799923d6e6d416408faca34ba83f7d3f38f54e091787360dbeb7d25033975b8885be11031553ac394fa944d859df9a5734e37
   languageName: node
   linkType: hard
 
@@ -9876,7 +9966,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"postcss-nested@npm:^5.0.5":
+"postcss-nested@npm:5.0.5, postcss-nested@npm:^5.0.5":
   version: 5.0.5
   resolution: "postcss-nested@npm:5.0.5"
   dependencies:
@@ -10182,10 +10272,24 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"queue-microtask@npm:^1.2.2":
+  version: 1.2.3
+  resolution: "queue-microtask@npm:1.2.3"
+  checksum: 0f88d794d4d825d39cdc2cda2fa701722858fc8de9567ad612776fce0d113376a3fc67f6a0091f31c9142b28f0c14fef08e9f92422b49f2372d5537e250fbfad
+  languageName: node
+  linkType: hard
+
 "quick-lru@npm:^4.0.1":
   version: 4.0.1
   resolution: "quick-lru@npm:4.0.1"
   checksum: 91847e4b07453655f73513b96a3b49e3bb8bf37de1ce2075d44e5dddb2f08050c5dc858d97884d61618bb44487945880b4b481fe93e94a3622b43036f8b94e11
+  languageName: node
+  linkType: hard
+
+"quick-lru@npm:^5.1.1":
+  version: 5.1.1
+  resolution: "quick-lru@npm:5.1.1"
+  checksum: fafb2b2fa1a948d6f2e88d4a60571be70b316d9b0be857d24fba0ac28fc31acebf535b643fe968473d689f8c655bcb2a0e4da67912f571059a4e4eb15740b021
   languageName: node
   linkType: hard
 
@@ -11042,6 +11146,13 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"reusify@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "reusify@npm:1.0.4"
+  checksum: 08ef02ed0514f020a51131ba2e6c27c66ccebe25d49cfc83467a0d4054db4634a2853480d0895c710b645ab66af1a6fb3e183888306ae559413bd96c69f39ccd
+  languageName: node
+  linkType: hard
+
 "right-align@npm:^0.1.1":
   version: 0.1.3
   resolution: "right-align@npm:0.1.3"
@@ -11109,6 +11220,15 @@ fsevents@~2.3.1:
   dependencies:
     is-promise: ^2.1.0
   checksum: 1d806e363ef68703be17c0288a00c731618d0bba334f85b65741cfe482171c567a44e37c4bd6c0ab85f7359983281df6d3ed0fcb3088cbfdc912a3aa935f38e4
+  languageName: node
+  linkType: hard
+
+"run-parallel@npm:^1.1.9":
+  version: 1.2.0
+  resolution: "run-parallel@npm:1.2.0"
+  dependencies:
+    queue-microtask: ^1.2.2
+  checksum: 3d12f0251ad043ed52689523b1e5fa5b7e5395a6ae0d2cbfb880a3009bb297de6d7e96ba4ad5a818e2722b42cea78a5ee6842d6d864736a7ca755ec119ed097c
   languageName: node
   linkType: hard
 
@@ -12255,6 +12375,47 @@ fsevents@~2.3.1:
     slice-ansi: ^4.0.0
     string-width: ^4.2.0
   checksum: b28d81d6063110a8e94264ff17d3b7505fd344947f2c5cdf0fa71f7a622897fb15068686652d3aed8ed1c5817ca783be8a9c3419edf27808350ad29cc7d87fdf
+  languageName: node
+  linkType: hard
+
+"tailwindcss@npm:^2.0.0":
+  version: 2.1.1
+  resolution: "tailwindcss@npm:2.1.1"
+  dependencies:
+    "@fullhuman/postcss-purgecss": ^3.1.3
+    bytes: ^3.0.0
+    chalk: ^4.1.0
+    chokidar: ^3.5.1
+    color: ^3.1.3
+    detective: ^5.2.0
+    didyoumean: ^1.2.1
+    dlv: ^1.1.3
+    fast-glob: ^3.2.5
+    fs-extra: ^9.1.0
+    html-tags: ^3.1.0
+    lodash: ^4.17.21
+    lodash.topath: ^4.5.2
+    modern-normalize: ^1.0.0
+    node-emoji: ^1.8.1
+    normalize-path: ^3.0.0
+    object-hash: ^2.1.1
+    parse-glob: ^3.0.4
+    postcss-functions: ^3
+    postcss-js: ^3.0.3
+    postcss-nested: 5.0.5
+    postcss-selector-parser: ^6.0.4
+    postcss-value-parser: ^4.1.0
+    pretty-hrtime: ^1.0.3
+    quick-lru: ^5.1.1
+    reduce-css-calc: ^2.1.8
+    resolve: ^1.20.0
+  peerDependencies:
+    autoprefixer: ^10.0.2
+    postcss: ^8.0.9
+  bin:
+    tailwind: lib/cli.js
+    tailwindcss: lib/cli.js
+  checksum: 34df2256582a50aa503838fc35255de38631875aa93fde4df66096c9c70eeb43ce49c40fbde32b5961d055a5f14a715d744488cda7f84fccc0271b47f41a5455
   languageName: node
   linkType: hard
 

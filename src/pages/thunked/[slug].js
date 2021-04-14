@@ -5,7 +5,7 @@ import { html2React } from "src/components/markup/rehype";
 import { useQuery } from "urql";
 import Head from "next/head";
 import Icon from "src/components/Icon";
-import Layout, { Title } from "src/components/Layout";
+import Layout, { createTitle } from "src/components/Layout";
 import React, { useState } from "react";
 import Webmention from "src/components/Webmention";
 import useInfiniteScroll from "react-infinite-scroll-hook";
@@ -181,8 +181,8 @@ export default function ThunkedBySlug({ data }) {
 
   return (
     <>
-      <Title>{post?.title || defaults.title}</Title>
       <Head>
+        <title>{createTitle(post?.title || defaults.title)}</title>
         <link rel="canonical" href={canonicalUrl} />
         {Object.getOwnPropertyNames(meta).map((name) => {
           const value = Array.isArray(meta[name]) ? meta[name] : [meta[name]];

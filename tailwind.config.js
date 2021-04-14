@@ -8,6 +8,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        light: "#ffffff",
+        dark: "#151a15",
         brand: {
           500: "#128458",
           700: "#0b4f35",
@@ -16,8 +18,6 @@ module.exports = {
           500: "#e2f201",
           700: "#6d7401",
         },
-        light: "#ffffff",
-        dark: "#151a15",
       },
       fontFamily: {
         sans: `"Ideal Sans SSm A", "Ideal Sans SSm B", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`,
@@ -48,6 +48,36 @@ module.exports = {
         dark: {
           css: {
             color: theme("colors.light"),
+            code: {
+              color: theme("colors.light"),
+            },
+            strong: {
+              color: theme("colors.light"),
+            },
+            em: {
+              color: theme("colors.light"),
+            },
+            blockquote: {
+              color: theme("colors.light"),
+            },
+            h1: {
+              color: theme("colors.light"),
+            },
+            h2: {
+              color: theme("colors.light"),
+            },
+            h3: {
+              color: theme("colors.light"),
+            },
+            h4: {
+              color: theme("colors.light"),
+            },
+            h5: {
+              color: theme("colors.light"),
+            },
+            h6: {
+              color: theme("colors.light"),
+            },
             a: {
               color: theme("colors.brand-invert.500"),
               borderBottom: `1px dotted ${theme("colors.brand-invert.500")}`,

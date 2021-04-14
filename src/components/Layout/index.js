@@ -76,19 +76,32 @@ const footerLinks = [
   { title: "Contact", url: "/contact", className: "" },
 ];
 
-function TitleBar() {
+function TitleBar({ disabled = false }) {
   const router = useRouter();
+
+  const bgGray100 = disabled
+    ? "bg-red-100 dark:bg-red-800"
+    : "bg-gray-100 dark:bg-gray-800";
+  const borderGray300 = disabled ? "border-red-300" : "border-gray-300";
+  const colorGray400 = disabled ? "text-red-400" : "text-gray-400";
+  const colorBrand500 = disabled
+    ? "text-red-500"
+    : "text-brand-500 dark:text-brand-invert-500";
 
   return (
     <div className="flex flex-col items-center justify-center w-full">
-      <div className="bg-gray-100 dark:bg-gray-800 w-full h-5 border-b border-gray-300 border-solid">
+      <div
+        className={`${bgGray100} w-full h-5 border-b ${borderGray300} border-solid`}
+      >
         {/* todo hamburger here... maybe. Ideally not */}
       </div>
       <div className="flex flex-row pb-5 px-5 w-full max-w-7xl">
-        <div className="-mt-5 bg-gray-100 dark:bg-gray-800 justify-center items-center px-5 py-2 border-b-4 rounded-lg border-solid w-auto">
+        <div
+          className={`-mt-5 ${bgGray100} justify-center items-center px-5 py-2 border-b-4 rounded-lg border-solid w-auto`}
+        >
           <Logo
-            left="text-gray-400"
-            right="text-brand-500 dark:text-brand-invert-500"
+            left={colorGray400}
+            right={colorBrand500}
             text={false}
             style={{ height: "80px" }}
             className="pointer"
@@ -96,65 +109,91 @@ function TitleBar() {
           />
         </div>
         <div className="flex-grow flex flex-row justify-end self-start pt-1">
-          {navLinks.map((item, idx) => (
-            <React.Fragment key={item.title}>
-              {item.Component ? (
-                <item.Component
-                  className={`${item.className} ${idx === 0 ? "" : "ml-2"}`}
-                />
-              ) : (
-                <Link href={item.url} passHref>
-                  <a className={`${item.className} ${idx === 0 ? "" : "ml-2"}`}>
-                    {item.title}
-                  </a>
-                </Link>
-              )}
-            </React.Fragment>
-          ))}
+          {disabled ? (
+            <div className="flex flex-row">
+              <span>no navigation</span>
+              <LightSwitch className="pt-1 ml-2" />
+            </div>
+          ) : (
+            navLinks.map((item, idx) => (
+              <React.Fragment key={item.title}>
+                {item.Component ? (
+                  <item.Component
+                    className={`${item.className} ${idx === 0 ? "" : "ml-2"}`}
+                  />
+                ) : (
+                  <Link href={item.url} passHref>
+                    <a
+                      className={`${item.className} ${idx === 0 ? "" : "ml-2"}`}
+                    >
+                      {item.title}
+                    </a>
+                  </Link>
+                )}
+              </React.Fragment>
+            ))
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-const Footer = () => {
+const Footer = ({ disabled = false }) => {
+  const bgDark = disabled
+    ? "bg-red-800 dark:bg-red-900"
+    : "bg-dark dark:bg-gray-800";
+  const borderGray300 = disabled ? "border-red-300" : "border-gray-300";
+  const borderGray900 = disabled ? "border-red-900" : "border-gray-900";
+  const bgLight = disabled
+    ? "bg-red-100 dark:bg-red-800"
+    : "bg-light dark:bg-dark";
+  const colorGray600 = disabled ? "text-red-600" : "text-gray-600";
+  const colorGray500 = disabled ? "text-red-500" : "text-gray-500";
+
   return (
-    <div className="w-full bg-dark dark:bg-gray-800 border-t border-t-gray-300 px-5 pb-5">
+    <div className={`w-full ${bgDark} border-t ${borderGray300} px-5 pb-5`}>
       <div className="flex flex-col lg:flex-row mx-2 space-x-5 pt-5">
         <div className="flex flex-col space-y-2">
-          {footerLinks.map((item) => (
-            <React.Fragment key={item.title}>
-              {item.onClick ? (
-                <a
-                  href={item.url || "#"}
-                  className={`${item.className} text-white no-underline hover:no-underline`}
-                  onClick={item.onClick}
-                >
-                  {item.title}
-                </a>
-              ) : (
-                <Link href={item.url} passHref>
-                  <a
-                    className={`${item.className} text-white no-underline hover:no-underline`}
-                  >
-                    {item.title}
-                  </a>
-                </Link>
-              )}
-            </React.Fragment>
-          ))}
+          {disabled
+            ? null
+            : footerLinks.map((item) => (
+                <React.Fragment key={item.title}>
+                  {item.onClick ? (
+                    <a
+                      href={item.url || "#"}
+                      className={`${item.className} text-white no-underline hover:no-underline`}
+                      onClick={item.onClick}
+                    >
+                      {item.title}
+                    </a>
+                  ) : (
+                    <Link href={item.url} passHref>
+                      <a
+                        className={`${item.className} text-white no-underline hover:no-underline`}
+                      >
+                        {item.title}
+                      </a>
+                    </Link>
+                  )}
+                </React.Fragment>
+              ))}
         </div>
         <div className="flex-grow">
-          <p className="text-gray-400">
-            Code Drift is the personal website of Rudolph Jakob Heuser
-          </p>
+          {disabled ? null : (
+            <p className="text-gray-400">
+              Code Drift is the personal website of Rudolph Jakob Heuser
+            </p>
+          )}
         </div>
         <div>
           <div className="flex flex-col items=center lg:items-end -mt-5">
-            <div className="-mt-1 px-5 py-2 bg-light dark:bg-dark border-b-0 lg:border-b-4 border-t-none border-b-gray-900 rounded-lg rounded-t-none mb-5">
+            <div
+              className={`-mt-1 px-5 py-2 ${bgLight} border-b-0 lg:border-b-4 border-t-none ${borderGray900} rounded-lg rounded-t-none mb-5`}
+            >
               <Logo
-                left="text-gray-600"
-                right="text-gray-500"
+                left={colorGray500}
+                right={colorGray600}
                 text={false}
                 style={{ height: "80px" }}
               />
@@ -187,22 +226,22 @@ const WebMentionSupport = () => (
   </Head>
 );
 
-export const Title = ({ children }) => (
-  <Head>
-    <title>{children} on Code Drift</title>
-  </Head>
-);
+export const createTitle = (text) => `${text} on Code Drift`;
 
-export default function Layout({ children }) {
+export default function Layout({ disabled = false, children }) {
   return (
     <div className="flex flex-col min-h-screen min-w-full max-w-full">
-      <TitleBar />
+      <TitleBar disabled={disabled} />
       <div className="flex flex-row flex-grow mx-0 lg:mx-auto px-5 lg:px-0 max-w-full mb-10">
         {children}
       </div>
-      <Footer />
-      <IndieAuth />
-      <WebMentionSupport />
+      <Footer disabled={disabled} />
+      {disabled ? null : (
+        <>
+          <IndieAuth />
+          <WebMentionSupport />
+        </>
+      )}
     </div>
   );
 }
