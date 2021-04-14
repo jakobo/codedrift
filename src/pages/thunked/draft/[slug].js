@@ -8,18 +8,11 @@ import Layout, { createTitle } from "src/components/Layout";
 import Link from "next/link";
 import React, { useState } from "react";
 
-const defaults = {
-  metaDescription:
-    "A post on Code Drift about technology, leadership, and life",
-  title: "Code Drift",
-};
-
 const GET_POST = gql`
   query GetPostBySlug($slug: String!) {
     post(slug: $slug) {
       id
       title
-      excerpt
       category {
         id
         name
@@ -32,7 +25,6 @@ const GET_POST = gql`
       slug
       publishedAt
       updatedAt
-      metaDescription
     }
   }
 `;
@@ -83,7 +75,7 @@ export default function ThunkedDraftBySlug() {
   return (
     <>
       <Head>
-        <title>{createTitle(`DRAFT ${post?.title || defaults.title}`)}</title>
+        <title>{createTitle(`DRAFT ${post?.title || ""}`)}</title>
       </Head>
       <Layout disabled>
         <div className="flex-col w-full">
