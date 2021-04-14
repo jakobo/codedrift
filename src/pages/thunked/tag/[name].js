@@ -2,7 +2,7 @@ import { createStaticClient } from "src/graphql/local";
 import { gql } from "@urql/core";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import Layout, { Title } from "src/components/Layout";
+import Layout, { createTitle } from "src/components/Layout";
 import PostDirectory, { groupPostsByYear } from "src/components/Post/Directory";
 import React from "react";
 
@@ -37,11 +37,12 @@ export default function ThunkedByTagName({ data }) {
   const route = useRouter();
   const byYear = groupPostsByYear(data?.postDirectory || []);
   const tagName = `${route?.query?.name}`;
+  const niceTagName = prettyTagCase(tagName);
 
   return (
     <>
-      <Title>Posts about {prettyTagCase(tagName)}</Title>
       <Head>
+        <title>{createTitle(`Posts about ${niceTagName}`)}</title>
         <meta
           name="description"
           content={`Posts about ${prettyTagCase(tagName)} on Code Drift`}
