@@ -46,7 +46,7 @@ const IsDraft = ({ title, showButton, onClick }) => {
       <p>
         You&rsquo;re currently viewing a draft of content for Code Drift. It is
         not live, and this is not the final URL. If you have thoughts, reach out
-        to me via your usual means. You can also
+        to me via your usual means. You can also{" "}
         <Link
           href={`https://twitter.com/messages/compose?recipient_id=855061&text=${encodeURIComponent(
             `I have feedback on ${title || "a post"}`
