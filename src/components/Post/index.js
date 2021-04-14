@@ -37,8 +37,8 @@ export const Post = ({
         )}
       </div>
       <div
-        className={`w-full max-w-reading flex-shrink-0 lg:${
-          date ? "-mt-10" : "-mt-5"
+        className={`w-full max-w-reading flex-shrink-0 ${
+          date ? "lg:-mt-10" : "lg:-mt-5"
         }`}
       >
         <TitleTag style={{ marginBottom: "0.25em" }}>{widont(title)}</TitleTag>
