@@ -258,7 +258,11 @@ export default function ThunkedBySlug({ data }) {
             </div>
             {hasMentions ? null : (
               <div className="prose dark:prose-dark">
-                <p>As this gets discussed, comments will show up here</p>
+                <p>
+                  As this gets discussed, comments will show up here. If the
+                  post is new, it may take a bit for your thoughts to get from
+                  one side of the internet to the other.
+                </p>
               </div>
             )}
             <div>
