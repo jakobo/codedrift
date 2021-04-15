@@ -87,14 +87,14 @@ export default function ThunkedBySlug({ data }) {
   ].filter((t) => !!t);
   const canonicalUrl = `https://codedrift.com/thunked/${post?.slug || ""}`;
   const [mentionsCursor, setMentionsCursor] = useState(null);
-  const { data: { webmentions = {} } = {}, fetching, error } = useQuery({
+  const [{ data: { webmentions = {} } = {}, fetching, error }] = useQuery({
     pause: !post?.id,
     query: GET_MENTIONS,
     variables: {
       url: canonicalUrl,
       first: 15,
       after: mentionsCursor,
-      filter: "in-reply-to, repost-of, mention-of",
+      filter: "in-reply-to, repost-of",
     },
   });
   const [infiniteRef] = useInfiniteScroll({

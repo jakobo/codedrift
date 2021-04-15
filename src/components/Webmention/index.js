@@ -67,6 +67,17 @@ const sourceOf = (url) => {
   return fallbackSource;
 };
 
+const Action = ({ mention }) => {
+  if (mention.type === "repost") {
+    return <span className="text-sm ml-1">reposted...</span>;
+  }
+  if (mention.type === "reply") {
+    return <span className="text-sm ml-1">replied...</span>;
+  }
+
+  return <span className="text-sm ml-1">mentioned...</span>;
+};
+
 export default function Webmention({ mention: wm, className }) {
   const dName = wm?.author?.name || wm?.author?.url || wm?.url || null;
 
@@ -99,6 +110,7 @@ export default function Webmention({ mention: wm, className }) {
           >
             {dName}
           </a>
+          <Action mention={wm} />
         </div>
         <div className="prose dark:prose-dark max-w-none">{reactContent}</div>
         <div className="text-gray-500">

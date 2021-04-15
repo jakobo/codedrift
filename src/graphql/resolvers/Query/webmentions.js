@@ -21,7 +21,7 @@ const HARD_LIMIT = 150;
 export default async function webmentions(
   _,
   {
-    filter: rawFilter = "mention, reply, repost, like",
+    filter: rawFilter = "reply-of, repost-of, like-of",
     sortBy = "published",
     sortDir,
     url,
