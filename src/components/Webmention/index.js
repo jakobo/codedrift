@@ -67,15 +67,16 @@ const sourceOf = (url) => {
   return fallbackSource;
 };
 
+// given a webmention, describe the action in plain terms
 const Action = ({ mention }) => {
   if (mention.type === "repost") {
-    return <span className="text-sm ml-1">reposted...</span>;
+    return <span className="ml-1">reposted...</span>;
   }
   if (mention.type === "reply") {
-    return <span className="text-sm ml-1">replied...</span>;
+    return <span className="ml-1">replied...</span>;
   }
 
-  return <span className="text-sm ml-1">mentioned...</span>;
+  return <span className="ml-1">mentioned...</span>;
 };
 
 export default function Webmention({ mention: wm, className }) {
@@ -96,21 +97,24 @@ export default function Webmention({ mention: wm, className }) {
   return (
     <div className={`flex flex-row ${className}`}>
       <a id={wmId} href={`#${wmId}`}></a>
-      <Avatar
-        name={avatarName}
-        src={wm?.author?.photo}
-        className="mr-4 flex-shrink-0"
-        source={sourceOf(wm.url)}
-      />
+      <a href={wm?.author?.url || "#"} rel="nofollow">
+        <Avatar
+          name={avatarName}
+          src={wm?.author?.photo}
+          className="mr-4 flex-shrink-0"
+          source={sourceOf(wm.url)}
+        />
+      </a>
       <div className="flex-grow">
         <div className="w-3/4 truncate">
           <a
             className="text-brand-500 dark:text-brand-invert-500"
-            href={wm?.author?.url || wm?.url}
+            href={wm?.url || wm?.author?.url}
+            rel="nofollow"
           >
             {dName}
+            <Action mention={wm} />
           </a>
-          <Action mention={wm} />
         </div>
         <div className="prose dark:prose-dark max-w-none">{reactContent}</div>
         <div className="text-gray-500">
