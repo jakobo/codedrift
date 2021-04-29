@@ -3662,6 +3662,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"clipboard@npm:^2.0.0":
+  version: 2.0.8
+  resolution: "clipboard@npm:2.0.8"
+  dependencies:
+    good-listener: ^1.2.2
+    select: ^1.1.2
+    tiny-emitter: ^2.0.0
+  checksum: 8eab011ad8cf2dc794b717483f913550c1be1298c84550917f99734b8c5d6674ab86fe6c074234a9597bf60efddffa2ca11ce0df0f78f7c64c4e6a64302437f8
+  languageName: node
+  linkType: hard
+
 "cliui@npm:^2.1.0":
   version: 2.1.0
   resolution: "cliui@npm:2.1.0"
@@ -3742,6 +3753,7 @@ __metadata:
     next-urql: ^3.0.0
     postcss: ^8.2.8
     prettier: ^2.2.1
+    prismjs: ^1.23.0
     react: ^17.0.1
     react-children-utilities: ^2.2.4
     react-dom: ^17.0.1
@@ -4511,6 +4523,13 @@ __metadata:
   version: 1.0.0
   resolution: "delayed-stream@npm:1.0.0"
   checksum: d9dfb0a7c79fd308fada9db2cf29d1ff22047ceb50dd78f7e3c173567909b438f418259cb76a6d9c9f513e88ef41d3a14154f618741ec8368c3efeff616d0c9f
+  languageName: node
+  linkType: hard
+
+"delegate@npm:^3.1.2":
+  version: 3.2.0
+  resolution: "delegate@npm:3.2.0"
+  checksum: ccbbf29eb436719e4ffef06a1df2635a150f229f8ae549f4b6e118e940b17917e063c939541c6e23f38675d30acf424ecca9a8d1cca2a874d63fa0c257b0811f
   languageName: node
   linkType: hard
 
@@ -6191,6 +6210,15 @@ fsevents@~2.3.1:
   dependencies:
     sparkles: ^1.0.0
   checksum: f4769ac0306a129d465b8d8ab84ead9c3b5c0beac81406184f6fdd7ec6832a81ffd5487b8bb0ce8787945b7f44ae5eab85c027e0abbfb353bff3ad06c838b257
+  languageName: node
+  linkType: hard
+
+"good-listener@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "good-listener@npm:1.2.2"
+  dependencies:
+    delegate: ^3.1.2
+  checksum: 640a1627e528ceb3337595a8020f44d09455f284c18c765eaf9ce5dcdf1799810e7b11ca2b61582a5a4db20aad0b7e6b820235864822d84df541d74383bcd01c
   languageName: node
   linkType: hard
 
@@ -10021,6 +10049,18 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"prismjs@npm:^1.23.0":
+  version: 1.23.0
+  resolution: "prismjs@npm:1.23.0"
+  dependencies:
+    clipboard: ^2.0.0
+  dependenciesMeta:
+    clipboard:
+      optional: true
+  checksum: 9d55785f1ea68e2a2e6b0a5ea1241811ed986182af76053ecf50245521414597d70b17dc5804a7ad961dfd459e6883a89ad3f86bb064ac3484e3ef24b7891f4f
+  languageName: node
+  linkType: hard
+
 "private@npm:^0.1.6, private@npm:^0.1.8, private@npm:~0.1.5":
   version: 0.1.8
   resolution: "private@npm:0.1.8"
@@ -11151,6 +11191,13 @@ fsevents@~2.3.1:
   version: 5.1.0
   resolution: "screenfull@npm:5.1.0"
   checksum: 09373459c5dc184204de38020c24ed21ee31a6154b3ea82e468dc9edf5a7b8773d9583bdb78e16911b71db7849579d54ab04f176c5ed5647a6b9893de4adda24
+  languageName: node
+  linkType: hard
+
+"select@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "select@npm:1.1.2"
+  checksum: 66be63b7cf0973af48cebcca47909d0ba703bb7f01373f9ebf19880dc8fe9c97f41e2ebdefee144f60bbf416cafbf77dfb98cd1776e62d7afc336b843f1009b1
   languageName: node
   linkType: hard
 
@@ -12398,6 +12445,13 @@ fsevents@~2.3.1:
   dependencies:
     setimmediate: ^1.0.4
   checksum: 73faad065e503db39235ea6c7803cd42c6be41365a427f95fcba773d42c4a77d595ace955a2248f638cd983c61f8e928422dbf27d9237dd876645ed88a595e29
+  languageName: node
+  linkType: hard
+
+"tiny-emitter@npm:^2.0.0":
+  version: 2.1.0
+  resolution: "tiny-emitter@npm:2.1.0"
+  checksum: 0055509c72e5fe35d6ab66fa6339342e0f29129e77ed2086e475fdf80be43a8651f2517be76513b46a042c8356396f4da5a35e2e23457252176808d5a892036a
   languageName: node
   linkType: hard
 
