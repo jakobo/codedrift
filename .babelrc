@@ -1,4 +1,25 @@
 {
   "presets": ["next/babel"],
-  "plugins": []
+  "plugins": [
+        [
+          "prismjs",
+          {
+            "languages": [
+              "css",
+              "diff",
+              "graphql",
+              "javascript",
+              "json",
+              "jsx",
+              "markup",
+              "php",
+              "plsql",
+              "sql"
+            ],
+            "plugins": [
+              "line-numbers"
+            ]
+          }
+        ]
+  ]
 }

@@ -552,6 +552,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mapbox/rehype-prism@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "@mapbox/rehype-prism@npm:0.6.0"
+  dependencies:
+    hast-util-to-string: ^1.0.4
+    refractor: ^3.3.1
+    unist-util-visit: ^2.0.3
+  checksum: e9d2c7c15b55e65fca55f6cf7bf2bc7fa302d033a87f61a2fc39f3472e0f53f6812fd99d59b7587c06d6c1803d776a7c55e9fbbee3ac5066380aa06464c0b9fa
+  languageName: node
+  linkType: hard
+
 "@next/env@npm:10.0.6":
   version: 10.0.6
   resolution: "@next/env@npm:10.0.6"
@@ -2294,6 +2305,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"babel-plugin-prismjs@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "babel-plugin-prismjs@npm:2.0.1"
+  peerDependencies:
+    prismjs: ^1.18.0
+  checksum: 57ec51405a900d7bf3ea4eaaf4b2a602a093b9cee89af1ba7d77c864c1de9f0bf40424e1cd1cf03e5f48c362fb8a602642007dc6d93444c7dc66cd730003ad91
+  languageName: node
+  linkType: hard
+
 "babel-plugin-property-literals@npm:^1.0.1":
   version: 1.0.1
   resolution: "babel-plugin-property-literals@npm:1.0.1"
@@ -3653,6 +3673,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"clipboard@npm:^2.0.0":
+  version: 2.0.8
+  resolution: "clipboard@npm:2.0.8"
+  dependencies:
+    good-listener: ^1.2.2
+    select: ^1.1.2
+    tiny-emitter: ^2.0.0
+  checksum: 8eab011ad8cf2dc794b717483f913550c1be1298c84550917f99734b8c5d6674ab86fe6c074234a9597bf60efddffa2ca11ce0df0f78f7c64c4e6a64302437f8
+  languageName: node
+  linkType: hard
+
 "cliui@npm:^2.1.0":
   version: 2.1.0
   resolution: "cliui@npm:2.1.0"
@@ -3702,6 +3733,7 @@ __metadata:
   dependencies:
     "@commitlint/cli": ^11.0.0
     "@commitlint/config-conventional": ^11.0.0
+    "@mapbox/rehype-prism": ^0.6.0
     "@tailwindcss/forms": ^0.3.2
     "@tailwindcss/typography": ^0.4.0
     "@tryghost/content-api": ^1.4.14
@@ -3710,6 +3742,7 @@ __metadata:
     autoprefixer: ^10.2.5
     babel-eslint: ^10.1.0
     babel-plugin-preval: ^5.0.0
+    babel-plugin-prismjs: ^2.0.1
     camelcase-keys: ^6.2.2
     cross-fetch: ^3.0.6
     date-fns: ^2.17.0
@@ -3723,6 +3756,8 @@ __metadata:
     filter-obj: ^2.0.1
     fs-extra: ^9.1.0
     graphql: ^15.5.0
+    highlight.js: ^10.7.2
+    highlightjs-graphql: ^1.0.2
     husky: ^4.3.8
     js-yaml: ^4.0.0
     lint-staged: ^10.5.4
@@ -4500,6 +4535,13 @@ __metadata:
   version: 1.0.0
   resolution: "delayed-stream@npm:1.0.0"
   checksum: d9dfb0a7c79fd308fada9db2cf29d1ff22047ceb50dd78f7e3c173567909b438f418259cb76a6d9c9f513e88ef41d3a14154f618741ec8368c3efeff616d0c9f
+  languageName: node
+  linkType: hard
+
+"delegate@npm:^3.1.2":
+  version: 3.2.0
+  resolution: "delegate@npm:3.2.0"
+  checksum: ccbbf29eb436719e4ffef06a1df2635a150f229f8ae549f4b6e118e940b17917e063c939541c6e23f38675d30acf424ecca9a8d1cca2a874d63fa0c257b0811f
   languageName: node
   linkType: hard
 
@@ -6199,6 +6241,15 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"good-listener@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "good-listener@npm:1.2.2"
+  dependencies:
+    delegate: ^3.1.2
+  checksum: 640a1627e528ceb3337595a8020f44d09455f284c18c765eaf9ce5dcdf1799810e7b11ca2b61582a5a4db20aad0b7e6b820235864822d84df541d74383bcd01c
+  languageName: node
+  linkType: hard
+
 "graceful-fs@npm:^4.1.11, graceful-fs@npm:^4.1.2, graceful-fs@npm:^4.1.4, graceful-fs@npm:^4.1.6, graceful-fs@npm:^4.2.0":
   version: 4.2.3
   resolution: "graceful-fs@npm:4.2.3"
@@ -6610,7 +6661,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"hast-util-to-string@npm:^1.0.0":
+"hast-util-to-string@npm:^1.0.0, hast-util-to-string@npm:^1.0.4":
   version: 1.0.4
   resolution: "hast-util-to-string@npm:1.0.4"
   checksum: a18dddd5e1bddb162893b12c4163d16ff27c0cbe31564aab0f8e443997d810cc85d5110e10c34911a3d5dbb011a2193dbdfb5eb4ed0ce5ea0f14e7f3e226ca06
@@ -6657,10 +6708,24 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"highlight.js@npm:^10.7.2":
+  version: 10.7.2
+  resolution: "highlight.js@npm:10.7.2"
+  checksum: 8208e010011298abc7be9d7f69946a408d9a9b62f88000e76672aa53cee91399d188bc6a8c33cf41323e137e0e03ff8f16ac934bdc53673747658808ea62a7ac
+  languageName: node
+  linkType: hard
+
 "highlight.js@npm:~10.6.0":
   version: 10.6.0
   resolution: "highlight.js@npm:10.6.0"
   checksum: ffe7a217915e6d4ea4545c5006df3b9d7de981eb0a9ddee77b57ab4d450b25e5d1bf7d5c2ea3b0696bd43f3fef12237507b17c082725a5a057be064a3f2582b0
+  languageName: node
+  linkType: hard
+
+"highlightjs-graphql@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "highlightjs-graphql@npm:1.0.2"
+  checksum: 81a4bc552df8a1a7c7f2c559331fa7b9e00fc55f09a81284ad4778b13c0e525040334e06d4ea00a566d42c68c39ba4795ce2157af8eb4ddbbf857d9aa4d8cfe5
   languageName: node
   linkType: hard
 
@@ -10040,6 +10105,18 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"prismjs@npm:~1.23.0":
+  version: 1.23.0
+  resolution: "prismjs@npm:1.23.0"
+  dependencies:
+    clipboard: ^2.0.0
+  dependenciesMeta:
+    clipboard:
+      optional: true
+  checksum: 9d55785f1ea68e2a2e6b0a5ea1241811ed986182af76053ecf50245521414597d70b17dc5804a7ad961dfd459e6883a89ad3f86bb064ac3484e3ef24b7891f4f
+  languageName: node
+  linkType: hard
+
 "private@npm:^0.1.6, private@npm:^0.1.8, private@npm:~0.1.5":
   version: 0.1.8
   resolution: "private@npm:0.1.8"
@@ -10566,6 +10643,17 @@ fsevents@~2.3.1:
     css-unit-converter: ^1.1.1
     postcss-value-parser: ^3.3.0
   checksum: 9db44f858fcad6dc58e55d269b639b2225a9ec9753307d5bc55db4115bcf3692d8697027559e7350b9253420249f049e1b5a0e30a51b57a76e650d876003d175
+  languageName: node
+  linkType: hard
+
+"refractor@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "refractor@npm:3.3.1"
+  dependencies:
+    hastscript: ^6.0.0
+    parse-entities: ^2.0.0
+    prismjs: ~1.23.0
+  checksum: de632f0f594e17809255a8188d63b87533e6e4889f6c59e7e79c63183714e45af33500f88168139adeb494c52af662d5dcb0dd0e126392a138077bc1a30550a5
   languageName: node
   linkType: hard
 
@@ -11181,6 +11269,13 @@ fsevents@~2.3.1:
   version: 5.1.0
   resolution: "screenfull@npm:5.1.0"
   checksum: 09373459c5dc184204de38020c24ed21ee31a6154b3ea82e468dc9edf5a7b8773d9583bdb78e16911b71db7849579d54ab04f176c5ed5647a6b9893de4adda24
+  languageName: node
+  linkType: hard
+
+"select@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "select@npm:1.1.2"
+  checksum: 66be63b7cf0973af48cebcca47909d0ba703bb7f01373f9ebf19880dc8fe9c97f41e2ebdefee144f60bbf416cafbf77dfb98cd1776e62d7afc336b843f1009b1
   languageName: node
   linkType: hard
 
@@ -12428,6 +12523,13 @@ fsevents@~2.3.1:
   dependencies:
     setimmediate: ^1.0.4
   checksum: 73faad065e503db39235ea6c7803cd42c6be41365a427f95fcba773d42c4a77d595ace955a2248f638cd983c61f8e928422dbf27d9237dd876645ed88a595e29
+  languageName: node
+  linkType: hard
+
+"tiny-emitter@npm:^2.0.0":
+  version: 2.1.0
+  resolution: "tiny-emitter@npm:2.1.0"
+  checksum: 0055509c72e5fe35d6ab66fa6339342e0f29129e77ed2086e475fdf80be43a8651f2517be76513b46a042c8356396f4da5a35e2e23457252176808d5a892036a
   languageName: node
   linkType: hard
 

@@ -1,8 +1,8 @@
 import Link from "next/link";
+import Prism from "../Prism";
 import React from "react";
 import autolinkHeadings from "rehype-autolink-headings";
 import deghost from "./plugins/rehype-deghost";
-import highlight from "rehype-highlight";
 import noEmpty from "./plugins/rehype-noempty";
 import rehype from "rehype-parse";
 import rehype2react from "rehype-react";
@@ -26,7 +26,6 @@ export const ghostParser = unified()
   .use(rehype, { fragment: true })
   .use(slug)
   .use(autolinkHeadings)
-  .use(highlight)
   .use(widont)
   .use(smartypants)
   .use(deghost)
@@ -35,6 +34,7 @@ export const ghostParser = unified()
     createElement: React.createElement,
     components: {
       a: NextLink,
+      code: Prism,
     },
   });
 

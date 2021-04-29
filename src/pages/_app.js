@@ -1,3 +1,4 @@
+import "../../public/styles/prism.css";
 import "tailwindcss/tailwind.css";
 import Head from "next/head";
 import Providers from "src/providers";
