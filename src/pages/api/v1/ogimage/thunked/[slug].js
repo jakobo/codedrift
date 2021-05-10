@@ -56,7 +56,7 @@ export default async function (req, res) {
 
     const url = `${base}/${req.query.slug}`;
     console.log(`Requesting: ${url}`);
-    await page.goto(url, { waitUntil: "networkidle" });
+    await page.goto(url, { waitUntil: "networkidle2" });
     await timeout(500); // ensure react inits on next.js page
 
     console.log("Screenshotting");
@@ -78,7 +78,7 @@ export default async function (req, res) {
   res.setHeader("Content-Type", `image/${fileType}`);
   res.setHeader(
     "Cache-Control",
-    `public, immutable, no-transform, s-maxage=31536000, max-age=31536000`
+    `public, no-transform, s-maxage=604800, max-age=604800`
   );
   res.end(file);
 }
