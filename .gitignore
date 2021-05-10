@@ -12,12 +12,13 @@
 .env.local
 .next
 
-# Yarn
+# Yarn but with cache
 .yarn/*
 !.yarn/releases
 !.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
+!.yarn/cache
 .pnp.*
 
 # ##############################################################################
