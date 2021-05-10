@@ -36,6 +36,10 @@ const errorWith = (e, res) => {
   res.end("Unable to generate image");
 };
 
+const timeout = async (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 // og:image slug for thunked
 export default async function (req, res) {
   let file = null;
@@ -52,7 +56,8 @@ export default async function (req, res) {
 
     const url = `${base}/${req.query.slug}`;
     console.log(`Requesting: ${url}`);
-    await page.goto(url);
+    await page.goto(url, { waitUntil: "networkidle" });
+    await timeout(500); // ensure react inits on next.js page
 
     console.log("Screenshotting");
     file = await page.screenshot({
