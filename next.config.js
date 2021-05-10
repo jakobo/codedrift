@@ -4,5 +4,8 @@
 module.exports = () => {
   return {
     poweredByHeader: false,
+    images: {
+      domains: ["codedrift.com", "localhost"],
+    },
   };
 };
