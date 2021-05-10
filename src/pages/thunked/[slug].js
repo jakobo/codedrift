@@ -108,6 +108,10 @@ export default function ThunkedBySlug({ data }) {
     disabled: !!error,
   });
 
+  const mediaImage = `https://codedrift.com/api/v1/og/image/thunked/${
+    post?.slug || ""
+  }`;
+
   const meta = {
     description: post?.metaDescription || defaults.metaDescription,
     "og:type": "article",
@@ -120,9 +124,9 @@ export default function ThunkedBySlug({ data }) {
       post?.excerpt ||
       defaults.metaDescription,
     "og:url": canonicalUrl,
-    "og:image": post?.ogImage || post?.twitterImage || null,
-    "og:image:width": post?.ogImage || post?.twitterImage ? 1000 : null,
-    "og:image:height": post?.ogImage || post?.twitterImage ? 500 : null,
+    "og:image": post?.ogImage || post?.twitterImage || mediaImage,
+    "og:image:width": post?.ogImage || post?.twitterImage ? 1000 : 1200,
+    "og:image:height": post?.ogImage || post?.twitterImage ? 500 : 600,
 
     "article:published_time": post?.publishedAt || null,
     "article:modified_time": post?.updatedAt || null,
@@ -139,7 +143,7 @@ export default function ThunkedBySlug({ data }) {
       post?.excerpt ||
       defaults.metaDescription,
     "twitter:url": canonicalUrl,
-    "twitter:image": post?.twitterImage || post?.ogImage || null,
+    "twitter:image": post?.twitterImage || post?.ogImage || mediaImage,
     "twitter:label1": "Written by",
     "twitter:data1": "Jakob Heuser",
     "twitter:label2": "As part of",
@@ -163,6 +167,7 @@ export default function ThunkedBySlug({ data }) {
     },
     headline: post?.title || defaults.title,
     url: canonicalUrl,
+    image: post?.ogImage || post?.twitterImage || mediaImage,
     datePublished: post?.publishedAt,
     dateModified: post?.updatedAt,
     keywords: tagList,

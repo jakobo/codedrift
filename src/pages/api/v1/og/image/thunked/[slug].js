@@ -2,8 +2,8 @@ const chromium = require("chrome-aws-lambda");
 
 const isDev = !process.env.AWS_REGION;
 const base = isDev
-  ? "http://localhost:3000/thunked/og"
-  : "https://codedrift.com/thunked/og";
+  ? "http://localhost:3000/og/image/thunked"
+  : "https://codedrift.com/og/image/thunked";
 const fileType = "png";
 
 const exePath =
