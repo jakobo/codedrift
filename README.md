@@ -17,6 +17,10 @@ Personal Website of Jakob Heuser, available at https://codedrift.com
 
 1. `yarn dev`
 
+# Developing in WSL2
+
+I use windows. It has its upsides. These would be the downsides. There is no _good_ way to get a functional pupeteer instance inside of WSL. I tried for a couple afternoons before I settled for YOLOing.
+
 # Outstanding Issues
 
 You could file bugs. Chances are they'll be triaged. There's a wishlist of things I'm tracking in my [Code Drift Working Notes](https://coda.io/d/Jakobs-Notes_dFBvQLDXnR5/CodeDrift_suuaz#_lutQ7)
