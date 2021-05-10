@@ -136,8 +136,7 @@ export default function ThunkedBySlug({ data }) {
     "article:modified_time": post?.updatedAt || null,
     "article:tag": tagList,
 
-    "twitter:card":
-      post?.ogImage || post?.twitterImage ? "summary_large_image" : "summary",
+    "twitter:card": "summary_large_image",
     "twitter:title":
       post?.twitterTitle || post?.ogTitle || post?.title || defaults.title,
     "twitter:description":
