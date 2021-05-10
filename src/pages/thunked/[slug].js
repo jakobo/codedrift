@@ -5,7 +5,6 @@ import { html2React } from "src/components/markup/rehype";
 import { useQuery } from "urql";
 import Head from "next/head";
 import Icon from "src/components/Icon";
-import Image from "next/image";
 import Layout, { createTitle } from "src/components/Layout";
 import React, { useState } from "react";
 import Webmention from "src/components/Webmention";
@@ -115,7 +114,7 @@ export default function ThunkedBySlug({ data }) {
   );
   const mediaImage = `https://codedrift.com/api/v1/og/image/thunked/${
     post?.slug || ""
-  }.png?ts=${tsWindow}`;
+  }?ts=${tsWindow}`;
 
   const meta = {
     description: post?.metaDescription || defaults.metaDescription,
@@ -288,9 +287,6 @@ export default function ThunkedBySlug({ data }) {
               )}
             </div>
           </div>
-        </div>
-        <div style={{ position: "absolute", left: 0, top: 0, opacity: 0 }}>
-          <Image src={mediaImage} height="1" width="1" />
         </div>
       </Layout>
     </>
