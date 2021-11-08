@@ -1,3 +1,4 @@
+import draft from "./Query/draft";
 import post from "./Query/post";
 import postDirectory from "./Query/postDirectory";
 import posts from "./Query/posts";
@@ -6,6 +7,7 @@ import webmentions from "./Query/webmentions";
 
 export default {
   Query: {
+    draft,
     posts,
     post,
     postDirectory,

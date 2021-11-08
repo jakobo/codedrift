@@ -9,8 +9,8 @@ import Link from "next/link";
 import React, { useState } from "react";
 
 const GET_POST = gql`
-  query GetPostBySlug($slug: String!) {
-    post(slug: $slug) {
+  query GetDraftBySlug($slug: String!) {
+    draft(slug: $slug) {
       id
       title
       category {
@@ -64,13 +64,12 @@ const IsDraft = ({ title, showButton, onClick }) => {
 export default function ThunkedDraftBySlug() {
   const [ack, setAck] = useState(false);
   const route = useRouter();
-  console.log(route);
   const [{ data }] = useQuery({
     query: GET_POST,
     variables: { slug: route?.query?.slug || "" },
     pause: !route?.query?.slug,
   });
-  const post = data?.post || {};
+  const post = data?.draft || {};
 
   return (
     <>

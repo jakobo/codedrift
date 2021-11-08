@@ -8,14 +8,12 @@ import {
 } from "src/graphql/util";
 import { getClient } from "src/lib/ghost";
 
-const POST_FILTER = "tag:hash-post";
-
 export default async function postDirectory(
   _,
   { filter: ghostFilter = null, orderBy = "published_at DESC" }
 ) {
   const ghost = getClient();
-  const filter = ghostFilter ? `${POST_FILTER}+${ghostFilter}` : POST_FILTER;
+  const filter = ghostFilter ? `${ghostFilter}` : "";
 
   const result = await ghost.posts.browse({
     filter,

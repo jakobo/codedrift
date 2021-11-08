@@ -1,13 +1,24 @@
+import GhostAdminAPI from "@tryghost/admin-api";
 import GhostContentAPI from "@tryghost/content-api";
 
 const endpoint = process.env.GHOST_ENDPOINT;
 const apiKey = process.env.GHOST_CONTENT_KEY;
+const adminKey = process.env.GHOST_ADMIN_KEY;
 
 export const getClient = () => {
   const api = new GhostContentAPI({
     version: "v3",
     key: apiKey,
     url: endpoint,
+  });
+  return api;
+};
+
+export const getAdminClient = () => {
+  const api = new GhostAdminAPI({
+    url: process.env.GHOST_ENDPOINT,
+    key: adminKey,
+    version: "v3",
   });
   return api;
 };

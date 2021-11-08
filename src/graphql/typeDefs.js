@@ -231,6 +231,15 @@ export default gql`
     ): Post
 
     """
+    Retrieve a single post draft by its id or slug
+    """
+    draft(
+      id: ID
+      slug: String
+    ): Post
+
+
+    """
     Retrieve tag details by its id or name
     """
     tag(
