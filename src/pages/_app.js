@@ -6,6 +6,7 @@ import React from "react";
 
 // https://csswizardry.com/2019/08/making-cloud-typography-faster/
 // next/head requires an inline onload handler
+// 2021-11-07: Dropped the hack, as the FOUC was super bothersome
 const App = ({ Component, pageProps }) => {
   return (
     <>
@@ -16,8 +17,6 @@ const App = ({ Component, pageProps }) => {
         <meta name="referrer" content="no-referrer-when-downgrade" />
         <meta property="og:site_name" content="Code Drift" />
         <link
-          onLoad="this.media='all'"
-          media="print"
           rel="stylesheet"
           type="text/css"
           href="https://cloud.typography.com/7828318/7442832/css/fonts.css"

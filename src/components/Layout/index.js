@@ -48,11 +48,6 @@ const navLinks = [
     url: "https://coda.io/d/Jakobs-Notes_dFBvQLDXnR5/Home_suijF#_lu2BJ",
     className: "",
   },
-  {
-    title: "Aibex",
-    url: "https://aibex.com",
-    className: "hidden md:inline-block",
-  },
   { title: "About", url: "/about", className: "" },
   { title: "Twitter", Component: Twitter, className: "pt-1" },
   { title: "GitHub", Component: GitHub, className: "pt-1" },
@@ -152,56 +147,66 @@ const Footer = ({ disabled = false }) => {
   const colorGray500 = disabled ? "text-red-500" : "text-gray-500";
 
   return (
-    <div className={`w-full ${bgDark} border-t ${borderGray300} px-5 pb-5`}>
-      <div className="flex flex-col lg:flex-row mx-2 space-x-5 pt-5">
-        <div className="flex flex-col space-y-2">
-          {disabled
-            ? null
-            : footerLinks.map((item) => (
-                <React.Fragment key={item.title}>
-                  {item.onClick ? (
-                    <a
-                      href={item.url || "#"}
-                      className={`${item.className} text-white no-underline hover:no-underline`}
-                      onClick={item.onClick}
-                    >
-                      {item.title}
-                    </a>
-                  ) : (
-                    <Link href={item.url} passHref>
+    <>
+      <div className={`w-full ${bgDark} border-t ${borderGray300} px-5 pb-5`}>
+        <div className="flex flex-col lg:flex-row px-2 space-x-5 pt-5 w-full max-w-7xl mx-auto">
+          <div className="flex flex-col space-y-2">
+            {disabled
+              ? null
+              : footerLinks.map((item) => (
+                  <React.Fragment key={item.title}>
+                    {item.onClick ? (
                       <a
+                        href={item.url || "#"}
                         className={`${item.className} text-white no-underline hover:no-underline`}
+                        onClick={item.onClick}
                       >
                         {item.title}
                       </a>
-                    </Link>
-                  )}
-                </React.Fragment>
-              ))}
-        </div>
-        <div className="flex-grow">
-          {disabled ? null : (
-            <p className="text-gray-400">
-              Code Drift is the personal website of Rudolph Jakob Heuser
-            </p>
-          )}
-        </div>
-        <div>
-          <div className="flex flex-col items=center lg:items-end -mt-5">
-            <div
-              className={`-mt-1 px-5 py-2 ${bgLight} border-b-0 lg:border-b-4 border-t-none ${borderGray900} rounded-lg rounded-t-none mb-5`}
-            >
-              <Logo
-                left={colorGray500}
-                right={colorGray600}
-                text={false}
-                style={{ height: "80px" }}
-              />
+                    ) : (
+                      <Link href={item.url} passHref>
+                        <a
+                          className={`${item.className} text-white no-underline hover:no-underline`}
+                        >
+                          {item.title}
+                        </a>
+                      </Link>
+                    )}
+                  </React.Fragment>
+                ))}
+          </div>
+          <div className="flex-grow pt-2 md:pt-0">
+            {disabled ? null : (
+              <p className="text-gray-400">
+                Code Drift is the personal website of Rudolph Jakob Heuser
+              </p>
+            )}
+          </div>
+          <div className="hidden lg:block">
+            <div className="flex flex-col items=center lg:items-end -mt-5">
+              <div
+                className={`-mt-1 px-5 py-2 ${bgLight} border-b-0 lg:border-b-4 border-t-none ${borderGray900} rounded-lg rounded-t-none mb-5`}
+              >
+                <Logo
+                  left={colorGray500}
+                  right={colorGray600}
+                  text={false}
+                  style={{ height: "80px" }}
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      <div className="py-2 px-5 lg:hidden flex flex-row justify-end">
+        <Logo
+          left={colorGray500}
+          right={colorGray600}
+          text={false}
+          style={{ height: "80px" }}
+        />
+      </div>
+    </>
   );
 };
 

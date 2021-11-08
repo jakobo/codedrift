@@ -68,22 +68,34 @@ export default function Home({ data }) {
         <div className="flex-col flex-shrink-0 w-full lg:w-auto">
           <div className="max-w-reading mx-2 lg:mx-0">
             <h1 className="font-sans-lg font-bold text-7xl mb-3">
-              Hey, I&rsquo;m Jakob
+              Hey 👋🏼, I&rsquo;m Jakob
             </h1>
             <p className="font-sans font-light leading-normal">
-              I build <Link href="/thunk/tag/leadership">teams</Link>,{" "}
-              <Link href="/thunk/tag/product">products</Link>, and{" "}
-              <Link href="/thunk/tag/code">code</Link>; writing about all three.
-              Currently I&rsquo;m exploring how we collaborate towards common
-              goals.
+              I&lsquo;m into the messy part of building things. Sometimes, when
+              there is clarity in the mess, it ends up{" "}
+              <Link href="/thunked" passHref>
+                <a className={linkClasses}>
+                  formalized here in <em>Thunked</em>
+                </a>
+              </Link>
+              . Many other ideas floating in my head, very unpolished, are
+              available in my{" "}
+              <a
+                href="https://coda.io/d/Jakobs-Notes_dFBvQLDXnR5/Home_suijF#_lu2BJ"
+                className={linkClasses}
+              >
+                public notes
+              </a>
+              .
             </p>
           </div>
-          <div className="max-w-reading mt-4 mx-2 lg:mx-0 flex flex-col space-y-8">
+
+          <div className="max-w-reading mt-4 mx-2 lg:mx-0 flex flex-col space-y-8 pt-6">
             {(data?.posts?.edges || []).map((ed) => (
               <div key={ed.node.id}>
-                <h2 className="font-sans font-bold text-3xl">
+                <h3 className="font-sans font-bold text-2xl">
                   {ed.node.title}
-                </h2>
+                </h3>
                 <div className="font-sans-caps text-sm">
                   <span className="text-xs">
                     {format(new Date(ed.node.publishedAt), "P")}

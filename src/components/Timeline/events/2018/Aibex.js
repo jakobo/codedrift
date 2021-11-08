@@ -5,15 +5,15 @@ export default function Aibex() {
   return (
     <Entry
       year="2018"
-      title="Co-Founder &amp; CEO, Aibex"
-      product="Aibex (exploration)"
-      categories={["Featured", "Product", "Engineering", "Design"]}
+      title="Co-Founder &amp; CEO"
+      product="Aibex"
+      categories={["Product", "Engineering", "Design"]}
     >
       <p>
-        Aibex wants you to get the most out of your career, and that means
-        understanding what you want from your current job and how it&rsquo;s
-        part of your larger story. Through guided reflection and timely prompts,
-        Karl and Aibex help you explore your relationship with work.
+        A rethink of how we interact with mentors and our networks in order to
+        get the most out of our careers. From guided reflections and journaling
+        to weekly content, it enabled people to see the big picture and plan
+        their next big steps.{" "}
       </p>
     </Entry>
   );

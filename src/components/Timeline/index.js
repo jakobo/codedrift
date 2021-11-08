@@ -54,7 +54,7 @@ export const Entry = ({
           <h3 className="py-0 font-bold text-3xl">{product}</h3>
         </div>
         <div className="text-gray-500 italic mt-2">{title}</div>
-        <div className="mt-5 prose max-w-none">{children}</div>
+        <div className="mt-5 prose dark:prose-dark max-w-none">{children}</div>
       </div>
     </div>
   );

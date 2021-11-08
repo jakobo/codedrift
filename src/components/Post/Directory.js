@@ -59,7 +59,7 @@ export default function PostDirectory({
                       </a>
                     </Link>
                   </h2>
-                  <div className="max-w-none prose">
+                  <div className="max-w-none prose dark:prose-dark">
                     <p>{post.excerpt}</p>
                   </div>
                 </li>

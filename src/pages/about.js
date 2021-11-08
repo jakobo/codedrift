@@ -10,6 +10,7 @@ import Head from "next/head";
 import KatyDavinci from "../components/Timeline/events/2012/KatyDavinci";
 import Layout, { createTitle } from "src/components/Layout";
 import LinkedInMobileWeb from "../components/Timeline/events/2011/LinkedInMobileWeb";
+import ProjectThanks from "src/components/Timeline/events/2020/ProjectThanks";
 import React from "react";
 import ReactAtPinterest from "../components/Timeline/events/2016/React";
 import ReactReady from "../components/Timeline/events/2017/ReactReady";
@@ -74,7 +75,7 @@ export default function About() {
       <Layout>
         <div className="flex-col w-full max-w-reading">
           <h1 className="font-sans-lg font-bold text-7xl mb-3">About</h1>
-          <div className="prose max-w-none pb-3">
+          <div className="prose dark:prose-dark max-w-none pb-3">
             <p>
               Over the last 15 years, I&rsquo;ve had the joy of creating
               meaningful software in the world. I&rsquo;m never done learning.
@@ -82,15 +83,16 @@ export default function About() {
             <p>
               Code Drift is the place where I share my work, my experiences, and
               my thoughts on code, management, and the vastness of software with
-              the world. Building engineering teams is messy work; so are
-              software projects. It&rsquo;s my hope that others can learn from
-              these experiences just as I have from so many others.
+              the world. Building is messy work. It&rsquo;s my hope that others
+              can learn from these experiences just as I have from so many
+              others.
             </p>
 
-            <h2>How We Got Here</h2>
+            <h2>How We Got Here. Right Here. (Right Now)</h2>
           </div>
           <Timeline initialFilters={{ Featured: true }}>
             <TimelineFilters />
+            <ProjectThanks />
             <Aibex />
             <ReactReady />
             <Texture />
