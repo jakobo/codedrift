@@ -7,5 +7,6 @@ module.exports = () => {
     images: {
       domains: ["codedrift.com", "localhost"],
     },
+    experimental: { esmExternals: true },
   };
 };

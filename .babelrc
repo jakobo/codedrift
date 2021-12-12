@@ -8,13 +8,18 @@
               "css",
               "diff",
               "graphql",
+              "html",
               "javascript",
               "json",
               "jsx",
+              "markdown",
               "markup",
               "php",
               "plsql",
-              "sql"
+              "shell",
+              "sql",
+              "tsx",
+              "typescript"
             ],
             "plugins": [
               "line-numbers"

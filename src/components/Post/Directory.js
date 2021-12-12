@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 import Link from "next/link";
 import React from "react";
 
@@ -14,8 +16,8 @@ export const groupPostsByYear = (posts) => {
 };
 
 export default function PostDirectory({
-  className,
-  postClassName,
+  className = "",
+  postClassName = "",
   postsByYear,
 }) {
   return (
@@ -37,6 +39,7 @@ export default function PostDirectory({
                   <h2>
                     <Link href={`/thunked/${post.slug}`} passHref>
                       <a
+                        href="overriden"
                         className={`
                             border-b
                             border-dotted 

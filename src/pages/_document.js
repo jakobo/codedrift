@@ -5,6 +5,7 @@ const bodyStyles = {
   margin: 0,
   padding: 0,
   overflowX: "hidden",
+  minHeight: "101vh",
 };
 
 class MyDocument extends Document {

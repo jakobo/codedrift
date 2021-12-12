@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 import Link from "next/link";
 import React from "react";
 import format from "date-fns/format";
@@ -16,23 +18,30 @@ export const Post = ({
   date,
   prologue = null,
   eplilogue = null,
-  className,
+  className = "",
 }) => (
   <div className={className}>
     <div className="flex-col lg:flex-row px-1">
       <div className="flex flex-row space-x-2 lg:flex-col w-full lg:w-36 lg:-ml-36 pr-4 font-sans-caps lg:text-right leading-none">
         <Link href={`/thunked/tag/${category.toLowerCase()}`} passHref>
-          <a className="block text-brand-500 dark:text-brand-invert-500">
+          <a
+            href="overriden"
+            className="block text-brand-500 dark:text-brand-invert-500"
+          >
             {category}
           </a>
         </Link>
         {!date ? (
           <Link href={`/thunked/${slug}`} passHref>
-            <a className={permalinkClass}>#</a>
+            <a href="overriden" className={permalinkClass}>
+              #
+            </a>
           </Link>
         ) : (
           <Link href={`/thunked/${slug}`} passHref>
-            <a className={permalinkClass}>{format(new Date(date), "P")}</a>
+            <a href="overriden" className={permalinkClass}>
+              {format(new Date(date), "P")}
+            </a>
           </Link>
         )}
       </div>
