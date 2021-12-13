@@ -11,11 +11,11 @@ import WebmentionItem from "src/components/Webmention";
 import matter from "gray-matter";
 import { usePrism } from "src/hooks/usePrism";
 import { DateTime } from "luxon";
-import { getWebmentions, Webmention } from "src/lib/webmentions/getWebmentions";
 import { demoji } from "src/lib/demoji";
 import Link from "next/link";
+import WebmentionClient, { Webmention } from "src/lib/webmentions/client";
 
-const selectMetaAttribute = (n) => {
+const selectMetaAttribute = (n: string) => {
   if (n.indexOf("og:") === 0) {
     return "property";
   }
@@ -301,8 +301,12 @@ export const getStaticProps: GetStaticProps<ThunkedBySlugProps> = async (
     };
   }
 
-  // get first 20 webmentions
-  const webmentions = await getWebmentions(canonicalUrl, 0, 20);
+  const wm = new WebmentionClient();
+  const webmentions = await wm.get({
+    target: canonicalUrl,
+    page: 0,
+    perPage: 20,
+  });
 
   const post = result.data.items[0];
   const { content, data: frontmatter } = matter(post.body);
@@ -343,7 +347,7 @@ export const getStaticProps: GetStaticProps<ThunkedBySlugProps> = async (
             description: label.description || null,
             id: label.id,
           })),
-        webmentions,
+        webmentions: webmentions.links,
       },
     },
     revalidate: 300,
