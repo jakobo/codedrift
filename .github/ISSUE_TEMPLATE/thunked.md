@@ -5,6 +5,7 @@ title: "slug_goes_here"
 labels: "📝 Thunked Draft"
 ---
 
+<!-- remove me to enable frontmatter -->
 ---
 title: Put Your Title Here
 published: 2004-12-02T00:00:00-08:00
