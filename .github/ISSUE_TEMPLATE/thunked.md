@@ -13,10 +13,4 @@ excerpt: ~
 changelog: ~
 ---
 
-<!--
-How to changelog in frontmatter:
-changelog:
-  2020-02-23T00:00:00-08:00: ISO Timestamp, followed by what changed. Markdown OK
--->
-
 Post goes here! Markdown all the things!
