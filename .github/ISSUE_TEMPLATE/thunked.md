@@ -7,9 +7,16 @@ labels: "📝 Thunked Draft"
 
 ---
 title: Put Your Title Here
-date: 2004-12-02T00:00:00-08:00
+published: 2004-12-02T00:00:00-08:00
 description: Put a description here of the post, for use in meta/og tags
-excerpt: (optional) An excerpt from the piece in place of the first few sentences
+excerpt: ~
+changelog: ~
 ---
+
+<!--
+How to changelog in frontmatter:
+changelog:
+  2020-02-23T00:00:00-08:00: ISO Timestamp, followed by what changed. Markdown OK
+-->
 
 Post goes here! Markdown all the things!
