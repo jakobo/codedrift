@@ -97,7 +97,7 @@ type WebmentionsResult = {
   links: WebmentionAPIResponse["links"];
 };
 
-export const MENTIONS_ENDPOINT = "https://webmention.io/api/mentions.jf2";
+export const MENTIONS_ENDPOINT = "https://webmention.io/api/mentions.json";
 export const COUNT_ENDPOINT = "https://webmention.io/api/count.json";
 
 // typeguards

@@ -1,0 +1,8 @@
+/* In prose, convert Img + EM to something approximating a Caption */
+.prose img + em {
+  width: 100%;
+  display: block;
+  text-align: center;
+
+  @apply text-sm;
+}

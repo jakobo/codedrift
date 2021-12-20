@@ -5,15 +5,16 @@ import { Post } from "src/components/Post";
 import { gfm, gfmHtml } from "micromark-extension-gfm";
 import { micromark } from "micromark";
 import Head from "next/head";
-import Icon from "src/components/Icon";
+import Icon, { InlineIcon } from "src/components/Icon";
 import Layout, { createTitle } from "src/components/Layout";
-import WebmentionItem from "src/components/Webmention";
-import matter from "gray-matter";
+import { Webmention as WebmentionItem } from "src/components/Webmention";
 import { usePrism } from "src/hooks/usePrism";
-import { DateTime } from "luxon";
-import { demoji } from "src/lib/demoji";
 import Link from "next/link";
 import WebmentionClient, { Webmention } from "src/lib/webmentions/client";
+import {
+  githubIssueToBlog,
+  Post as PostItem,
+} from "src/lib/github/issueToBlog";
 
 const selectMetaAttribute = (n: string) => {
   if (n.indexOf("og:") === 0) {
@@ -60,33 +61,18 @@ const IsDraft: FC<IsDraftProps> = ({ title, showButton, onClick }) => {
   );
 };
 
-type ThunkedTag = {
-  name: string;
-  description?: string;
-  id: string | number;
-};
-
 type ThunkedBySlugProps = {
-  data?: {
-    id: string;
-    title: string;
-    description?: string;
-    slug: string;
-    draft: boolean;
-    canonicalUrl: string;
-    body: string;
-    source: string;
-    publishedAt: string;
-    updatedAt: string;
-    category?: ThunkedTag | null;
-    tags: ThunkedTag[];
-    webmentions: Webmention[];
-  };
+  post?: PostItem;
+  webmentions?: Webmention[];
   error?: number;
 };
 
-const ThunkedBySlug: FC<ThunkedBySlugProps> = ({ error, data }) => {
-  const [ack, setAck] = useState(!data?.draft);
+const ThunkedBySlug: FC<ThunkedBySlugProps> = ({
+  error = null,
+  post = null,
+  webmentions = [],
+}) => {
+  const [ack, setAck] = useState(!post?.draft);
   const content = useRef<HTMLDivElement>(null);
   usePrism(content);
 
@@ -94,42 +80,42 @@ const ThunkedBySlug: FC<ThunkedBySlugProps> = ({ error, data }) => {
     return null;
   }
 
-  if (!data || !data?.body) {
+  if (!post || !post?.body) {
     return null;
   }
 
-  const body = micromark(data.body, {
+  const body = micromark(post.body, {
     extensions: [gfm()],
     htmlExtensions: [gfmHtml()],
   });
 
   // add a TS to ensure caching works as expected
   const tsWindow = Math.floor(
-    (data?.updatedAt ? new Date(data.updatedAt).getTime() : 0) / 86400
+    (post?.updatedAt ? new Date(post.updatedAt).getTime() : 0) / 86400
   );
   const mediaImage = `https://codedrift.com/api/v1/og/image/thunked/${
-    data.slug || ""
+    post.slug || ""
   }?ts=${tsWindow}`;
-  const tagList = data.tags.map((t) => t.name.replace(/,/g, "")).join(",");
+  const tagList = post.tags.map((t) => t.name.replace(/,/g, "")).join(",");
 
   const meta = {
-    description: data.description,
+    description: post.description,
     "og:type": "article",
-    "og:title": data.title,
-    "og:description": data.description,
-    "og:url": data.canonicalUrl,
+    "og:title": post.title,
+    "og:description": post.description,
+    "og:url": post.canonicalUrl,
     "og:image": mediaImage,
     "og:image:width": 1200,
     "og:image:height": 600,
 
-    "article:published_time": data.publishedAt || null,
-    "article:modified_time": data.updatedAt || null,
+    "article:published_time": post.publishedAt || null,
+    "article:modified_time": post.updatedAt || null,
     "article:tag": tagList,
 
     "twitter:card": "summary_large_image",
-    "twitter:title": data.title,
-    "twitter:description": data.description,
-    "twitter:url": data.canonicalUrl,
+    "twitter:title": post.title,
+    "twitter:description": post.description,
+    "twitter:url": post.canonicalUrl,
     "twitter:image": mediaImage,
     "twitter:label1": "Written by",
     "twitter:data1": "Jakob Heuser",
@@ -152,30 +138,30 @@ const ThunkedBySlug: FC<ThunkedBySlugProps> = ({ error, data }) => {
       url: "https://codedrift.com",
       sameAs: [],
     },
-    headline: data.title,
-    url: data.canonicalUrl,
+    headline: post.title,
+    url: post.canonicalUrl,
     image: mediaImage,
-    datePublished: data.publishedAt,
-    dateModified: data.updatedAt,
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt,
     keywords: tagList,
-    description: data.description,
+    description: post.description,
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": "https://codedrift.com",
     },
   };
 
-  const tweetSlug = `${data.title} on Code Drift`;
-  const hasMentions = data.webmentions.length > 0;
+  const tweetSlug = `${post.title} on Code Drift`;
+  const hasMentions = webmentions.length > 0;
 
   return (
     <>
       <Head>
-        <title>{createTitle(data?.title)}</title>
-        <link rel="canonical" href={data.canonicalUrl} />
+        <title>{createTitle(post?.title)}</title>
+        <link rel="canonical" href={post.canonicalUrl} />
         {Object.getOwnPropertyNames(meta).map((name) => {
           const value = Array.isArray(meta[name]) ? meta[name] : [meta[name]];
-          return value.map((val, idx) => {
+          return value.map((val: string, idx: number) => {
             if (val === null) {
               return null;
             }
@@ -194,17 +180,17 @@ const ThunkedBySlug: FC<ThunkedBySlugProps> = ({ error, data }) => {
         <div className="flex-col w-full">
           {!ack ? (
             <IsDraft
-              title={data?.title}
+              title={post?.title}
               showButton={!ack}
               onClick={() => setAck(true)}
             />
           ) : null}
           {ack ? (
             <Post
-              title={data?.title}
-              date={data?.publishedAt}
-              slug={data?.slug}
-              category={data.category?.name || ""}
+              title={post?.title}
+              publishedAt={post?.publishedAt}
+              slug={post?.slug}
+              category={post.category?.name || ""}
               titleTag={({ children, ...props }) => (
                 <h1
                   {...props}
@@ -219,7 +205,7 @@ const ThunkedBySlug: FC<ThunkedBySlugProps> = ({ error, data }) => {
               <div ref={content} dangerouslySetInnerHTML={{ __html: body }} />
             </Post>
           ) : null}
-          {data.draft ? null : (
+          {post.draft ? null : (
             <div className="border-t border-t-gray-500 mt-4 pt-4 max-w-reading">
               <div className="flex flex-row pb-2">
                 <div className="flex-grow font-sans-caps font-bold">
@@ -244,10 +230,10 @@ const ThunkedBySlug: FC<ThunkedBySlugProps> = ({ error, data }) => {
                   <a
                     href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
                       tweetSlug
-                    )}&url=${encodeURIComponent(data.canonicalUrl)}&via=jakobo`}
+                    )}&url=${encodeURIComponent(post.canonicalUrl)}&via=jakobo`}
                     style={{ color: "#1DA1F2" }}
                   >
-                    <Icon
+                    <InlineIcon
                       icon="twitter"
                       className="inline-block h-3 w-4 fill-current mr-1 mb-1"
                     />
@@ -265,7 +251,7 @@ const ThunkedBySlug: FC<ThunkedBySlugProps> = ({ error, data }) => {
                 </div>
               )}
               <div>
-                {data.webmentions.map((wm) => (
+                {webmentions.map((wm) => (
                   <WebmentionItem key={wm.id} mention={wm} className="pb-8" />
                 ))}
               </div>
@@ -284,13 +270,10 @@ export const getStaticProps: GetStaticProps<ThunkedBySlugProps> = async (
   const slug = Array.isArray(ctx.params.slug)
     ? ctx.params.slug[0]
     : ctx.params.slug;
-  const canonicalUrl = `https://codedrift.com/thunked/${slug || ""}`;
   const octokit = new Octokit({ auth: process.env.GITHUB_PAT });
-
   const result = await octokit.rest.search.issuesAndPullRequests({
-    q: `${slug} in:title type:issue label:"✒ Thunked" author:jakobo repo:jakobo/codedrift`,
+    q: `"slug: ${slug}" in:body type:issue label:"✒ Thunked" author:jakobo repo:jakobo/codedrift`,
   });
-  // console.log(result);
 
   if (result.data.total_count === 0) {
     return {
@@ -301,54 +284,20 @@ export const getStaticProps: GetStaticProps<ThunkedBySlugProps> = async (
     };
   }
 
+  const post = githubIssueToBlog(result.data.items?.[0]);
+
   const wm = new WebmentionClient();
+
   const webmentions = await wm.get({
-    target: canonicalUrl,
+    target: post.canonicalUrl,
     page: 0,
     perPage: 20,
   });
 
-  const post = result.data.items[0];
-  const { content, data: frontmatter } = matter(post.body);
-
-  const isDraft =
-    post.labels.filter((label) => label.name.indexOf("draft") >= 0).length > 1;
-
-  const category =
-    post.labels
-      .filter((label) => label.name.indexOf("📚") === 0)
-      .map((label) => ({
-        name: demoji(label.name),
-        description: label.description || null,
-        id: label.id,
-      }))?.[0] || null;
-
   return {
     props: {
-      data: {
-        id: "" + post.id,
-        slug,
-        draft: isDraft,
-        title: frontmatter?.title || "A post on Thunked",
-        description: frontmatter?.description || null,
-        body: content,
-        source: post.html_url,
-        canonicalUrl,
-        updatedAt: post.updated_at || null,
-        publishedAt: frontmatter.date
-          ? DateTime.fromJSDate(frontmatter.date).toISO()
-          : null,
-        category,
-        tags: post.labels
-          .filter((label) => !category?.id || label.id !== category.id)
-          .map((label) => ({
-            // https://stackoverflow.com/a/69661174
-            name: demoji(label.name),
-            description: label.description || null,
-            id: label.id,
-          })),
-        webmentions: webmentions.links,
-      },
+      post,
+      webmentions: webmentions.links || [],
     },
     revalidate: 300,
   };

@@ -1724,6 +1724,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"add@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "add@npm:2.0.6"
+  checksum: e2d23d40494565dfed4acd65e478570c444db5ac6c053551ed429c39ea0f2c99d83df63e7befec936df601827d2254d06a2fb6f7dcfd2022e810b25eab818b8c
+  languageName: node
+  linkType: hard
+
 "agent-base@npm:6":
   version: 6.0.2
   resolution: "agent-base@npm:6.0.2"
@@ -4318,6 +4325,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"coda-js@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "coda-js@npm:4.0.1"
+  dependencies:
+    axios: ^0.21.1
+    dotenv: ^8.2.0
+  checksum: 175c8eacf43ae032ce10d33e73187e2f42f22f49a366849eaadf319bf996ee08dba5f727fc1f07a7384ad9cefce5ddb916113f6e1e8ad2707e33b79ed274ac59
+  languageName: node
+  linkType: hard
+
 "code-point-at@npm:^1.0.0":
   version: 1.1.0
   resolution: "code-point-at@npm:1.1.0"
@@ -4341,6 +4358,7 @@ __metadata:
     "@types/react": ^17.0.37
     "@typescript-eslint/eslint-plugin": ^5.6.0
     "@typescript-eslint/parser": ^5.6.0
+    add: ^2.0.6
     apollo-server-micro: ^2.21.0
     autoprefixer: ^10.2.5
     babel-eslint: ^10.1.0
@@ -4348,6 +4366,7 @@ __metadata:
     babel-plugin-prismjs: ^2.0.1
     camelcase-keys: ^6.2.2
     chrome-aws-lambda: ^8.0.2
+    coda-js: ^4.0.1
     cross-fetch: ^3.0.6
     date-fns: ^2.17.0
     debug: ^4.3.1
@@ -4409,6 +4428,7 @@ __metadata:
     unist-util-select: ^3.0.4
     unist-util-visit: ^2.0.3
     urql: ^2.0.1
+    yarn: ^1.22.17
   languageName: unknown
   linkType: soft
 
@@ -14548,6 +14568,16 @@ resolve@^2.0.0-next.3:
     window-size: ^0.1.2
     y18n: ^3.2.0
   checksum: 267dc77029b53283f8c53c7cde2e60593a519beae130f7985fda02dd79bdf5cd162130bd6b0a7dbac16b166b462e5acc30103b466b4fb1d2c6c3050bf0f87fe7
+  languageName: node
+  linkType: hard
+
+"yarn@npm:^1.22.17":
+  version: 1.22.17
+  resolution: "yarn@npm:1.22.17"
+  bin:
+    yarn: ./bin/yarn.js
+    yarnpkg: ./bin/yarn.js
+  checksum: 9d5211477d439a4d7b5632d7c290a3be36d2edc13599b64964bff520d3a3a480db85010f3262293981abb4e618ac92aaafa4c4c54bae50a7713c7b8ec431adac
   languageName: node
   linkType: hard
 
