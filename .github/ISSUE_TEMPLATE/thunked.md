@@ -1,13 +1,13 @@
 ---
 name: Thunked Blog Post
 about: Create a New Post on "Thunked"
-title: "slug_goes_here"
+title: "Post Title"
 labels: "📝 Thunked Draft"
 ---
 
 ```yaml
 ---
-title: Put Your Title Here
+slug: slug-goes-here
 published: 2004-12-02T00:00:00-08:00
 description: Put a description here of the post, for use in meta/og tags
 changelog: ~
