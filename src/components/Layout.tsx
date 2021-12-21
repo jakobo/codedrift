@@ -1,9 +1,9 @@
 import { useColorScheme } from "src/hooks/useColorScheme";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import Icon from "../Icon";
+import Icon from "./Icon";
 import Link from "next/link";
-import Logo from "../Logo";
+import Logo from "./Logo";
 import React, { useCallback } from "react";
 
 interface TwitterProps {

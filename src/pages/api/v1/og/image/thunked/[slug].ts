@@ -1,3 +1,6 @@
+import { NextApiRequest, NextApiResponse } from "next";
+
+// leave as require for lambda compat
 const chromium = require("chrome-aws-lambda");
 
 const isDev = !process.env.AWS_REGION;
@@ -30,18 +33,18 @@ const getChromiumOptions = async (devMode) => {
   }
 };
 
-const errorWith = (e, res) => {
+const errorWith = (e: any, res: NextApiResponse) => {
   console.error(e);
   res.statusCode = 500;
   res.end("Unable to generate image");
 };
 
-const timeout = async (ms) => {
+const timeout = async (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
 // og:image slug for thunked
-export default async function (req, res) {
+export default async function (req: NextApiRequest, res: NextApiResponse) {
   let file = null;
   let browser = null;
 

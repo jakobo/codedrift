@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Layout from "src/components/Layout";
-import { PostDirectory, groupPostsByYear } from "src/components/Post/Directory";
+import { PostDirectory, groupPostsByYear } from "src/components/Directory";
 import React from "react";
 import { Octokit } from "octokit";
 import { githubIssueToBlog, Post } from "src/lib/github/issueToBlog";
@@ -36,7 +36,7 @@ export default Thunked;
 export const getStaticProps: GetStaticProps<ThunkedProps> = async () => {
   const octokit = new Octokit({ auth: process.env.GITHUB_PAT });
   const postResult = await octokit.rest.search.issuesAndPullRequests({
-    q: `type:issue label:"✒ Thunked" author:jakobo repo:jakobo/codedrift`,
+    q: `type:issue is:closed label:"✒ Thunked" author:jakobo repo:jakobo/codedrift`,
     sort: "created",
     order: "desc",
     per_page: 100,

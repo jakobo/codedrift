@@ -1,5 +1,5 @@
-import { html2React, webmentionParser } from "../../lib/markup/rehype";
-import Icon from "../Icon";
+import { html2React, webmentionParser } from "src/lib/markup/rehype";
+import Icon from "./Icon";
 import React, { HTMLAttributes } from "react";
 import { Webmention as WebmentionType } from "src/lib/webmentions/client";
 import { DateTime } from "luxon";

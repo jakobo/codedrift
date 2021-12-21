@@ -1,4 +1,5 @@
 import React, {
+  PropsWithChildren,
   useCallback,
   useContext,
   useEffect,
@@ -6,11 +7,21 @@ import React, {
   useState,
 } from "react";
 
-const Context = React.createContext();
+type ValidMode = "light" | "dark";
+type ColorSchemeContext = {
+  setColorScheme: (setTo: ValidMode) => void;
+  mode: ValidMode;
+};
+
+const Context = React.createContext<ColorSchemeContext>({
+  setColorScheme: () => {},
+  mode: "dark",
+});
 
 const modes = ["dark", "light"];
-export default function CSProvider({ children }) {
-  const [mode, setMode] = useState(null);
+
+const ColorSchemeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+  const [mode, setMode] = useState<ValidMode>("dark");
   const isBrowser = typeof window !== "undefined";
 
   const handleMediaChange = useCallback((evt) => {
@@ -28,13 +39,13 @@ export default function CSProvider({ children }) {
     return () => {
       mm.removeEventListener("change", handleMediaChange);
     };
-  }, [isBrowser]);
+  }, [handleMediaChange, isBrowser]);
 
   useEffect(() => {
     if (!isBrowser) return;
     const mm = window.matchMedia("(prefers-color-scheme: dark)");
     const saved = localStorage.getItem("colorScheme");
-    if (saved) {
+    if ((saved && saved === "light") || saved === "dark") {
       setMode(saved);
     } else if (mm.matches) {
       setMode("dark");
@@ -45,9 +56,9 @@ export default function CSProvider({ children }) {
 
   useEffect(() => {
     if (!isBrowser) return;
-    document.body.parentNode.classList.remove("light");
-    document.body.parentNode.classList.remove("dark");
-    document.body.parentNode.classList.add(mode);
+    document.body.parentElement.classList.remove("light");
+    document.body.parentElement.classList.remove("dark");
+    document.body.parentElement.classList.add(mode);
     localStorage.setItem("colorScheme", mode);
   }, [isBrowser, mode]);
 
@@ -66,7 +77,8 @@ export default function CSProvider({ children }) {
   );
 
   return <Context.Provider value={payload}>{children}</Context.Provider>;
-}
+};
+export default ColorSchemeProvider;
 
 export const useColorScheme = () => {
   const c = useContext(Context);

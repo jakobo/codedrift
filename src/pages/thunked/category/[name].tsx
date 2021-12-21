@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Layout, { createTitle } from "src/components/Layout";
-import { PostDirectory, groupPostsByYear } from "src/components/Post/Directory";
+import { PostDirectory, groupPostsByYear } from "src/components/Directory";
 import React from "react";
 import { Octokit } from "octokit";
 import { GetStaticProps } from "next";
@@ -65,7 +65,7 @@ export const getStaticProps: GetStaticProps<ThunkedPostsByTagProps> = async (
   });
 
   const postResult = await octokit.rest.search.issuesAndPullRequests({
-    q: `type:issue label:"📚 ${cat}" author:jakobo repo:jakobo/codedrift`,
+    q: `type:issue is:closed label:"📚 ${cat}" author:jakobo repo:jakobo/codedrift`,
     sort: "updated",
     order: "desc",
   });

@@ -28,6 +28,23 @@ export type Post = {
   tags: Tag[];
 };
 
+export type PostFrontmatter = {
+  slug: string;
+  published?: Date;
+  description?: string;
+  repost?: {
+    url: string;
+    text: string;
+  };
+  changelog?: {
+    [date: string]: string;
+  };
+};
+
+type gfmMatterResult = matter.GrayMatterFile<string> & {
+  data: PostFrontmatter;
+};
+
 const octokit = new Octokit();
 const engine = remark().use(strip);
 const gfmMatter = (str: string) => {
@@ -36,7 +53,7 @@ const gfmMatter = (str: string) => {
     // ^code  ^lang            ^actual frontmatter
     "$1"
   );
-  return matter(decoded);
+  return matter(decoded) as gfmMatterResult;
 };
 const excerpt = (str: string, size = 3): string => {
   const { content } = gfmMatter(str);
@@ -72,6 +89,7 @@ export const githubIssueToBlog = (
 
   const tags = item.labels
     .filter((label) => !category?.id || label.id !== category.id)
+    .filter((label) => label.name.toLowerCase().indexOf("thunked") === -1)
     .map((label) => ({
       // https://stackoverflow.com/a/69661174
       name: demoji(label.name),
@@ -90,8 +108,8 @@ export const githubIssueToBlog = (
     source: item.html_url,
     canonicalUrl,
     updatedAt: item.updated_at || null,
-    publishedAt: frontmatter.date
-      ? DateTime.fromJSDate(frontmatter.date).toISO()
+    publishedAt: frontmatter.published
+      ? DateTime.fromJSDate(frontmatter.published).toISO()
       : null,
     category,
     tags,
