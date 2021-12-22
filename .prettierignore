@@ -2,6 +2,7 @@
 .*rc
 *.lock
 .*ignore
+__generated__
 
 # unformattables
 *.sh
