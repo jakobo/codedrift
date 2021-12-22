@@ -5,7 +5,8 @@ import { DateTime } from "luxon";
 const permalinkClass =
   "block font-sans-caps text-gray-300 text-sm no-underline";
 
-const widont = (text) => text.replace(/([^\s])\s+([^\s]+)\s*$/, "$1\u00a0$2");
+const widont = (text: string) =>
+  text.replace(/([^\s])\s+([^\s]+)\s*$/, "$1\u00a0$2");
 
 interface PostProps {
   title: string;
@@ -25,7 +26,6 @@ export const Post: React.FC<PropsWithChildren<PostProps>> = ({
   children,
   className = "",
 }) => {
-  console.log(publishedAt);
   return (
     <div className={className}>
       <div className="flex-col lg:flex-row px-1">
