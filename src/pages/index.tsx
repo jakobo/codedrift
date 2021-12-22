@@ -74,11 +74,11 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
                   </span>
                   &nbsp;in&nbsp;
                   <Link
-                    href={`/thunked/tag/${post.category.name.toLowerCase()}`}
+                    href={`/thunked/category/${post.category.name.toLowerCase()}`}
                     passHref
                   >
                     <a
-                      href={`/thunked/tag/${post.category.name.toLowerCase()}`}
+                      href={`/thunked/category/${post.category.name.toLowerCase()}`}
                       className={linkClasses}
                     >
                       {post.category.name}
@@ -89,11 +89,11 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
                     <span key={tag.id} className={dullLinkClasses}>
                       {idx !== 0 ? ", " : null}
                       <Link
-                        href={`/thunked/tag/${tag.name.toLowerCase()}`}
+                        href={`/thunked/category/${tag.name.toLowerCase()}`}
                         passHref
                       >
                         <a
-                          href={`/thunked/tag/${tag.name.toLowerCase()}`}
+                          href={`/thunked/category/${tag.name.toLowerCase()}`}
                           className={dullLinkClasses}
                         >
                           {tag.name}
