@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { PropsWithChildren } from "react";
+import React, { HTMLAttributes, PropsWithChildren } from "react";
 import { DateTime } from "luxon";
 
 const permalinkClass =
@@ -10,7 +10,7 @@ const widont = (text: string) =>
 
 interface PostProps {
   title: string;
-  titleTag: any; // TODO: what is this?!
+  titleTag: React.ComponentType<HTMLAttributes<HTMLElement>>;
   slug: string;
   category: string;
   publishedAt: string;
