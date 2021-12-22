@@ -1,0 +1,31 @@
+query SelectLatestPosts($first: Int!, $after: String) {
+  repository(owner: "jakobo", name: "codedrift") {
+    discussions(
+      first: $first
+      after: $after
+      categoryId: "DIC_kwDOFC_g4s4CAYqP"
+      orderBy: { field: CREATED_AT, direction: DESC }
+    ) {
+      nodes {
+        id
+        title
+        body
+        labels(first: 20) {
+          nodes {
+            name
+          }
+        }
+        createdAt
+        comments {
+          totalCount
+        }
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+      }
+    }
+  }
+}

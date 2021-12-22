@@ -141,7 +141,6 @@ export default Home;
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   const octokit = new Octokit({ auth: process.env.GITHUB_PAT });
-
   const postResult = await octokit.rest.search.issuesAndPullRequests({
     q: `type:issue is:closed label:"✒ Thunked" author:jakobo repo:jakobo/codedrift`,
     sort: "created",
