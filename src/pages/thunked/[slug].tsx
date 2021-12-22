@@ -12,9 +12,12 @@ import { usePrism } from "src/hooks/usePrism";
 import Link from "next/link";
 import WebmentionClient, { Webmention } from "src/lib/webmentions/client";
 import {
+  // discussionToBlog,
   githubIssueToBlog,
   Post as PostItem,
 } from "src/lib/github/issueToBlog";
+// import { getClient } from "src/graphql";
+// import { PostDetailsFragment } from "__generated__/graphql";
 
 const selectMetaAttribute = (n: string) => {
   if (n.indexOf("og:") === 0) {
@@ -23,6 +26,9 @@ const selectMetaAttribute = (n: string) => {
 
   return "name";
 };
+
+// TODO gql change
+// const client = getClient("github");
 
 type IsDraftProps = {
   title: string;
@@ -270,6 +276,21 @@ export const getStaticProps: GetStaticProps<ThunkedBySlugProps> = async (
   const slug = Array.isArray(ctx.params.slug)
     ? ctx.params.slug[0]
     : ctx.params.slug;
+
+  // const res = await client.SelectPostsWithQuery({
+  //   query: `"slug: ${slug}" in:body category:"Thunked" author:@me repo:jakobo/codedrift`,
+  // });
+  // // exact match only
+  // if (res.search.discussionCount !== 1) {
+  //   return {
+  //     props: {
+  //       error: 404,
+  //     },
+  //     revalidate: 300,
+  //   };
+  // }
+  // const post = discussionToBlog(res.search.nodes[0] as PostDetailsFragment);
+
   const octokit = new Octokit({ auth: process.env.GITHUB_PAT });
   const result = await octokit.rest.search.issuesAndPullRequests({
     q: `"slug: ${slug}" in:body type:issue label:"✒ Thunked" author:jakobo repo:jakobo/codedrift`,

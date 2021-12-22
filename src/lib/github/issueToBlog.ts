@@ -5,6 +5,7 @@ import { demoji } from "../demoji";
 import strip from "strip-markdown";
 import { remark } from "remark";
 import { Unwrap } from "types/Unwrap";
+import { PostDetailsFragment } from "__generated__/graphql";
 
 export type Tag = {
   name: string;
@@ -65,6 +66,49 @@ const excerpt = (str: string, size = 3): string => {
       .join(".")
       .trim() + "."
   );
+};
+
+export const discussionToBlog = (item: PostDetailsFragment): Post => {
+  const isDraft = false;
+  const { content, data: frontmatter } = gfmMatter(item.body);
+  const canonicalUrl = `https://codedrift.com/thunked/${
+    frontmatter.slug || ""
+  }`;
+  const category =
+    (item.labels?.nodes || [])
+      .filter((label) => label.name.indexOf("📚") === 0)
+      .map((label) => ({
+        name: demoji(label.name),
+        description: label.description || null,
+        id: label.id,
+      }))?.[0] || null;
+  const tags = (item.labels?.nodes || [])
+    .filter((label) => !category?.id || label.id !== category.id)
+    .filter((label) => label.name.toLowerCase().indexOf("thunked") === -1)
+    .map((label) => ({
+      // https://stackoverflow.com/a/69661174
+      name: demoji(label.name),
+      description: label.description || null,
+      id: label.id,
+    }));
+
+  return {
+    id: "" + item.id,
+    slug: frontmatter.slug,
+    draft: isDraft,
+    title: item.title || "A post on Thunked",
+    description: frontmatter?.description || null,
+    excerpt: frontmatter?.description || excerpt(content),
+    body: content,
+    source: item.url,
+    canonicalUrl,
+    updatedAt: item.lastEditedAt || null,
+    publishedAt: frontmatter.published
+      ? DateTime.fromJSDate(frontmatter.published).toISO()
+      : null,
+    category,
+    tags,
+  };
 };
 
 export const githubIssueToBlog = (
