@@ -61,6 +61,10 @@ const navLinks = [
   { title: "Home", url: "/", className: "" },
   { title: "Writing", url: "/thunked", className: "" },
   {
+    title: "AMA",
+    url: "https://github.com/jakobo/codedrift/discussions/categories/ask-me-anything-ama",
+  },
+  {
     title: "Notes",
     url: "https://coda.io/d/Jakobs-Notes_dFBvQLDXnR5/Home_suijF#_lu2BJ",
     className: "",
@@ -201,7 +205,7 @@ const Footer: React.FC<FooterProps> = ({ disabled = false }) => {
           <div className="flex-grow pt-2 md:pt-0">
             {disabled ? null : (
               <p className="text-gray-400">
-                Code Drift is the personal website of Rudolph Jakob Heuser
+                CodeDrift is the personal website of Rudolph Jakob Heuser
               </p>
             )}
           </div>
@@ -254,7 +258,7 @@ const WebMentionSupport = () => (
   </Head>
 );
 
-export const createTitle = (text) => `${text} on Code Drift`;
+export const createTitle = (text) => `${text} on CodeDrift`;
 
 export default function Layout({ disabled = false, children }) {
   return (

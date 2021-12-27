@@ -1,17 +1,48 @@
-import { GraphQLClient } from "graphql-request";
-import { getSdk } from "__generated__/graphql";
+import {
+  initUrqlClient,
+  withUrqlClient,
+  WithUrqlClientOptions,
+} from "next-urql";
+import {
+  dedupExchange,
+  cacheExchange,
+  fetchExchange,
+  ssrExchange,
+} from "@urql/core";
+import { devtoolsExchange } from "@urql/devtools";
 
-type Clients = "github";
+export const withDefaultUrqlClient = (options?: WithUrqlClientOptions) =>
+  withUrqlClient((ssrExchange) => {
+    return {
+      url: `${process.env.NEXT_PUBLIC_URL}/api/proxy/api.github.com/graphql`,
+      exchanges: [
+        devtoolsExchange,
+        dedupExchange,
+        cacheExchange,
+        ssrExchange,
+        fetchExchange,
+      ],
+    };
+  }, options);
 
-const clients = {
-  github: getSdk(
-    new GraphQLClient(
-      `${process.env.NEXT_PUBLIC_URL}/api/proxy/api.github.com/graphql`
-    )
-  ),
+export type PropsWithUrqlState<T> = T & {
+  urqlState: any;
 };
 
-export const getClient = (service: Clients) => {
-  if (clients[service]) return clients[service];
-  throw new Error("No client found for " + service);
+export const initDefaultUrqlClient = (canEnableSuspense?: boolean) => {
+  const ssrCache = ssrExchange({ isClient: false });
+  const client = initUrqlClient(
+    {
+      url: `${process.env.NEXT_PUBLIC_URL}/api/proxy/api.github.com/graphql`,
+      exchanges: [
+        devtoolsExchange,
+        dedupExchange,
+        cacheExchange,
+        ssrCache,
+        fetchExchange,
+      ],
+    },
+    canEnableSuspense
+  );
+  return { client, cache: ssrCache };
 };

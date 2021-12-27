@@ -56,8 +56,8 @@ query SelectRecentlyCreatedPosts($first: Int = 3, $after: String) {
 #   label:"📚 ${category}" category:"Thunked" author:@me repo:jakobo/codedrift"
 # Get By Tag:
 #   label:"🏷 ${tag}" category:"Thunked" author:@me repo:jakobo/codedrift"
-query SelectPostsWithQuery($query: String!, $first: Int = 1, $after: String) {
-  search(first: $first, after: $after, type: DISCUSSION, query: $query) {
+query SelectPostsWithSearch($search: String!, $first: Int = 1, $after: String) {
+  search(first: $first, after: $after, type: DISCUSSION, query: $search) {
     nodes {
       ... on Discussion {
         ...PostDetails

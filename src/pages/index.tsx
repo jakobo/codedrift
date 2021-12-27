@@ -1,11 +1,12 @@
 import Head from "next/head";
 import Layout from "src/components/Layout";
 import Link from "next/link";
-import React from "react";
-import { GetStaticProps } from "next";
-import { Octokit } from "octokit";
-import { githubIssueToBlog, Post } from "src/lib/github/issueToBlog";
+import React, { useMemo } from "react";
+import { discussionToBlog } from "src/lib/github/discussionToPost";
 import { DateTime } from "luxon";
+import { useSelectRecentlyCreatedPostsQuery } from "__generated__/graphql";
+import { withDefaultUrqlClient } from "src/graphql";
+import { Post } from "types/Post";
 
 const linkClasses = `
 no-underline
@@ -29,11 +30,20 @@ type HomeProps = {
   error?: number;
 };
 
-const Home: React.FC<HomeProps> = ({ posts }) => {
+const Home: React.FC<HomeProps> = () => {
+  const [{ data }] = useSelectRecentlyCreatedPostsQuery();
+  const posts = useMemo(
+    () =>
+      (data?.repository?.discussions?.nodes || []).map((post) => {
+        return discussionToBlog(post);
+      }),
+    [data?.repository?.discussions?.nodes]
+  );
+
   return (
     <>
       <Head>
-        <title>Code Drift - Jakob Heuser</title>
+        <title>CodeDrift - Jakob Heuser</title>
       </Head>
       <Layout>
         <div className="flex-col flex-shrink-0 w-full lg:w-auto">
@@ -64,7 +74,16 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
           <div className="max-w-reading mt-4 mx-2 lg:mx-0 flex flex-col space-y-8 pt-6">
             {(posts || []).map((post) => (
               <div key={post.id}>
-                <h3 className="font-sans font-bold text-2xl">{post.title}</h3>
+                <h3 className="font-sans font-bold text-2xl">
+                  <Link href={`/thunked/${post.slug}`} passHref>
+                    <a
+                      href={`/thunked/${post.slug}`}
+                      className={`text-brand-500 dark:text-brand-invert-500`}
+                    >
+                      {post.title}
+                    </a>
+                  </Link>
+                </h3>
                 <div className="font-sans-caps text-sm">
                   <span
                     className="text-xs"
@@ -73,12 +92,9 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
                     {DateTime.fromISO(post.publishedAt).toRelativeCalendar()}
                   </span>
                   &nbsp;in&nbsp;
-                  <Link
-                    href={`/thunked/category/${post.category.name.toLowerCase()}`}
-                    passHref
-                  >
+                  <Link href={`/thunked/tag/${post.category.name}`} passHref>
                     <a
-                      href={`/thunked/category/${post.category.name.toLowerCase()}`}
+                      href={`/thunked/tag/${post.category.name}`}
                       className={linkClasses}
                     >
                       {post.category.name}
@@ -88,12 +104,9 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
                   {post.tags.map((tag, idx) => (
                     <span key={tag.id} className={dullLinkClasses}>
                       {idx !== 0 ? ", " : null}
-                      <Link
-                        href={`/thunked/category/${tag.name.toLowerCase()}`}
-                        passHref
-                      >
+                      <Link href={`/thunked/tag/${tag.name}`} passHref>
                         <a
-                          href={`/thunked/category/${tag.name.toLowerCase()}`}
+                          href={`/thunked/tag/${tag.name}`}
                           className={dullLinkClasses}
                         >
                           {tag.name}
@@ -105,30 +118,6 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
                 <div className="prose dark:prose-dark max-w-none">
                   {post.excerpt || post.description}
                 </div>
-                <div className="mt-3">
-                  📖{" "}
-                  <Link href={`/thunked/${post.slug}`} passHref>
-                    <a
-                      href={`/thunked/${post.slug}`}
-                      className={`
-                    border-b
-                    border-dotted 
-
-                    text-brand-500
-                    hover:text-brand-700
-                    border-brand-500
-                    hover:border-brand-700
-
-                    dark:text-brand-invert-500
-                    dark:hover:text-brand-invert-700
-                    dark:border-brand-invert-500
-                    dark:hover:border-invert-brand-700
-                  `}
-                    >
-                      Read in <span className="italic">Thunked</span>
-                    </a>
-                  </Link>
-                </div>
               </div>
             ))}
           </div>
@@ -137,23 +126,4 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
     </>
   );
 };
-export default Home;
-
-export const getStaticProps: GetStaticProps<HomeProps> = async () => {
-  const octokit = new Octokit({ auth: process.env.GITHUB_PAT });
-  const postResult = await octokit.rest.search.issuesAndPullRequests({
-    q: `type:issue is:closed label:"✒ Thunked" author:jakobo repo:jakobo/codedrift`,
-    sort: "created",
-    order: "desc",
-    per_page: 3,
-  });
-
-  const posts = postResult.data.items.map((item) => githubIssueToBlog(item));
-
-  return {
-    props: {
-      posts,
-    },
-    revalidate: 300,
-  };
-};
+export default withDefaultUrqlClient()(Home);

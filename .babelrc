@@ -1,31 +1,32 @@
 {
   "presets": ["next/babel"],
   "plugins": [
-        [
-          "prismjs",
-          {
-            "languages": [
-              "css",
-              "diff",
-              "graphql",
-              "html",
-              "javascript",
-              "json",
-              "json5",
-              "jsx",
-              "markdown",
-              "markup",
-              "php",
-              "plsql",
-              "shell",
-              "sql",
-              "tsx",
-              "typescript"
-            ],
-            "plugins": [
-              "line-numbers"
-            ]
-          }
+    "@babel/plugin-transform-unicode-regex",
+    [
+      "prismjs",
+      {
+        "languages": [
+          "css",
+          "diff",
+          "graphql",
+          "html",
+          "javascript",
+          "json",
+          "json5",
+          "jsx",
+          "markdown",
+          "markup",
+          "php",
+          "plsql",
+          "shell",
+          "sql",
+          "tsx",
+          "typescript"
+        ],
+        "plugins": [
+          "line-numbers"
         ]
+      }
+    ]
   ]
 }

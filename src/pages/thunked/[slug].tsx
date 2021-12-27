@@ -1,6 +1,5 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useRef } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { Octokit } from "octokit";
 import { Post } from "src/components/Post";
 import { gfm, gfmHtml } from "micromark-extension-gfm";
 import { micromark } from "micromark";
@@ -9,15 +8,17 @@ import Icon, { InlineIcon } from "src/components/Icon";
 import Layout, { createTitle } from "src/components/Layout";
 import { Webmention as WebmentionItem } from "src/components/Webmention";
 import { usePrism } from "src/hooks/usePrism";
-import Link from "next/link";
 import WebmentionClient, { Webmention } from "src/lib/webmentions/client";
+import { discussionToBlog } from "src/lib/github/discussionToPost";
 import {
-  // discussionToBlog,
-  githubIssueToBlog,
-  Post as PostItem,
-} from "src/lib/github/issueToBlog";
-// import { getClient } from "src/graphql";
-// import { PostDetailsFragment } from "__generated__/graphql";
+  Discussion,
+  SelectPostsWithSearchDocument,
+  SelectPostsWithSearchQuery,
+  SelectPostsWithSearchQueryVariables,
+  useSelectPostsWithSearchQuery,
+} from "__generated__/graphql";
+import { useRouter } from "next/router";
+import { initDefaultUrqlClient, withDefaultUrqlClient } from "src/graphql";
 
 const selectMetaAttribute = (n: string) => {
   if (n.indexOf("og:") === 0) {
@@ -27,66 +28,33 @@ const selectMetaAttribute = (n: string) => {
   return "name";
 };
 
-// TODO gql change
-// const client = getClient("github");
-
-type IsDraftProps = {
-  title: string;
-  showButton: boolean;
-  onClick: () => void;
-};
-const IsDraft: FC<IsDraftProps> = ({ title, showButton, onClick }) => {
-  return (
-    <div className="prose dark:prose-dark max-w-reading p-4 bg-gray-100 dark:bg-gray-800 mb-24">
-      <p>
-        ⚠ <strong>Do not share this article</strong>
-      </p>
-      <p>
-        You&rsquo;re currently viewing a draft of content for Code Drift. It is
-        not live, and this is not the final URL. If you have thoughts, reach out
-        to me via your usual means. You can also{" "}
-        <Link
-          href={`https://twitter.com/messages/compose?recipient_id=855061&text=${encodeURIComponent(
-            `I have feedback on ${title || "a post"}`
-          )}`}
-          passHref
-        >
-          <a href="overridden">DM me via Twitter @jakobo</a>
-        </Link>
-        , or email jakob [at] this domain.
-      </p>
-      {showButton ? (
-        <button
-          className="bg-brand-500 dark:bg-brand-invert-500 px-4 py-2 text-light dark:text-dark rounded"
-          onClick={() => (onClick ? onClick() : null)}
-        >
-          Got it, show the post
-        </button>
-      ) : null}
-    </div>
-  );
-};
+export const slugToSearch = (slug: string) =>
+  `"slug: ${slug}" in:body category:"Thunked" repo:jakobo/codedrift`;
 
 type ThunkedBySlugProps = {
-  post?: PostItem;
   webmentions?: Webmention[];
-  error?: number;
 };
 
-const ThunkedBySlug: FC<ThunkedBySlugProps> = ({
-  error = null,
-  post = null,
-  webmentions = [],
-}) => {
-  const [ack, setAck] = useState(!post?.draft);
+const ThunkedBySlug: FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
+  const router = useRouter();
+  const slug = Array.isArray(router.query.slug)
+    ? router.query.slug[0]
+    : router.query.slug;
+  const [{ data }] = useSelectPostsWithSearchQuery({
+    variables: {
+      search: slugToSearch(slug),
+    },
+    pause: !slug,
+  });
+  const result = data?.search?.nodes?.[0];
+
+  const post = result ? discussionToBlog(result as Discussion) : null;
+
   const content = useRef<HTMLDivElement>(null);
   usePrism(content);
 
-  if (error) {
-    return null;
-  }
-
-  if (!post || !post?.body) {
+  // abort after all hooks and no post
+  if (!post) {
     return null;
   }
 
@@ -157,7 +125,7 @@ const ThunkedBySlug: FC<ThunkedBySlugProps> = ({
     },
   };
 
-  const tweetSlug = `${post.title} on Code Drift`;
+  const tweetSlug = `${post.title} on CodeDrift`;
   const hasMentions = webmentions.length > 0;
 
   return (
@@ -184,92 +152,85 @@ const ThunkedBySlug: FC<ThunkedBySlugProps> = ({
       </Head>
       <Layout>
         <div className="flex-col w-full">
-          {!ack ? (
-            <IsDraft
-              title={post?.title}
-              showButton={!ack}
-              onClick={() => setAck(true)}
-            />
-          ) : null}
-          {ack ? (
-            <Post
-              title={post?.title}
-              publishedAt={post?.publishedAt}
-              slug={post?.slug}
-              category={post.category?.name || ""}
-              titleTag={({ children, ...props }) => (
-                <h1
-                  {...props}
-                  className={`${
-                    props.className || ""
-                  } font-sans font-bold text-4xl`}
-                >
-                  {children}
-                </h1>
-              )}
-            >
-              <div ref={content} dangerouslySetInnerHTML={{ __html: body }} />
-            </Post>
-          ) : null}
-          {post.draft ? null : (
-            <div className="border-t border-t-gray-500 mt-4 pt-4 max-w-reading">
-              <div className="flex flex-row pb-2">
-                <div className="flex-grow font-sans-caps font-bold">
-                  Webmentions
-                </div>
-                <a
-                  className="font-sans-caps block no-underline"
-                  href="https://indieweb.org/Webmention"
-                >
-                  <Icon
-                    icon="question"
-                    className="inline-block h-3 w-3 -mt-1 mr-1"
-                  />
-                  What&rsquo;s this?
-                </a>
+          <Post
+            post={post}
+            titleTag={({ children, ...props }) => (
+              <h1
+                {...props}
+                className={`${
+                  props.className || ""
+                } font-sans font-bold text-4xl`}
+              >
+                {children}
+              </h1>
+            )}
+          >
+            <div ref={content} dangerouslySetInnerHTML={{ __html: body }} />
+          </Post>
+
+          <div className="border-t border-t-gray-500 mt-4 pt-4 max-w-reading">
+            <div className="flex flex-row pb-2">
+              <div className="flex-grow font-sans-caps font-bold">
+                Webmentions
               </div>
-              <div className="pb-4">
+              <a
+                className="font-sans-caps block no-underline"
+                href="https://indieweb.org/Webmention"
+              >
+                <Icon
+                  icon="question"
+                  className="inline-block h-3 w-3 -mt-1 mr-1"
+                />
+                What&rsquo;s this?
+              </a>
+            </div>
+            <div className="pb-4">
+              <p>
+                <span className="prose dark:prose-dark mr-2">
+                  Tweets, mentions, and trackbacks
+                </span>
+                <a
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                    tweetSlug
+                  )}&url=${encodeURIComponent(post.canonicalUrl)}&via=jakobo`}
+                  style={{ color: "#1DA1F2" }}
+                >
+                  <InlineIcon
+                    icon="twitter"
+                    className="inline-block h-3 w-4 fill-current mr-1 mb-1"
+                  />
+                  Share your thoughts
+                </a>
+              </p>
+            </div>
+            {hasMentions ? null : (
+              <div className="prose dark:prose-dark">
                 <p>
-                  <span className="prose dark:prose-dark mr-2">
-                    Tweets, mentions, and trackbacks
-                  </span>
-                  <a
-                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                      tweetSlug
-                    )}&url=${encodeURIComponent(post.canonicalUrl)}&via=jakobo`}
-                    style={{ color: "#1DA1F2" }}
-                  >
-                    <InlineIcon
-                      icon="twitter"
-                      className="inline-block h-3 w-4 fill-current mr-1 mb-1"
-                    />
-                    Share your thoughts
-                  </a>
+                  As this gets discussed, comments will show up here. If the
+                  post is new, it may take a bit for your thoughts to get from
+                  one side of the internet to the other.
                 </p>
               </div>
-              {hasMentions ? null : (
-                <div className="prose dark:prose-dark">
-                  <p>
-                    As this gets discussed, comments will show up here. If the
-                    post is new, it may take a bit for your thoughts to get from
-                    one side of the internet to the other.
-                  </p>
-                </div>
-              )}
-              <div>
-                {webmentions.map((wm) => (
-                  <WebmentionItem key={wm.id} mention={wm} className="pb-8" />
-                ))}
-              </div>
+            )}
+            <div>
+              {webmentions.map((wm) => (
+                <WebmentionItem key={wm.id} mention={wm} className="pb-8" />
+              ))}
             </div>
-          )}
+          </div>
         </div>
       </Layout>
     </>
   );
 };
-export default ThunkedBySlug;
+export default withDefaultUrqlClient({
+  ssr: false,
+  staleWhileRevalidate: true,
+})(ThunkedBySlug);
 
+// https://formidable.com/open-source/urql/docs/advanced/server-side-rendering/#using-getstaticprops-or-getserversideprops
+// get data ahead of time for static rendering, but on withDefaultUrql
+// enable SWR in case post was updated beind the scenes
 export const getStaticProps: GetStaticProps<ThunkedBySlugProps> = async (
   ctx
 ) => {
@@ -277,36 +238,23 @@ export const getStaticProps: GetStaticProps<ThunkedBySlugProps> = async (
     ? ctx.params.slug[0]
     : ctx.params.slug;
 
-  // const res = await client.SelectPostsWithQuery({
-  //   query: `"slug: ${slug}" in:body category:"Thunked" author:@me repo:jakobo/codedrift`,
-  // });
-  // // exact match only
-  // if (res.search.discussionCount !== 1) {
-  //   return {
-  //     props: {
-  //       error: 404,
-  //     },
-  //     revalidate: 300,
-  //   };
-  // }
-  // const post = discussionToBlog(res.search.nodes[0] as PostDetailsFragment);
-
-  const octokit = new Octokit({ auth: process.env.GITHUB_PAT });
-  const result = await octokit.rest.search.issuesAndPullRequests({
-    q: `"slug: ${slug}" in:body type:issue label:"✒ Thunked" author:jakobo repo:jakobo/codedrift`,
-  });
-
-  if (result.data.total_count === 0) {
+  const { client, cache } = initDefaultUrqlClient(false);
+  const res = await client
+    .query<SelectPostsWithSearchQuery, SelectPostsWithSearchQueryVariables>(
+      SelectPostsWithSearchDocument,
+      {
+        search: slugToSearch(slug),
+      }
+    )
+    .toPromise();
+  const count = res.data?.search?.discussionCount || 0;
+  if (count === 0) {
     return {
-      props: {
-        error: 404,
-      },
-      revalidate: 300,
+      notFound: true,
     };
   }
 
-  const post = githubIssueToBlog(result.data.items?.[0]);
-
+  const post = discussionToBlog(res.data.search.nodes?.[0] as Discussion);
   const wm = new WebmentionClient();
 
   const webmentions = await wm.get({
@@ -317,7 +265,7 @@ export const getStaticProps: GetStaticProps<ThunkedBySlugProps> = async (
 
   return {
     props: {
-      post,
+      urqlState: cache.extractData(),
       webmentions: webmentions.links || [],
     },
     revalidate: 300,

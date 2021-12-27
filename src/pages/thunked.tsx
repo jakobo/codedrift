@@ -2,15 +2,26 @@ import Head from "next/head";
 import Layout from "src/components/Layout";
 import { PostDirectory, groupPostsByYear } from "src/components/Directory";
 import React from "react";
-import { Octokit } from "octokit";
-import { githubIssueToBlog, Post } from "src/lib/github/issueToBlog";
-import { GetStaticProps } from "next";
+import { discussionToBlog, Post } from "src/lib/github/discussionToPost";
+import {
+  Discussion,
+  useSelectRecentlyCreatedPostsQuery,
+} from "__generated__/graphql";
+import { withDefaultUrqlClient } from "src/graphql";
 
 interface ThunkedProps {
   posts: Post[];
 }
 
-const Thunked: React.FC<ThunkedProps> = ({ posts }) => {
+const Thunked: React.FC<ThunkedProps> = () => {
+  const [{ data }] = useSelectRecentlyCreatedPostsQuery({
+    variables: {
+      first: 100,
+    },
+  });
+  const posts = (data?.repository?.discussions?.nodes || []).map(
+    (item: Discussion) => discussionToBlog(item)
+  );
   const byYear = groupPostsByYear(posts || []);
 
   return (
@@ -31,28 +42,4 @@ const Thunked: React.FC<ThunkedProps> = ({ posts }) => {
     </>
   );
 };
-export default Thunked;
-
-export const getStaticProps: GetStaticProps<ThunkedProps> = async () => {
-  const octokit = new Octokit({ auth: process.env.GITHUB_PAT });
-  const postResult = await octokit.rest.search.issuesAndPullRequests({
-    q: `type:issue is:closed label:"✒ Thunked" author:jakobo repo:jakobo/codedrift`,
-    sort: "created",
-    order: "desc",
-    per_page: 100,
-  });
-
-  const posts = postResult.data.items
-    .map((item) => githubIssueToBlog(item))
-    .map((item) => {
-      delete item["body"];
-      return item;
-    });
-
-  return {
-    props: {
-      posts,
-    },
-    revalidate: 300,
-  };
-};
+export default withDefaultUrqlClient()(Thunked);

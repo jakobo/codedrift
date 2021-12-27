@@ -23,8 +23,12 @@ module.exports = {
         },
         "typescript",
         "typescript-operations",
-        "typescript-graphql-request",
+        "typescript-urql",
+        "urql-introspection",
       ],
+      config: {
+        gqlImport: "urql#gql",
+      },
     },
   },
 };

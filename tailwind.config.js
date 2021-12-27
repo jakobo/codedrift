@@ -1,4 +1,5 @@
 module.exports = {
+  important: true, // https://github.com/tailwindlabs/tailwindcss-typography/issues/26#issuecomment-659362241
   purge: [
     "./src/components/**/*.tsx",
     "./src/pages/*.tsx",
