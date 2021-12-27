@@ -102,7 +102,10 @@ export const Post: React.FC<PropsWithChildren<PostProps>> = ({
               >
                 {name}
                 {list.map((tag: Tag, idx: number) => (
-                  <span key={tag.id}>
+                  <span
+                    key={tag.id}
+                    className="text-gray-300 dark:text-gray-500"
+                  >
                     {idx === 0 ? "" : ", "}
                     <TagLink
                       href={`/thunked/tag/${tag.name}`}
