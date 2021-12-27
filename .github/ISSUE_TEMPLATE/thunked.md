@@ -1,8 +1,8 @@
 ---
-name: Thunked Blog Post
+name: Draft Thunked Blog Post
 about: Create a New Post on "Thunked"
 title: "Post Title"
-labels: "✒ Thunked"
+labels: "✒ Draft"
 ---
 
 ```yaml
@@ -14,4 +14,4 @@ changelog: ~
 ---
 ```
 
-Post goes here! Markdown all the things! Frontmatter (even fenced) is parsed correctly. Closing the issue will move the post out of "Draft" state into "Published"
+Post goes here! Markdown all the things! Frontmatter (even fenced) is parsed correctly. When transferred to a discussion, this will show up on Code Drift
