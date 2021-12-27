@@ -14,4 +14,4 @@ changelog: ~
 ---
 ```
 
-Post goes here! Markdown all the things! Frontmatter (even fenced) is parsed correctly. When transferred to a discussion, this will show up on Code Drift
+Post goes here! Markdown all the things! Frontmatter (even fenced) is parsed correctly. When transferred to a discussion, this will show up on codedrift
