@@ -1,9 +1,6 @@
 import Logo from "src/components/Logo";
 import React from "react";
-import {
-  discussionToBlog,
-  Post as PostItem,
-} from "src/lib/github/discussionToPost";
+import { discussionToBlog } from "src/lib/github/discussionToPost";
 import { DateTime } from "luxon";
 import {
   Discussion,
@@ -12,9 +9,10 @@ import {
 import { slugToSearch } from "src/pages/thunked/[slug]";
 import { useRouter } from "next/router";
 import { withDefaultUrqlClient } from "src/graphql";
+import { Post } from "types/Post";
 
 type ThunkedBySlugImageProps = {
-  post?: PostItem;
+  post?: Post;
   error?: number;
 };
 

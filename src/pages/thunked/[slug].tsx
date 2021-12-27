@@ -1,4 +1,4 @@
-import React, { FC, useRef } from "react";
+import React, { useRef } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { Post } from "src/components/Post";
 import { gfm, gfmHtml } from "micromark-extension-gfm";
@@ -35,7 +35,7 @@ type ThunkedBySlugProps = {
   webmentions?: Webmention[];
 };
 
-const ThunkedBySlug: FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
+const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
   const router = useRouter();
   const slug = Array.isArray(router.query.slug)
     ? router.query.slug[0]

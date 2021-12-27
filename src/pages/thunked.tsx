@@ -2,18 +2,14 @@ import Head from "next/head";
 import Layout from "src/components/Layout";
 import { PostDirectory, groupPostsByYear } from "src/components/Directory";
 import React from "react";
-import { discussionToBlog, Post } from "src/lib/github/discussionToPost";
+import { discussionToBlog } from "src/lib/github/discussionToPost";
 import {
   Discussion,
   useSelectRecentlyCreatedPostsQuery,
 } from "__generated__/graphql";
 import { withDefaultUrqlClient } from "src/graphql";
 
-interface ThunkedProps {
-  posts: Post[];
-}
-
-const Thunked: React.FC<ThunkedProps> = () => {
+const Thunked: React.FC<{}> = () => {
   const [{ data }] = useSelectRecentlyCreatedPostsQuery({
     variables: {
       first: 100,

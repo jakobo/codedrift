@@ -11,21 +11,11 @@ import {
 } from "__generated__/graphql";
 import { withDefaultUrqlClient } from "src/graphql";
 import { demoji } from "src/lib/demoji";
-import { Post } from "types/Post";
 
 const labelToSearch = (label: string) =>
   `label:"${label}" category:"Thunked" repo:jakobo/codedrift`;
 
-type ThunkedPostsByTagProps = {
-  category?: {
-    name: string;
-    description: string;
-  };
-  posts?: Omit<Post, "body">[];
-  error?: number;
-};
-
-const ThunkedPostsByTag: React.FC<ThunkedPostsByTagProps> = () => {
+const ThunkedPostsByTag: React.FC<{}> = () => {
   const router = useRouter();
   const tag = Array.isArray(router.query.name)
     ? router.query.name[0]

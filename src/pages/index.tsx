@@ -6,7 +6,6 @@ import { discussionToBlog } from "src/lib/github/discussionToPost";
 import { DateTime } from "luxon";
 import { useSelectRecentlyCreatedPostsQuery } from "__generated__/graphql";
 import { withDefaultUrqlClient } from "src/graphql";
-import { Post } from "types/Post";
 
 const linkClasses = `
 no-underline
@@ -25,12 +24,7 @@ text-gray-300
 dark:text-gray-500
 `;
 
-type HomeProps = {
-  posts: Post[];
-  error?: number;
-};
-
-const Home: React.FC<HomeProps> = () => {
+const Home: React.FC<{}> = () => {
   const [{ data }] = useSelectRecentlyCreatedPostsQuery();
   const posts = useMemo(
     () =>

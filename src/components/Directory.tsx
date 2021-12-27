@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import Link from "next/link";
 import React from "react";
-import { Post } from "src/lib/github/discussionToPost";
+import { Post } from "types/Post";
 
 type PostsByYear = {
   [year: number]: Post[];
