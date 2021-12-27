@@ -5,9 +5,13 @@ import React from "react";
 import { discussionToBlog } from "src/lib/github/discussionToPost";
 import {
   Discussion,
+  SelectRecentlyCreatedPostsDocument,
+  SelectRecentlyCreatedPostsQuery,
+  SelectRecentlyCreatedPostsQueryVariables,
   useSelectRecentlyCreatedPostsQuery,
 } from "__generated__/graphql";
-import { withDefaultUrqlClient } from "src/graphql";
+import { initDefaultUrqlClient, withDefaultUrqlClient } from "src/graphql";
+import { GetStaticPaths, GetStaticProps } from "next";
 
 const Thunked: React.FC<{}> = () => {
   const [{ data }] = useSelectRecentlyCreatedPostsQuery({
@@ -38,4 +42,35 @@ const Thunked: React.FC<{}> = () => {
     </>
   );
 };
-export default withDefaultUrqlClient()(Thunked);
+export default withDefaultUrqlClient({
+  ssr: false,
+  staleWhileRevalidate: true,
+})(Thunked);
+
+export const getStaticProps: GetStaticProps<{}> = async () => {
+  const { client, cache } = initDefaultUrqlClient(false);
+  await client
+    .query<
+      SelectRecentlyCreatedPostsQuery,
+      SelectRecentlyCreatedPostsQueryVariables
+    >(SelectRecentlyCreatedPostsDocument, {
+      first: 100,
+    })
+    .toPromise();
+
+  return {
+    props: {
+      urqlState: cache.extractData(),
+    },
+    revalidate: 300,
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    // to keep build times down, we don't pre-query for all matching issues
+    // though if we wanted to, we definitely could
+    paths: [],
+    fallback: true,
+  };
+};
