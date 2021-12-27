@@ -11,7 +11,7 @@ import {
   useSelectRecentlyCreatedPostsQuery,
 } from "__generated__/graphql";
 import { initDefaultUrqlClient, withDefaultUrqlClient } from "src/graphql";
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 
 const linkClasses = `
 no-underline
@@ -145,14 +145,5 @@ export const getStaticProps: GetStaticProps<{}> = async () => {
       urqlState: cache.extractData(),
     },
     revalidate: 300,
-  };
-};
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    // to keep build times down, we don't pre-query for all matching issues
-    // though if we wanted to, we definitely could
-    paths: [],
-    fallback: true,
   };
 };
