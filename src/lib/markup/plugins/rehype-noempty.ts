@@ -6,7 +6,9 @@ export default function rehypeNoEmpty() {
   return function transformer(tree) {
     const drop = [];
     visit(tree, (node, index, parent) => {
-      if (parseInt(node?.children?.length, 10) === 0) {
+      const children: any[] = (node?.children as any[]) || [];
+
+      if (children.length === 0) {
         drop.push({ node, parent });
       }
     });
