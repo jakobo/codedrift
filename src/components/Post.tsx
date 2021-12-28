@@ -62,12 +62,14 @@ export const Post: React.FC<PropsWithChildren<PostProps>> = ({
     <div className={className}>
       <div className="flex-col lg:flex-row px-1">
         <div className="flex flex-row space-x-2 lg:flex-col w-full lg:w-36 lg:-ml-36 pr-4 font-sans-caps lg:text-right leading-none">
-          <TagLink
-            className="block"
-            href={`/thunked/tag/${category.name}`}
-            display={category.name}
-            title={category.description}
-          />
+          {category ? (
+            <TagLink
+              className="block"
+              href={`/thunked/tag/${category.name}`}
+              display={category.name}
+              title={category.description}
+            />
+          ) : null}
           {!publishedAt ? (
             <Link href={`/thunked/${slug}`} passHref>
               <a href={`/thunked/${slug}`} className={permalinkClass}>
