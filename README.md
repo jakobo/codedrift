@@ -1,4 +1,4 @@
-# CodeDrift
+# Codedrift [Posts](https://github.com/jakobo/codedrift/discussions/categories/thunked?discussions_q=category%3AThunked+sort%3Aupdated) | [AMA](https://github.com/jakobo/codedrift/discussions/categories/ask-me-anything-ama)
 
 Personal Website of Jakob Heuser, available at https://codedrift.com
 
@@ -22,8 +22,3 @@ I use windows. It has its upsides. These would be the downsides. There is no _go
 # Outstanding Issues
 
 You could file bugs. They'll be triaged. There's a wishlist of things I'm tracking in my [Code Drift Working Notes](https://coda.io/d/Jakobs-Notes_dFBvQLDXnR5/CodeDrift_suuaz#_lutQ7).
-
-# License
-
-- [Posts](https://github.com/jakobo/codedrift/blob/main/LICENSE-posts) CC-BY-4.0 (code in posts is MIT)
-- [Everything Else](https://github.com/jakobo/codedrift/blob/main/LICENSE) MIT
