@@ -1,30 +1,30 @@
 import Head from "next/head";
 import Layout from "src/components/Layout";
 import React from "react";
-import { Coda } from "coda-js";
-import { Unwrap } from "types/Unwrap";
 import { GetStaticProps } from "next";
-
-const CODA_DOC_ID = "FBvQLDXnR5";
-const TABLE_ID = "grid-nY6gZ4WA3F";
-const URL_COLUMN = "c-Zj97xpo6te";
-const URL_DESCRIPTION_COLUMN = "c-DoxDsHBIsp";
-
-const coda = new Coda(process.env.CODA_SHORTLINK_TOKEN);
+import fs from "fs/promises";
+import path from "path";
+import { findUp } from "find-up";
+import yaml from "js-yaml";
+import { shortlinks } from "src/data/shortlinks";
 
 interface ShortLinkToProps {
-  coda: Unwrap<ReturnType<typeof coda.getRow>>;
+  name: string;
+  description?: string;
+  url: string;
 }
 
-const ShortLinkTo: React.FC<ShortLinkToProps> = ({ coda }) => {
-  const link = coda?.values?.[URL_COLUMN];
-  const description = coda?.values?.[URL_DESCRIPTION_COLUMN];
+const ShortLinkTo: React.FC<ShortLinkToProps> = ({
+  name,
+  description,
+  url,
+}) => {
   return (
     <>
       <Head>
         <title>Codedrift Short Link</title>
         <meta name="robots" content="noindex" />
-        {link ? <meta httpEquiv="refresh" content={`3;URL='${link}'`} /> : null}
+        {url ? <meta httpEquiv="refresh" content={`3;URL='${url}'`} /> : null}
       </Head>
       <Layout>
         <div className="flex-col w-full max-w-reading">
@@ -32,12 +32,12 @@ const ShortLinkTo: React.FC<ShortLinkToProps> = ({ coda }) => {
           <div className="prose dark:prose-dark">
             <p>
               You&rsquo;re accessing a codedrift short link. In a few moments,
-              you&rsquo;ll be taken to &ldquo;{description}&rdquo; at{" "}
-              <code>{link}</code>
+              you&rsquo;ll be taken to &ldquo;{name}&rdquo;{" "}
+              {description ? <>({description})</> : null} at <code>{url}</code>
             </p>
             <p>
               If you are not redirected automatically,{" "}
-              <a href={link}>access {link}</a>
+              <a href={url}>access {url}</a>
             </p>
           </div>
         </div>
@@ -51,10 +51,23 @@ export const getStaticProps: GetStaticProps<ShortLinkToProps> = async (ctx) => {
   const link = Array.isArray(ctx.params.link)
     ? ctx.params.link[0]
     : ctx.params.link;
-  const result = await coda.getRow(CODA_DOC_ID, TABLE_ID, link, {});
+  const root = await findUp("package.json", { cwd: __dirname });
+  const dir = path.dirname(root);
+  const linkFile = path.resolve(dir, "./src/data/shortlinks.yaml");
+  const contents = await fs.readFile(linkFile, "utf-8");
+  const data = yaml.load(contents) as shortlinks;
+  const details = data.links[link];
+  if (!details) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
-      coda: result,
+      name: link,
+      url: typeof details === "string" ? details : details.url,
+      description: typeof details === "string" ? null : details.description,
     },
     revalidate: 300,
   };

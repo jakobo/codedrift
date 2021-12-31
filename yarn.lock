@@ -5612,16 +5612,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"coda-js@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "coda-js@npm:4.0.1"
-  dependencies:
-    axios: ^0.21.1
-    dotenv: ^8.2.0
-  checksum: 175c8eacf43ae032ce10d33e73187e2f42f22f49a366849eaadf319bf996ee08dba5f727fc1f07a7384ad9cefce5ddb916113f6e1e8ad2707e33b79ed274ac59
-  languageName: node
-  linkType: hard
-
 "code-point-at@npm:^1.0.0":
   version: 1.1.0
   resolution: "code-point-at@npm:1.1.0"
@@ -5665,7 +5655,6 @@ __metadata:
     babel-plugin-prismjs: ^2.0.1
     camelcase-keys: ^6.2.2
     chrome-aws-lambda: ^8.0.2
-    coda-js: ^4.0.1
     cross-fetch: ^3.0.6
     date-fns: ^2.17.0
     debug: ^4.3.1
@@ -5680,6 +5669,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.3.0
     eslint-plugin-sort-imports-es6-autofix: ^0.5.0
     filter-obj: ^2.0.1
+    find-up: ^6.2.0
     fs-extra: ^9.1.0
     graphql: ^16.2.0
     graphql-request: ^3.7.0
@@ -7941,6 +7931,16 @@ __metadata:
     locate-path: ^6.0.0
     path-exists: ^4.0.0
   checksum: 07955e357348f34660bde7920783204ff5a26ac2cafcaa28bace494027158a97b9f56faaf2d89a6106211a8174db650dd9f503f9c0d526b1202d5554a00b9095
+  languageName: node
+  linkType: hard
+
+"find-up@npm:^6.2.0":
+  version: 6.2.0
+  resolution: "find-up@npm:6.2.0"
+  dependencies:
+    locate-path: ^7.0.0
+    path-exists: ^5.0.0
+  checksum: 149085af5cec2af6fa0bd94db81785eb60464985b2428b4d34934a04d1809b1c27831a72b667ac25a8ee19bb6c36cf6fbae5776b115d45abbea1112f460f47c5
   languageName: node
   linkType: hard
 
@@ -10753,6 +10753,15 @@ fsevents@^1.0.0:
   languageName: node
   linkType: hard
 
+"locate-path@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "locate-path@npm:7.0.0"
+  dependencies:
+    p-locate: ^6.0.0
+  checksum: a0de7f882f069c3afe261c77821b91f2fe430cfe9b76c9059e4814e8803dc155dd9dc998e3dfe1a4ff3ca596a423bf9aa5df0b26a9516ed80fdf5cfac82a36f3
+  languageName: node
+  linkType: hard
+
 "lodash-es@npm:^4.17.11":
   version: 4.17.21
   resolution: "lodash-es@npm:4.17.21"
@@ -12754,6 +12763,15 @@ fsevents@^1.0.0:
   languageName: node
   linkType: hard
 
+"p-limit@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "p-limit@npm:4.0.0"
+  dependencies:
+    yocto-queue: ^1.0.0
+  checksum: 01d9d70695187788f984226e16c903475ec6a947ee7b21948d6f597bed788e3112cc7ec2e171c1d37125057a5f45f3da21d8653e04a3a793589e12e9e80e756b
+  languageName: node
+  linkType: hard
+
 "p-locate@npm:^2.0.0":
   version: 2.0.0
   resolution: "p-locate@npm:2.0.0"
@@ -12778,6 +12796,15 @@ fsevents@^1.0.0:
   dependencies:
     p-limit: ^3.0.2
   checksum: 1623088f36cf1cbca58e9b61c4e62bf0c60a07af5ae1ca99a720837356b5b6c5ba3eb1b2127e47a06865fee59dd0453cad7cc844cda9d5a62ac1a5a51b7c86d3
+  languageName: node
+  linkType: hard
+
+"p-locate@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "p-locate@npm:6.0.0"
+  dependencies:
+    p-limit: ^4.0.0
+  checksum: 2bfe5234efa5e7a4e74b30a5479a193fdd9236f8f6b4d2f3f69e3d286d9a7d7ab0c118a2a50142efcf4e41625def635bd9332d6cbf9cc65d85eb0718c579ab38
   languageName: node
   linkType: hard
 
@@ -12981,6 +13008,13 @@ fsevents@^1.0.0:
   version: 4.0.0
   resolution: "path-exists@npm:4.0.0"
   checksum: 505807199dfb7c50737b057dd8d351b82c033029ab94cb10a657609e00c1bc53b951cfdbccab8de04c5584d5eff31128ce6afd3db79281874a5ef2adbba55ed1
+  languageName: node
+  linkType: hard
+
+"path-exists@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "path-exists@npm:5.0.0"
+  checksum: 8ca842868cab09423994596eb2c5ec2a971c17d1a3cb36dbf060592c730c725cd524b9067d7d2a1e031fef9ba7bd2ac6dc5ec9fb92aa693265f7be3987045254
   languageName: node
   linkType: hard
 
@@ -17336,6 +17370,13 @@ resolve@^2.0.0-next.3:
   version: 0.1.0
   resolution: "yocto-queue@npm:0.1.0"
   checksum: f77b3d8d00310def622123df93d4ee654fc6a0096182af8bd60679ddcdfb3474c56c6c7190817c84a2785648cdee9d721c0154eb45698c62176c322fb46fc700
+  languageName: node
+  linkType: hard
+
+"yocto-queue@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "yocto-queue@npm:1.0.0"
+  checksum: 2cac84540f65c64ccc1683c267edce396b26b1e931aa429660aefac8fbe0188167b7aee815a3c22fa59a28a58d898d1a2b1825048f834d8d629f4c2a5d443801
   languageName: node
   linkType: hard
 

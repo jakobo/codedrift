@@ -61,12 +61,11 @@ const Home: React.FC<{}> = () => {
               </Link>
               . Many other ideas floating in my head, very unpolished, are
               available in my{" "}
-              <a
-                href="https://coda.io/d/Jakobs-Notes_dFBvQLDXnR5/Home_suijF#_lu2BJ"
-                className={linkClasses}
-              >
-                public notes
-              </a>
+              <Link href="/notes" passHref>
+                <a href="/notes" className={linkClasses}>
+                  public notes
+                </a>
+              </Link>
               .
             </p>
           </div>
