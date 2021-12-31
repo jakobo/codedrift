@@ -8,5 +8,19 @@ module.exports = () => {
       domains: ["codedrift.com", "localhost"],
     },
     experimental: { esmExternals: true },
+    async rewrites() {
+      return [
+        {
+          source: "/notes/",
+          destination:
+            "https://publish.obsidian.md/serve?url=codedrift.com/notes",
+        },
+        {
+          source: "/notes/:path*",
+          destination:
+            "https://publish.obsidian.md/serve?url=codedrift.com/notes/:path*",
+        },
+      ];
+    },
   };
 };

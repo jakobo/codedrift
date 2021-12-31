@@ -66,7 +66,7 @@ const navLinks = [
   },
   {
     title: "Notes",
-    url: "https://coda.io/d/Jakobs-Notes_dFBvQLDXnR5/Home_suijF#_lu2BJ",
+    url: "/notes",
     className: "",
   },
   { title: "Twitter", Component: Twitter, className: "pt-1" },
