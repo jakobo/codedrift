@@ -1,10 +1,11 @@
 import matter from "gray-matter";
 import { DateTime } from "luxon";
 import { demoji } from "../demoji";
-import strip from "strip-markdown";
-import { remark } from "remark";
 import { PostDetailsFragment } from "__generated__/graphql";
 import { Post } from "types/Post";
+import { createParser as createGitHubParser } from "../parser/github";
+import { createParser as createTextParser } from "../parser/plaintext";
+import { withHtmlString } from "../parser/withHtmlString";
 
 export type PostFrontmatter = {
   slug: string;
@@ -23,7 +24,6 @@ type gfmMatterResult = matter.GrayMatterFile<string> & {
   data: PostFrontmatter;
 };
 
-const engine = remark().use(strip);
 const gfmMatter = (str: string) => {
   const decoded = str.replace(
     /^(?:```(?:yaml)?[\r\n]+)?(---[\r\n]+[\s\S]+?[\r\n]+---)(?:[\r\n]+```)?/gim,
@@ -32,11 +32,13 @@ const gfmMatter = (str: string) => {
   );
   return matter(decoded) as gfmMatterResult;
 };
+
 const excerpt = (str: string, size = 3): string => {
   const { content } = gfmMatter(str);
-  const result = engine.processSync(content);
+  const parser = createTextParser();
+  const result = parser.processSync(content).toString();
   return (
-    (result.toString().split(/[\r\n]/g)?.[0] || "")
+    (result.split(/[\r\n]/g)?.[0] || "")
       .split(".")
       .slice(0, size)
       .join(".")
@@ -45,6 +47,7 @@ const excerpt = (str: string, size = 3): string => {
 };
 
 export const discussionToBlog = (item: PostDetailsFragment): Post => {
+  const parser = createGitHubParser();
   const isDraft = false;
   const { content, data: frontmatter } = gfmMatter(item.body);
   const canonicalUrl = `https://codedrift.com/thunked/${
@@ -76,6 +79,7 @@ export const discussionToBlog = (item: PostDetailsFragment): Post => {
     description: frontmatter?.description || null,
     excerpt: frontmatter?.description || excerpt(content),
     body: content,
+    html: withHtmlString(parser).processSync(content).toString(),
     source: item.url,
     canonicalUrl,
     updatedAt: item.lastEditedAt || null,

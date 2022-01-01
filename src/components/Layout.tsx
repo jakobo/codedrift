@@ -258,6 +258,29 @@ const WebMentionSupport = () => (
   </Head>
 );
 
+const Feeds = () => (
+  <Head>
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="RSS Feed for codedrift.com"
+      href="/feed/rss"
+    />
+    <link
+      rel="alternate"
+      type="application/atom+xml"
+      title="ATOM Feed for codedrift.com"
+      href="/feed/atom"
+    />
+    <link
+      rel="alternate"
+      type="application/json+feed"
+      title="JSON Feed for codedrift.com"
+      href="/feed/json"
+    />
+  </Head>
+);
+
 export const createTitle = (text) => `${text} on CodeDrift`;
 
 export default function Layout({ disabled = false, children }) {
@@ -271,6 +294,7 @@ export default function Layout({ disabled = false, children }) {
       {disabled ? null : (
         <>
           <IndieAuth />
+          <Feeds />
           <WebMentionSupport />
         </>
       )}

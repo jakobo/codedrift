@@ -1,8 +1,9 @@
-import { html2React, webmentionParser } from "src/lib/markup/rehype";
 import Icon from "./Icon";
 import React, { HTMLAttributes } from "react";
 import { Webmention as WebmentionType } from "src/lib/webmentions/client";
 import { DateTime } from "luxon";
+import { createParser } from "src/lib/parser/webmentions";
+import { withReact } from "src/lib/parser/withReact";
 
 const avatarSourceIcons: {
   [source: string]: [string, HTMLAttributes<HTMLDivElement>["style"]];
@@ -12,12 +13,14 @@ const avatarSourceIcons: {
   twitter: ["wm-source-twitter", { color: "#1DA1F2" }],
   facebook: ["wm-source-facebook", { color: "#4267B2" }],
 };
+
 interface AvatarProps {
   name: string;
   src: string;
   source: string;
   className: string;
 }
+
 const Avatar: React.FC<AvatarProps> = ({ name, src, source, className }) => {
   const [iconName, styles] =
     avatarSourceIcons?.[source] || avatarSourceIcons.web;
@@ -108,7 +111,7 @@ export const Webmention: React.FC<WebmentionProps> = ({
 
   const avatarName = wm?.data?.author?.name || "?";
   const content = fixContent(wm?.data?.content, wm?.data?.url);
-  const reactContent = html2React(content, webmentionParser);
+  const reactedContent = withReact(createParser()).processSync(content);
   const mDate = wm?.data?.published_ts
     ? DateTime.fromSeconds(wm?.data?.published_ts)
     : null;
@@ -141,7 +144,7 @@ export const Webmention: React.FC<WebmentionProps> = ({
             <Action mention={wm} />
           </a>
         </div>
-        <div className="prose dark:prose-dark max-w-none">{reactContent}</div>
+        <div className="prose dark:prose-dark max-w-none">{reactedContent}</div>
         <div className="text-gray-500">
           <a href={`#${wmId}`}>{mDate ? mDate.toRelative() : "(undated)"}</a>
         </div>

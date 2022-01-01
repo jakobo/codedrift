@@ -1,8 +1,6 @@
 import React, { useRef } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { Post } from "src/components/Post";
-import { gfm, gfmHtml } from "micromark-extension-gfm";
-import { micromark } from "micromark";
 import Head from "next/head";
 import Icon, { InlineIcon } from "src/components/Icon";
 import Layout, { createTitle } from "src/components/Layout";
@@ -57,11 +55,6 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
   if (!post) {
     return null;
   }
-
-  const body = micromark(post.body, {
-    extensions: [gfm()],
-    htmlExtensions: [gfmHtml()],
-  });
 
   // add a TS to ensure caching works as expected
   const tsWindow = Math.floor(
@@ -165,7 +158,10 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
               </h1>
             )}
           >
-            <div ref={content} dangerouslySetInnerHTML={{ __html: body }} />
+            <div
+              ref={content}
+              dangerouslySetInnerHTML={{ __html: post.html || post.body }}
+            />
           </Post>
 
           <div className="border-t border-t-gray-500 mt-4 pt-4 max-w-reading">

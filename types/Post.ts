@@ -14,6 +14,7 @@ export type Post = {
   draft: boolean;
   canonicalUrl: string;
   body: string;
+  html?: string;
   source: string;
   publishedAt: string;
   updatedAt: string;
