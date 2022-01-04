@@ -144,7 +144,9 @@ export const Webmention: React.FC<WebmentionProps> = ({
             <Action mention={wm} />
           </a>
         </div>
-        <div className="prose dark:prose-dark max-w-none">{reactedContent}</div>
+        <div className="prose dark:prose-dark max-w-none">
+          {reactedContent.result}
+        </div>
         <div className="text-gray-500">
           <a href={`#${wmId}`}>{mDate ? mDate.toRelative() : "(undated)"}</a>
         </div>
