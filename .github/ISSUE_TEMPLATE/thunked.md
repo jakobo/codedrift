@@ -1,5 +1,5 @@
 ---
-name: Draft Thunked Blog Post
+name: ✒ Draft Thunked Blog Post
 about: Create a New Post on "Thunked"
 title: "Post Title"
 labels: "✒ Draft"
