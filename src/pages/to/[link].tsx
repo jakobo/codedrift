@@ -2,11 +2,8 @@ import Head from "next/head";
 import Layout from "src/components/Layout";
 import React from "react";
 import { GetStaticProps } from "next";
-import fs from "fs/promises";
-import path from "path";
-import { findUp } from "find-up";
-import yaml from "js-yaml";
-import { shortlinks } from "src/data/shortlinks";
+import ky from "ky-universal";
+import { APIResponse } from "../api/v1/shortlink/[key]";
 
 interface ShortLinkToProps {
   name: string;
@@ -51,13 +48,10 @@ export const getStaticProps: GetStaticProps<ShortLinkToProps> = async (ctx) => {
   const link = Array.isArray(ctx.params.link)
     ? ctx.params.link[0]
     : ctx.params.link;
-  const root = await findUp("package.json", { cwd: __dirname });
-  const dir = path.dirname(root);
-  const linkFile = path.resolve(dir, "./src/data/shortlinks.yaml");
-  const contents = await fs.readFile(linkFile, "utf-8");
-  const data = yaml.load(contents) as shortlinks;
-  const details = data.links[link];
-  if (!details) {
+  const details = (await ky(
+    `${process.env.NEXT_PUBLIC_URL}/api/v1/shortlink/${link}`
+  ).json()) as APIResponse;
+  if (!details || !details.link) {
     return {
       notFound: true,
     };
@@ -66,8 +60,9 @@ export const getStaticProps: GetStaticProps<ShortLinkToProps> = async (ctx) => {
   return {
     props: {
       name: link,
-      url: typeof details === "string" ? details : details.url,
-      description: typeof details === "string" ? null : details.description,
+      url: typeof details === "string" ? details : details.link.url,
+      description:
+        typeof details === "string" ? null : details.link.description,
     },
     revalidate: 300,
   };

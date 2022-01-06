@@ -1,9 +1,9 @@
-type shortlink = {
+export type shortlink = {
   url: string;
   description: string;
 };
 
-export type shortlinks = {
+export type shortlinkYaml = {
   links: {
     [link: string]: string | shortlink;
   };
