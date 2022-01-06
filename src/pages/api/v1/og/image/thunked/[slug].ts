@@ -1,27 +1,24 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 // leave as require for lambda compat
+// importing this does very-bad-things in vercel
 const chromium = require("chrome-aws-lambda");
 
-const isDev = !process.env.AWS_REGION;
-const base = isDev
-  ? "http://localhost:3000/og/image/thunked"
-  : "https://codedrift.com/og/image/thunked";
+const isDev = process.env.NODE_ENV !== "production";
+const base = `${process.env.NEXT_PUBLIC_URL}/og/image/thunked`;
 const fileType = "png";
-
-const exePath =
-  process.platform === "win32"
-    ? "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
-    : process.platform === "linux"
-    ? "/usr/bin/google-chrome"
-    : "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 
 // based on logic from https://github.com/creativecommons/og-image-generator/blob/main/api/_lib/chromium.ts
 const getChromiumOptions = async (devMode) => {
   if (devMode) {
     return {
       args: [],
-      executablePath: exePath,
+      executablePath:
+        process.platform === "win32"
+          ? "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+          : process.platform === "linux"
+          ? "/usr/bin/google-chrome"
+          : "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
       headless: true,
     };
   } else {
@@ -37,10 +34,6 @@ const errorWith = (e: any, res: NextApiResponse) => {
   console.error(e);
   res.statusCode = 500;
   res.end("Unable to generate image");
-};
-
-const timeout = async (ms: number) => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
 // og:image slug for thunked
@@ -59,8 +52,8 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
     const url = `${base}/${req.query.slug}`;
     console.log(`Requesting: ${url}`);
-    await page.goto(url, { waitUntil: "networkidle2" });
-    await timeout(500); // ensure react inits on next.js page
+    await page.goto(url);
+    await page.waitForSelector("#render-complete");
 
     console.log("Screenshotting");
     file = await page.screenshot({
@@ -79,9 +72,8 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
   res.statusCode = 200;
   res.setHeader("Content-Type", `image/${fileType}`);
-  res.setHeader(
-    "Cache-Control",
-    `public, no-transform, s-maxage=604800, max-age=604800`
-  );
+  // https://vercel.com/docs/concepts/edge-network/caching#serverless-functions-(lambdas)
+  // fresh for 5 min (in case of changes), swr with 5 hours
+  res.setHeader("Cache-Control", `s-maxage=300, stale-while-revalidate=18000`);
   res.end(file);
 }

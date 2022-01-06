@@ -95,6 +95,7 @@ const ThunkedBySlugImage: React.FC<ThunkedBySlugImageProps> = () => {
           />
         </div>
       </div>
+      <div id="render-complete" />
     </div>
   );
 };
