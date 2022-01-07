@@ -2,8 +2,15 @@ import Head from "next/head";
 import Layout from "src/components/Layout";
 import React from "react";
 import { GetStaticProps } from "next";
-import ky from "ky-universal";
-import { APIResponse } from "../api/v1/shortlink/[key]";
+import { initDefaultUrqlClient } from "src/graphql";
+import {
+  Blob,
+  SelectShortlinkDataDocument,
+  SelectShortlinkDataQuery,
+  SelectShortlinkDataQueryVariables,
+} from "__generated__/graphql";
+import { ShortlinkFile } from "types/shortlinks";
+import yaml from "js-yaml";
 
 interface ShortLinkToProps {
   name: string;
@@ -48,10 +55,26 @@ export const getStaticProps: GetStaticProps<ShortLinkToProps> = async (ctx) => {
   const link = Array.isArray(ctx.params.link)
     ? ctx.params.link[0]
     : ctx.params.link;
-  const details = (await ky(
-    `${process.env.NEXT_PUBLIC_URL}/api/v1/shortlink/${link}`
-  ).json()) as APIResponse;
-  if (!details || !details.link) {
+  const { client, cache } = initDefaultUrqlClient(false);
+  const res = await client
+    .query<SelectShortlinkDataQuery, SelectShortlinkDataQueryVariables>(
+      SelectShortlinkDataDocument
+    )
+    .toPromise();
+
+  // allow for legacy location
+  const contents = (
+    (res.data?.repository?.current || res.data?.repository?.legacy) as Blob
+  )?.text;
+  if (!contents) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const data = yaml.load(contents) as ShortlinkFile;
+  const row = data.links[link];
+  if (!row) {
     return {
       notFound: true,
     };
@@ -59,10 +82,10 @@ export const getStaticProps: GetStaticProps<ShortLinkToProps> = async (ctx) => {
 
   return {
     props: {
+      urqlState: cache.extractData(),
       name: link,
-      url: typeof details === "string" ? details : details.link.url,
-      description:
-        typeof details === "string" ? null : details.link.description,
+      url: typeof row === "string" ? row : row.url,
+      description: typeof row === "string" ? null : row.description,
     },
     revalidate: 300,
   };

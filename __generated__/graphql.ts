@@ -14,7 +14,7 @@ export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K]
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
-// File generated at: 2021-12-26T12:44:52-08:00
+// File generated at: 2022-01-06T16:59:02-08:00
 
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -10528,6 +10528,20 @@ export type OrgEnableTwoFactorRequirementAuditEntry = AuditEntry & Node & Organi
   userUrl?: Maybe<Scalars['URI']>;
 };
 
+/** Ordering options for an organization's enterprise owner connections. */
+export type OrgEnterpriseOwnerOrder = {
+  /** The ordering direction. */
+  direction: OrderDirection;
+  /** The field to order enterprise owners by. */
+  field: OrgEnterpriseOwnerOrderField;
+};
+
+/** Properties by which enterprise owners can be ordered. */
+export enum OrgEnterpriseOwnerOrderField {
+  /** Order enterprise owners by login. */
+  Login = 'LOGIN'
+}
+
 /** Audit log entry for a org.invite_member event. */
 export type OrgInviteMemberAuditEntry = AuditEntry & Node & OrganizationAuditEntryData & {
   __typename?: 'OrgInviteMemberAuditEntry';
@@ -11321,6 +11335,8 @@ export type Organization = Actor & MemberStatusable & Node & PackageOwner & Prof
   domains?: Maybe<VerifiableDomainConnection>;
   /** The organization's public email. */
   email?: Maybe<Scalars['String']>;
+  /** A list of owners of the organization's enterprise account. */
+  enterpriseOwners: OrganizationEnterpriseOwnerConnection;
   /** The estimated next GitHub Sponsors payout for this user/organization in cents (USD). */
   estimatedNextSponsorsPayoutInCents: Scalars['Int'];
   /** True if this user/organization has a GitHub Sponsors listing. */
@@ -11485,6 +11501,18 @@ export type OrganizationDomainsArgs = {
   isVerified?: InputMaybe<Scalars['Boolean']>;
   last?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<VerifiableDomainOrder>;
+};
+
+
+/** An account on GitHub, with one or more owners, that has repositories, members and teams. */
+export type OrganizationEnterpriseOwnersArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<OrgEnterpriseOwnerOrder>;
+  organizationRole?: InputMaybe<RoleInOrganization>;
+  query?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -11786,6 +11814,30 @@ export type OrganizationEdge = {
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
   node?: Maybe<Organization>;
+};
+
+/** The connection type for User. */
+export type OrganizationEnterpriseOwnerConnection = {
+  __typename?: 'OrganizationEnterpriseOwnerConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<OrganizationEnterpriseOwnerEdge>>>;
+  /** A list of nodes. */
+  nodes?: Maybe<Array<Maybe<User>>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** Identifies the total count of items in the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An enterprise owner in the context of an organization that is part of the enterprise. */
+export type OrganizationEnterpriseOwnerEdge = {
+  __typename?: 'OrganizationEnterpriseOwnerEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<User>;
+  /** The role of the owner with respect to the organization. */
+  organizationRole: RoleInOrganization;
 };
 
 /** An Identity Provider configured to provision SAML and SCIM identities for Organizations */
@@ -14420,8 +14472,8 @@ export type Push = Node & {
   permalink: Scalars['URI'];
   /** The SHA before the push */
   previousSha?: Maybe<Scalars['GitObjectID']>;
-  /** The user who pushed */
-  pusher: User;
+  /** The actor who pushed */
+  pusher: Actor;
   /** The repository that was pushed to */
   repository: Repository;
 };
@@ -22711,6 +22763,11 @@ export type SelectPostsWithSearchQueryVariables = Exact<{
 
 export type SelectPostsWithSearchQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', discussionCount: number, nodes?: Array<{ __typename?: 'App' } | { __typename?: 'Discussion', id: string, title: string, lastEditedAt?: any | null | undefined, url: any, body: string, labels?: { __typename?: 'LabelConnection', nodes?: Array<{ __typename?: 'Label', id: string, name: string, description?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined, author?: { __typename?: 'Bot', avatarUrl: any } | { __typename?: 'EnterpriseUserAccount', avatarUrl: any } | { __typename?: 'Mannequin', avatarUrl: any } | { __typename?: 'Organization', avatarUrl: any } | { __typename?: 'User', id: string, name?: string | null | undefined, avatarUrl: any } | null | undefined } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename?: 'User' } | null | undefined> | null | undefined, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null | undefined, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null | undefined } } };
 
+export type SelectShortlinkDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SelectShortlinkDataQuery = { __typename?: 'Query', repository?: { __typename?: 'Repository', legacy?: { __typename?: 'Blob', id: string, text?: string | null | undefined } | { __typename?: 'Commit' } | { __typename?: 'Tag' } | { __typename?: 'Tree' } | null | undefined, current?: { __typename?: 'Blob', id: string, text?: string | null | undefined } | { __typename?: 'Commit' } | { __typename?: 'Tag' } | { __typename?: 'Tree' } | null | undefined } | null | undefined };
+
 export const PostDetailsFragmentDoc = gql`
     fragment PostDetails on Discussion {
   id
@@ -22797,6 +22854,28 @@ export const SelectPostsWithSearchDocument = gql`
 
 export function useSelectPostsWithSearchQuery(options: Omit<Urql.UseQueryArgs<SelectPostsWithSearchQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<SelectPostsWithSearchQuery>({ query: SelectPostsWithSearchDocument, ...options });
+};
+export const SelectShortlinkDataDocument = gql`
+    query SelectShortlinkData {
+  repository(name: "codedrift", owner: "jakobo") {
+    legacy: object(expression: "main:src/data/shortlinks.yaml") {
+      ... on Blob {
+        id
+        text
+      }
+    }
+    current: object(expression: "main:data/shortlinks.yaml") {
+      ... on Blob {
+        id
+        text
+      }
+    }
+  }
+}
+    `;
+
+export function useSelectShortlinkDataQuery(options: Omit<Urql.UseQueryArgs<SelectShortlinkDataQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<SelectShortlinkDataQuery>({ query: SelectShortlinkDataDocument, ...options });
 };
 import { IntrospectionQuery } from 'graphql';
 export default {
@@ -58990,6 +59069,68 @@ export default {
             "args": []
           },
           {
+            "name": "enterpriseOwners",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "OrganizationEnterpriseOwnerConnection",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "after",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "before",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "first",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "last",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "organizationRole",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "query",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
             "name": "estimatedNextSponsorsPayoutInCents",
             "type": {
               "kind": "NON_NULL",
@@ -61338,6 +61479,98 @@ export default {
               "kind": "OBJECT",
               "name": "Organization",
               "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "OrganizationEnterpriseOwnerConnection",
+        "fields": [
+          {
+            "name": "edges",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "OrganizationEnterpriseOwnerEdge",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "nodes",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "pageInfo",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PageInfo",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "totalCount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "OrganizationEnterpriseOwnerEdge",
+        "fields": [
+          {
+            "name": "cursor",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "node",
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "organizationRole",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
             },
             "args": []
           }
@@ -70909,8 +71142,8 @@ export default {
             "type": {
               "kind": "NON_NULL",
               "ofType": {
-                "kind": "OBJECT",
-                "name": "User",
+                "kind": "INTERFACE",
+                "name": "Actor",
                 "ofType": null
               }
             },
