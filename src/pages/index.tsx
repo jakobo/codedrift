@@ -52,18 +52,29 @@ const Home: React.FC<{}> = () => {
               Hey 👋🏼, I&rsquo;m Jakob
             </h1>
             <p className="font-sans font-light leading-normal">
-              I&lsquo;m into the messy part of building things. Sometimes, when
-              there is clarity in the mess, it ends up{" "}
-              <Link href="/thunked" passHref>
-                <a href="/thunked" className={linkClasses}>
-                  formalized here in <em>Thunked</em>
+              I&lsquo;m into the messy part of building things. I write about{" "}
+              <Link href="/thunked/tag/%F0%9F%93%9A%20Code">
+                <a
+                  href="/thunked/tag/%F0%9F%93%9A%20Code"
+                  className={linkClasses}
+                >
+                  code
                 </a>
-              </Link>
-              . Many other ideas floating in my head, very unpolished, are
-              available in my{" "}
+              </Link>{" "}
+              and the{" "}
+              <Link href="/thunked/tag/%F0%9F%93%9A%20Leadership">
+                <a
+                  href="/thunked/tag/%F0%9F%93%9A%20Leadership"
+                  className={linkClasses}
+                >
+                  people
+                </a>
+              </Link>{" "}
+              who build it. I work in public as much as I can, and you can
+              always see what's on my mind in my{" "}
               <Link href="/notes" passHref>
                 <a href="/notes" className={linkClasses}>
-                  public notes
+                  working notes
                 </a>
               </Link>
               .

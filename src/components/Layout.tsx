@@ -58,11 +58,12 @@ const LightSwitch: React.FC<LightSwitchProps> = ({ className }) => {
 };
 
 const navLinks = [
-  { title: "Home", url: "/", className: "" },
+  { title: "Home", url: "/", className: "hidden md:block" },
   { title: "Writing", url: "/thunked", className: "" },
   {
     title: "AMA",
     url: "https://github.com/jakobo/codedrift/discussions/categories/ask-me-anything-ama",
+    className: "hidden md:block",
   },
   {
     title: "Notes",
@@ -87,6 +88,15 @@ const footerLinks = [
   },
   { title: "Home", url: "/", className: "" },
   { title: "Writing", url: "/thunked", className: "" },
+  {
+    title: "AMA",
+    url: "https://github.com/jakobo/codedrift/discussions/categories/ask-me-anything-ama",
+  },
+  {
+    title: "Working Notes",
+    url: "/notes",
+    className: "",
+  },
   { title: "Contact", url: "/contact", className: "" },
 ];
 
