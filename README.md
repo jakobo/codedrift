@@ -1,4 +1,4 @@
-# Codedrift [Posts](https://github.com/jakobo/codedrift/discussions/categories/thunked?discussions_q=category%3AThunked+sort%3Aupdated) | [AMA](https://github.com/jakobo/codedrift/discussions/categories/ask-me-anything-ama)
+# Codedrift [Posts](https://codedrift.com/thunked) | [AMA](https://github.com/jakobo/codedrift/discussions/categories/ask-me-anything-ama)
 
 Personal Website of Jakob Heuser, available at https://codedrift.com
 
@@ -20,5 +20,8 @@ Personal Website of Jakob Heuser, available at https://codedrift.com
 I use windows. It has its upsides. These would be the downsides. There is no _good_ way to get a functional pupeteer instance inside of WSL. I tried for a couple afternoons before I settled for YOLOing. I'll probably create a `vnext` URL if I ever need to attempt these shenanigans again.
 
 # Outstanding Issues
-
-You could file bugs. They'll be triaged. There's a wishlist of things I'm tracking in my [Code Drift Working Notes](https://coda.io/d/Jakobs-Notes_dFBvQLDXnR5/CodeDrift_suuaz#_lutQ7).
+This is a roughly current list of big ticket feature items I'd like to do
+* [ ] Expose post revision data (`changelog` in frontmatter)
+* [ ] Add a section for mentoring, coaching, advising, & investing
+* [ ] Go digging for old posts from LinkedIn/Medium/Felocity.org
+* [ ] Explore bringing github comments into the webmentions area on individual posts
