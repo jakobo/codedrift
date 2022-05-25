@@ -43,7 +43,7 @@ export const PostDirectory: React.FC<PostDirectoryProps> = ({
         .reverse()
         .map((year) => (
           <div key={year} className={cx("mb-8", className)}>
-            <h2 className="w-full font-title text-2xl text-left text-gray-800 border-b border-gray-800 mb-1">
+            <h2 className="w-full font-sans text-2xl text-left text-gray-800 border-b border-gray-800 mb-1">
               {year}
             </h2>
             <ul className="grid gap-8 grid-cols-2">

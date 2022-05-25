@@ -4,10 +4,7 @@ import { DateTime } from "luxon";
 import { Post as PT, Tag } from "types/Post";
 import { demoji } from "src/lib/demoji";
 import cx from "classnames";
-import { LINK, MINOR_LINK, PROSE } from "src/constants";
-
-const permalinkClass =
-  "block font-sans-caps text-gray-300 text-sm no-underline";
+import { MINOR_LINK, PROSE } from "src/constants";
 
 const widont = (text: string) =>
   text.replace(/([^\s])\s+([^\s]+)\s*$/, "$1\u00a0$2");

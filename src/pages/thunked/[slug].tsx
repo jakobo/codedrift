@@ -105,7 +105,7 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
             titleTag={({ children, ...props }) => (
               <h1
                 {...props}
-                className={`${props.className || ""} font-title text-5xl`}
+                className={`${props.className || ""} font-title text-6xl`}
               >
                 {children}
               </h1>

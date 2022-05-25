@@ -49,15 +49,18 @@ const Home: React.FC<{}> = () => {
       <Layout>
         <div className="flex-col flex-shrink-0 w-full lg:w-auto">
           <div className="max-w-reading mx-2 lg:mx-0">
-            <h1 className="font-title font-bold text-5xl mb-3">
+            <h1 className="font-title text-6xl mb-3">
               Hey 👋🏼, I&rsquo;m Jakob
             </h1>
-            <p className="font-sans font-light leading-normal">
+            <p className="font-sans">
               I&lsquo;m the co-founder of{" "}
-              <a href="https://taskless.io">Taskless</a>, the world&lsquo;s
-              fastest job queueing system for serverless and edge computing.
+              <a href="https://taskless.io" className={linkClasses}>
+                Taskless
+              </a>
+              , the world&lsquo;s fastest job queueing system for serverless and
+              edge computing.
             </p>
-            <p className="font-sans font-light leading-normal mt-3">
+            <p className="font-sans mt-3">
               The messy parts when we build things is my happy place.
               Ocassionally, I write about{" "}
               <Link href="/thunked/tag/%F0%9F%93%9A%20Code">
@@ -79,7 +82,7 @@ const Home: React.FC<{}> = () => {
           <div className="max-w-reading mt-4 mx-2 lg:mx-0 flex flex-col space-y-8 pt-6">
             {(posts || []).map((post) => (
               <div key={post.id}>
-                <h3 className="font-sans font-bold text-2xl">
+                <h3 className="font-sans text-2xl">
                   <Link href={`/thunked/${post.slug}`} passHref>
                     <a
                       href={`/thunked/${post.slug}`}
@@ -89,9 +92,8 @@ const Home: React.FC<{}> = () => {
                     </a>
                   </Link>
                 </h3>
-                <div className="font-sans-caps text-sm">
+                <div className="font-sans text-sm">
                   <span
-                    className="text-xs"
                     title={DateTime.fromISO(post.publishedAt).toLocaleString()}
                   >
                     {DateTime.fromISO(post.publishedAt).toRelativeCalendar()}

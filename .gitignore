@@ -8,7 +8,6 @@
 # Please put your IDE ignores in your home ~/.gitignore
 # Most editors are at https://github.com/github/gitignore/tree/master/Global
 
-.env
 .env.local
 .next
 .vercel

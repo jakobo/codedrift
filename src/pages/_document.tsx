@@ -12,7 +12,7 @@ class MyDocument extends Document {
           />
         </Head>
         <body
-          className="bg-gray-100 bg-texture dark:bg-texture-invert dark:bg-gray-900 text-gray-800 dark:text-gray-100"
+          className="bg-gray-100 bg-paper-stone-200 dark:bg-gray-900 dark:bg-paper-stone-800 text-gray-800 dark:text-gray-100"
           style={{
             margin: 0,
             padding: 0,

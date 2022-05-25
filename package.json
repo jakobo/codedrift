@@ -1,10 +1,11 @@
 {
   "name": "codedrift",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Personal blog & site of Rudolph Jakob Heuser",
-  "main": "",
-  "author": "Jakob Heuser <hello@codedrift.com>",
+  "license": "MIT",
+  "main": "./src/pages/index.ts",
+  "author": "Jakob Heuser <jakob@codedrift.com>",
   "homepage": "https://codedrift.com",
   "bugs": {
     "url": "https://github.com/jakobo/codedrift/issues"
@@ -17,7 +18,6 @@
     "eslint": "eslint",
     "lint-staged": "lint-staged --shell"
   },
-  "license": "MIT",
   "dependencies": {
     "@heroicons/react": "^1.0.6",
     "@tailwindcss/forms": "^0.5.2",
@@ -37,7 +37,7 @@
     "ky": "^0.30.0",
     "ky-universal": "^0.9.1",
     "luxon": "^2.2.0",
-    "next": "^12.0.7",
+    "next": "^12.1.6",
     "next-seo": "^5.4.0",
     "next-urql": "^3.3.2",
     "postcss": "^8.4.14",
@@ -76,7 +76,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.18.0",
-    "@babel/plugin-transform-unicode-regex": "^7.16.5",
+    "@babel/plugin-transform-unicode-regex": "^7.16.7",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@graphql-codegen/add": "^3.1.0",
@@ -101,7 +101,7 @@
     "eslint-config-next": "latest",
     "husky": "^4.3.8",
     "lint-staged": "^10.5.4",
-    "prettier": "^2.2.1",
+    "prettier": "^2.6.2",
     "typescript": "^4.6.4"
   },
   "husky": {

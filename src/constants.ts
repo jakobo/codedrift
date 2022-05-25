@@ -38,4 +38,4 @@ export const PROSE = [
 export const ICON_LINK =
   "transition-all text-gray-500 hover:!text-gray-400 dark:text-gray-500 hover:dark:!text-gray-400";
 
-export const SECTION_HEADLINE = ["font-title", "text-7xl", "mb-3"].join(" ");
+export const SECTION_HEADLINE = ["font-title", "text-6xl", "mb-3"].join(" ");

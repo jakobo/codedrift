@@ -160,7 +160,7 @@ export const Layout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
         <main className="w-full max-w-limit flex-grow p-4 pt-12">
           {children}
         </main>
-        <footer className="w-full h-20 bg-gray-700 dark:bg-gray-800 mt-8">
+        <footer className="w-full h-20 bg-gray-700 bg-leather-stone-700 dark:bg-gray-800 dark:bg-leather-stone-700 mt-8">
           <div className="flex flex-row items-center max-w-limit text-gray-100 dark:text-gray-200 p-4 text-sm">
             <div className="w-1/4">&lt;/&gt;</div>
             <div className="flex-grow text-center">

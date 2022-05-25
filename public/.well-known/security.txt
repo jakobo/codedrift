@@ -1,0 +1,10 @@
+# RFC-9116 is amazing, and we all should use it
+# A static website probably does not need this, but we live on the internet
+# so anything is possible.
+#
+# I have intentionally ommitted the Expires field, as this security email
+# will exist for as long as I own and write on codedrift.com
+
+Canonical: https://codedrift.com/.well-known/security.txt
+Contact: mailto:jakob@codedrift.com?subject=Security
+Preferred-Languages: en

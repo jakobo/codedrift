@@ -60,7 +60,7 @@ const Colophon: React.FC<{}> = () => {
             <a href="https://fonts.google.com/specimen/Work+Sans">
               Work Sans Light
             </a>
-            . The <a href="https://tailwindcss.com/">Tailwind CSS</a> Slate
+            . The <a href="https://tailwindcss.com/">Tailwind CSS</a> stone
             pallete drives the primary color scheme, with Emerald and Amber
             providing primary and secondary colors respectively.
           </p>
