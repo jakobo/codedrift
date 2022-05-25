@@ -1,5 +1,4 @@
-import Head from "next/head";
-import Layout, { createTitle } from "src/components/Layout";
+import { Layout } from "src/components/Layout";
 import { PostDirectory, groupPostsByYear } from "src/components/Directory";
 import React from "react";
 import { discussionToBlog } from "src/lib/github/discussionToPost";
@@ -15,6 +14,8 @@ import {
 import { initDefaultUrqlClient, withDefaultUrqlClient } from "src/graphql";
 import { demoji } from "src/lib/demoji";
 import { GetStaticPaths, GetStaticProps } from "next";
+import { SECTION_HEADLINE } from "src/constants";
+import { NextSeo } from "next-seo";
 
 const labelToSearch = (label: string) =>
   `label:"${label}" category:"Thunked" repo:jakobo/codedrift`;
@@ -49,21 +50,14 @@ const ThunkedPostsByTag: React.FC<{}> = () => {
 
   return (
     <>
-      <Head>
-        <title>{createTitle(`Posts about ${displayName}`)}</title>
-        <meta
-          name="description"
-          content={`Posts about ${displayName} on CodeDrift`}
-        />
-      </Head>
+      <NextSeo
+        title={`Posts on ${displayName}`}
+        description={`A collection of posts covering "${displayName}"`}
+      />
       <Layout>
-        <div className="w-screen max-w-reading">
-          <h1 className="font-sans-lg font-bold text-3xl mb-3">
-            {displayName}
-          </h1>
-          <p>{categoryDetails.description || ""}</p>
-          <PostDirectory postsByYear={byYear} className="pt-10" />
-        </div>
+        <h1 className={SECTION_HEADLINE}>{displayName}</h1>
+        <p>{categoryDetails.description || ""}</p>
+        <PostDirectory postsByYear={byYear} className="pt-10" />
       </Layout>
     </>
   );

@@ -1,17 +1,29 @@
-import Icon from "./Icon";
 import React, { HTMLAttributes } from "react";
 import { Webmention as WebmentionType } from "src/lib/webmentions/client";
 import { DateTime } from "luxon";
 import { createParser } from "src/lib/parser/webmentions";
 import { withReact } from "src/lib/parser/withReact";
+import { LINK, PROSE } from "src/constants";
+import { GlobeAltIcon } from "@heroicons/react/solid";
+import { RedditIcon } from "./icons/Reddit";
+import { TwitterIcon } from "./icons/Twitter";
+import { FacebookIcon } from "./icons/Facebook";
+
+interface IconCommonProps {
+  className?: string;
+  style?: any;
+}
 
 const avatarSourceIcons: {
-  [source: string]: [string, HTMLAttributes<HTMLDivElement>["style"]];
+  [source: string]: [
+    React.FC<IconCommonProps>,
+    HTMLAttributes<HTMLDivElement>["style"]
+  ];
 } = {
-  web: ["wm-source-other", {}],
-  reddit: ["wm-source-other", { color: "#FF4500" }], // no reddit icon in feather
-  twitter: ["wm-source-twitter", { color: "#1DA1F2" }],
-  facebook: ["wm-source-facebook", { color: "#4267B2" }],
+  web: [GlobeAltIcon, {}],
+  reddit: [RedditIcon, { color: "#FF4500" }], // no reddit icon in feather
+  twitter: [TwitterIcon, { color: "#1DA1F2" }],
+  facebook: [FacebookIcon, { color: "#4267B2" }],
 };
 
 interface AvatarProps {
@@ -22,20 +34,19 @@ interface AvatarProps {
 }
 
 const Avatar: React.FC<AvatarProps> = ({ name, src, source, className }) => {
-  const [iconName, styles] =
-    avatarSourceIcons?.[source] || avatarSourceIcons.web;
+  const [Icon, styles] = avatarSourceIcons?.[source] || avatarSourceIcons.web;
   return (
     <div className={className}>
       <div className="relative w-12 h-12">
         <div className="flex flex-row items-center justify-center w-12 h-12 rounded-full overflow-hidden border border-gray-100 dark:border-gray-900">
           {src ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img src={src} alt={name} title={name} className="object-cover" />
           ) : (
             <div>{name.charAt(0).toUpperCase()}</div>
           )}
         </div>
         <Icon
-          icon={iconName}
           className="absolute bottom-0 right-0 w-4 h-4 text-brand-500 fill-current"
           style={styles}
         />
@@ -136,7 +147,7 @@ export const Webmention: React.FC<WebmentionProps> = ({
       <div className="flex-grow">
         <div className="w-3/4 truncate">
           <a
-            className="text-brand-500 dark:text-brand-invert-500"
+            className={LINK}
             href={wm?.data?.url || wm?.data?.author?.url}
             rel="nofollow"
           >
@@ -144,9 +155,7 @@ export const Webmention: React.FC<WebmentionProps> = ({
             <Action mention={wm} />
           </a>
         </div>
-        <div className="prose dark:prose-dark max-w-none">
-          {reactedContent.result}
-        </div>
+        <div className={PROSE}>{reactedContent.result}</div>
         <div className="text-gray-500">
           <a href={`#${wmId}`}>{mDate ? mDate.toRelative() : "(undated)"}</a>
         </div>

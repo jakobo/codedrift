@@ -2,6 +2,8 @@ import { DateTime } from "luxon";
 import Link from "next/link";
 import React from "react";
 import { Post } from "types/Post";
+import cx from "classnames";
+import { LINK } from "src/constants";
 
 type PostsByYear = {
   [year: number]: Post[];
@@ -40,37 +42,18 @@ export const PostDirectory: React.FC<PostDirectoryProps> = ({
         .sort()
         .reverse()
         .map((year) => (
-          <div key={year} className={`${className}`}>
-            <h2 className="w-full lg:-ml-36 lg:w-36 font-sans-lg font-bold text-lg text-left lg:text-right pr-5 text-gray-300">
+          <div key={year} className={cx("mb-8", className)}>
+            <h2 className="w-full font-title text-2xl text-left text-gray-800 border-b border-gray-800 mb-1">
               {year}
             </h2>
-            <ul className="-mt-6 flex flex-col lg:flex-row lg:flex-wrap">
+            <ul className="grid gap-8 grid-cols-2">
               {postsByYear[year].map((post: Post) => (
-                <li
-                  key={post.id}
-                  className={`mb-10 lg:w-1/2 lg:even:pl-4 lg:odd:pr-4 ${postClassName}`}
-                >
+                <li key={post.id} className={`w-full ${postClassName}`}>
                   <h2>
                     <Link href={`/thunked/${post.slug}`} passHref>
                       <a
                         href={`/thunked/${post.slug}`}
-                        className={`
-                            border-b
-                            border-dotted 
-
-                            font-sans
-                            font-bold
-
-                            text-brand-500
-                            hover:text-brand-700
-                            border-brand-500
-                            hover:border-brand-700
-
-                            dark:text-brand-invert-500
-                            dark:hover:text-brand-invert-700
-                            dark:border-brand-invert-500
-                            dark:hover:border-invert-brand-700
-                        `}
+                        className={cx(LINK, "font-bold")}
                       >
                         {post.title}
                       </a>

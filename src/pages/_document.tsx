@@ -5,14 +5,18 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head />
+        <Head>
+          <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;800&family=Roboto+Mono:wght@300&family=Work+Sans:wght@300&display=swap"
+            rel="stylesheet"
+          />
+        </Head>
         <body
-          className="bg-light dark:bg-dark text-dark dark:text-light"
+          className="bg-gray-100 bg-texture dark:bg-texture-invert dark:bg-gray-900 text-gray-800 dark:text-gray-100"
           style={{
             margin: 0,
             padding: 0,
             overflowX: "hidden",
-            minHeight: "101vh",
             transition: "all 0.5s",
           }}
         >

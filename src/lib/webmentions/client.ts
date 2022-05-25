@@ -216,6 +216,7 @@ export default class WebmentionsClient {
     req.searchParams.append("token", this.token);
 
     const res: WebmentionAPIResponse = await ky(req.toString()).json();
+    // console.log(res);
     return res;
   }
 }

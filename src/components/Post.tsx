@@ -3,6 +3,8 @@ import React, { HTMLAttributes, PropsWithChildren } from "react";
 import { DateTime } from "luxon";
 import { Post as PT, Tag } from "types/Post";
 import { demoji } from "src/lib/demoji";
+import cx from "classnames";
+import { LINK, MINOR_LINK, PROSE } from "src/constants";
 
 const permalinkClass =
   "block font-sans-caps text-gray-300 text-sm no-underline";
@@ -60,67 +62,64 @@ export const Post: React.FC<PropsWithChildren<PostProps>> = ({
 
   return (
     <div className={className}>
-      <div className="flex-col lg:flex-row px-1">
-        <div className="flex flex-row space-x-2 lg:flex-col w-full lg:w-36 lg:-ml-36 pr-4 font-sans-caps lg:text-right leading-none">
-          {category ? (
-            <TagLink
-              className="block"
-              href={`/thunked/tag/${category.name}`}
-              display={category.name}
-              title={category.description}
-            />
-          ) : null}
+      <div className="flex-col">
+        <div className="w-full max-w-reading flex-shrink-0">
+          <TitleTag style={{ marginBottom: "0.25em" }}>
+            {widont(title)}
+          </TitleTag>
           {!publishedAt ? (
             <Link href={`/thunked/${slug}`} passHref>
-              <a href={`/thunked/${slug}`} className={permalinkClass}>
-                #
+              <a href={`/thunked/${slug}`} className="text-sm text-gray-500">
+                # permalink
               </a>
             </Link>
           ) : (
             <Link href={`/thunked/${slug}`} passHref>
               <a
                 href={`/thunked/${slug}`}
-                className={permalinkClass}
-                title={DateTime.fromISO(publishedAt).toLocaleString()}
+                className="text-sm text-gray-500"
+                title={DateTime.fromISO(publishedAt).toLocaleString(
+                  DateTime.DATETIME_MED
+                )}
               >
                 {DateTime.fromISO(publishedAt).toRelativeCalendar()}
               </a>
             </Link>
           )}
-        </div>
-        <div className="w-full max-w-reading flex-shrink-0 lg:-mt-10">
-          <TitleTag style={{ marginBottom: "0.25em" }}>
-            {widont(title)}
-          </TitleTag>
-          {tagSort.map((name, typeIdx) => {
-            const list = tagsByEmoji[name] || [];
-            if (list.length === 0) return null;
-            return (
-              <div
-                key={name}
-                className={`inline-block text-sm ${
-                  typeIdx === 0 ? "" : "ml-2"
-                }`}
-              >
-                {name}
-                {list.map((tag: Tag, idx: number) => (
-                  <span
-                    key={tag.id}
-                    className="text-gray-300 dark:text-gray-500"
-                  >
-                    {idx === 0 ? "" : ", "}
-                    <TagLink
-                      href={`/thunked/tag/${tag.name}`}
-                      display={tag.display}
-                      className="text-gray-300 dark:text-gray-500"
-                      title={tag.description}
-                    />
-                  </span>
-                ))}
-              </div>
-            );
-          })}
-          <div className="prose dark:prose-dark max-w-none">{children}</div>
+          <div className="text-gray-500 text-sm">
+            {category ? (
+              <span>
+                in&nbsp;
+                <TagLink
+                  className={cx(MINOR_LINK, "mr-1")}
+                  href={`/thunked/tag/${category.name}`}
+                  display={demoji(category.name)}
+                  title={category.description}
+                />
+              </span>
+            ) : null}
+            {tagSort.map((name, typeIdx) => {
+              const list = tagsByEmoji[name] || [];
+              if (list.length === 0) return null;
+              return (
+                <div key={name} className={`inline-block space-x-1`}>
+                  <span>+</span>
+                  {list.map((tag: Tag, idx: number, all: any[]) => (
+                    <span key={tag.id} className="text-gray-500">
+                      <TagLink
+                        href={`/thunked/tag/${tag.name}`}
+                        display={tag.display}
+                        className={cx(MINOR_LINK)}
+                        title={tag.description}
+                      />
+                      {idx < all.length - 1 ? "," : ""}
+                    </span>
+                  ))}
+                </div>
+              );
+            })}
+          </div>
+          <div className={PROSE}>{children}</div>
         </div>
       </div>
     </div>

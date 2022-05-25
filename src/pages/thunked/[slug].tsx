@@ -1,9 +1,7 @@
 import React, { useRef } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { Post } from "src/components/Post";
-import Head from "next/head";
-import Icon, { InlineIcon } from "src/components/Icon";
-import Layout, { createTitle } from "src/components/Layout";
+import { Layout } from "src/components/Layout";
 import { Webmention as WebmentionItem } from "src/components/Webmention";
 import { usePrism } from "src/hooks/usePrism";
 import WebmentionClient, { Webmention } from "src/lib/webmentions/client";
@@ -17,14 +15,11 @@ import {
 } from "__generated__/graphql";
 import { useRouter } from "next/router";
 import { initDefaultUrqlClient, withDefaultUrqlClient } from "src/graphql";
-
-const selectMetaAttribute = (n: string) => {
-  if (n.indexOf("og:") === 0) {
-    return "property";
-  }
-
-  return "name";
-};
+import { PROSE } from "src/constants";
+import cx from "classnames";
+import { NextSeo, ArticleJsonLd } from "next-seo";
+import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
+import { TwitterIcon } from "src/components/icons/Twitter";
 
 export const slugToSearch = (slug: string) =>
   `"slug: ${slug}" in:body category:"Thunked" repo:jakobo/codedrift`;
@@ -56,93 +51,53 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
     return null;
   }
 
+  const tweetSlug = `${post.title} on CodeDrift`;
+  const hasMentions = webmentions.length > 0;
   // add a TS to ensure caching works as expected
   const tsWindow = Math.floor(
     (post?.updatedAt ? new Date(post.updatedAt).getTime() : 0) / 86400
   );
-  const mediaImage = `https://codedrift.com/api/v1/og/image/thunked/${
-    post.slug || ""
+  const mediaImage = `https://codedrift.com/api/v2/thunked/og-image/${
+    post.slug ?? ""
   }?ts=${tsWindow}`;
-  const tagList = post.tags.map((t) => t.name.replace(/,/g, "")).join(",");
-
-  const meta = {
-    description: post.description,
-    "og:type": "article",
-    "og:title": post.title,
-    "og:description": post.description,
-    "og:url": post.canonicalUrl,
-    "og:image": mediaImage,
-    "og:image:width": 1200,
-    "og:image:height": 600,
-
-    "article:published_time": post.publishedAt || null,
-    "article:modified_time": post.updatedAt || null,
-    "article:tag": tagList,
-
-    "twitter:card": "summary_large_image",
-    "twitter:title": post.title,
-    "twitter:description": post.description,
-    "twitter:url": post.canonicalUrl,
-    "twitter:image": mediaImage,
-    "twitter:label1": "Written by",
-    "twitter:data1": "Jakob Heuser",
-    "twitter:label2": "As part of",
-    "twitter:data2": tagList,
-    "twitter:site": "@jakobo",
-  };
-
-  const ldJson = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    publisher: {
-      "@type": "Person",
-      name: "Jakob Heuser",
-      url: "https://codedrift.com",
-    },
-    author: {
-      "@type": "Person",
-      name: "Jakob Heuser",
-      url: "https://codedrift.com",
-      sameAs: [],
-    },
-    headline: post.title,
-    url: post.canonicalUrl,
-    image: mediaImage,
-    datePublished: post.publishedAt,
-    dateModified: post.updatedAt,
-    keywords: tagList,
-    description: post.description,
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": "https://codedrift.com",
-    },
-  };
-
-  const tweetSlug = `${post.title} on CodeDrift`;
-  const hasMentions = webmentions.length > 0;
 
   return (
     <>
-      <Head>
-        <title>{createTitle(post?.title)}</title>
-        <link rel="canonical" href={post.canonicalUrl} />
-        {Object.getOwnPropertyNames(meta).map((name) => {
-          const value = Array.isArray(meta[name]) ? meta[name] : [meta[name]];
-          return value.map((val: string, idx: number) => {
-            if (val === null) {
-              return null;
-            }
-            const bag = {
-              [selectMetaAttribute(name)]: name,
-              content: val,
-            };
-            return <meta key={`${name}-${idx}`} {...bag} />;
-          });
-        })}
-        <script type="application/ld+json">
-          {JSON.stringify(ldJson, null, 0)}
-        </script>
-      </Head>
+      <NextSeo
+        title={post.title}
+        description={post.description}
+        canonical={post.canonicalUrl}
+        openGraph={{
+          url: post.canonicalUrl,
+          type: "article",
+          article: {
+            authors: ["https://codedrift.com"],
+            publishedTime: post.publishedAt,
+            modifiedTime: post.updatedAt,
+            tags: [
+              post.category?.display ?? "",
+              ...(post.tags || []).map((t) => t.display),
+            ].filter((t) => t),
+          },
+          images: [
+            {
+              url: mediaImage,
+              width: 1200,
+              height: 600,
+              alt: post.title,
+            },
+          ],
+        }}
+      />
+      <ArticleJsonLd
+        url={post.canonicalUrl}
+        title={post.title}
+        images={[mediaImage]}
+        datePublished={post.publishedAt}
+        dateModified={post.updatedAt}
+        authorName={["Jakob Heuser"]}
+        description={post.description}
+      />
       <Layout>
         <div className="flex-col w-full">
           <Post
@@ -150,9 +105,7 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
             titleTag={({ children, ...props }) => (
               <h1
                 {...props}
-                className={`${
-                  props.className || ""
-                } font-sans font-bold text-4xl`}
+                className={`${props.className || ""} font-title text-5xl`}
               >
                 {children}
               </h1>
@@ -173,16 +126,13 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
                 className="font-sans-caps block no-underline"
                 href="https://indieweb.org/Webmention"
               >
-                <Icon
-                  icon="question"
-                  className="inline-block h-3 w-3 -mt-1 mr-1"
-                />
+                <QuestionMarkCircleIcon className="inline-block h-3 w-3 -mt-1 mr-1" />
                 What&rsquo;s this?
               </a>
             </div>
             <div className="pb-4">
               <p>
-                <span className="prose dark:prose-dark mr-2">
+                <span className={cx(PROSE, "mr-2")}>
                   Tweets, mentions, and trackbacks
                 </span>
                 <a
@@ -191,16 +141,13 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
                   )}&url=${encodeURIComponent(post.canonicalUrl)}&via=jakobo`}
                   style={{ color: "#1DA1F2" }}
                 >
-                  <InlineIcon
-                    icon="twitter"
-                    className="inline-block h-3 w-4 fill-current mr-1 mb-1"
-                  />
+                  <TwitterIcon className="inline-block h-3 w-4 fill-current mr-1 mb-1" />
                   Share your thoughts
                 </a>
               </p>
             </div>
             {hasMentions ? null : (
-              <div className="prose dark:prose-dark">
+              <div className={PROSE}>
                 <p>
                   As this gets discussed, comments will show up here. If the
                   post is new, it may take a bit for your thoughts to get from
@@ -219,6 +166,7 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
     </>
   );
 };
+
 export default withDefaultUrqlClient({
   ssr: false,
   staleWhileRevalidate: true,

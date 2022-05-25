@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Layout from "src/components/Layout";
+import { Layout } from "src/components/Layout";
 import React from "react";
 import { GetStaticProps } from "next";
 import { initDefaultUrqlClient } from "src/graphql";
@@ -11,6 +11,7 @@ import {
 } from "__generated__/graphql";
 import { ShortlinkFile } from "types/shortlinks";
 import yaml from "js-yaml";
+import { PROSE, SECTION_HEADLINE } from "src/constants";
 
 interface ShortLinkToProps {
   name: string;
@@ -32,16 +33,19 @@ const ShortLinkTo: React.FC<ShortLinkToProps> = ({
       </Head>
       <Layout>
         <div className="flex-col w-full max-w-reading">
-          <h1 className="font-sans-lg font-bold text-7xl mb-3">Redirecting</h1>
-          <div className="prose dark:prose-dark">
+          <h1 className={SECTION_HEADLINE}>Redirecting</h1>
+          <div className={PROSE}>
             <p>
               You&rsquo;re accessing a codedrift short link. In a few moments,
               you&rsquo;ll be taken to &ldquo;{name}&rdquo;{" "}
               {description ? <>({description})</> : null} at <code>{url}</code>
             </p>
             <p>
-              If you are not redirected automatically,{" "}
-              <a href={url}>access {url}</a>
+              If you are not redirected automatically,you can follow this link:
+              <br />
+              <a href={url} className="text-sm">
+                {url}
+              </a>
             </p>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Layout from "src/components/Layout";
+import { Layout } from "src/components/Layout";
 import Link from "next/link";
 import React, { useMemo } from "react";
 import { discussionToBlog } from "src/lib/github/discussionToPost";
@@ -12,21 +12,22 @@ import {
 } from "__generated__/graphql";
 import { initDefaultUrqlClient, withDefaultUrqlClient } from "src/graphql";
 import { GetStaticProps } from "next";
+import { demoji } from "src/lib/demoji";
 
 const linkClasses = `
 no-underline
 
-text-brand-500
-hover:text-brand-700
+text-primary-600
+hover:text-primary-400
 
-dark:text-brand-invert-500
-dark:hover:text-brand-invert-700
+dark:text-primary-400
+dark:hover:text-prinary-600
 `;
 
 const dullLinkClasses = `
 no-underline
 
-text-gray-300
+text-gray-500
 dark:text-gray-500
 `;
 
@@ -48,34 +49,28 @@ const Home: React.FC<{}> = () => {
       <Layout>
         <div className="flex-col flex-shrink-0 w-full lg:w-auto">
           <div className="max-w-reading mx-2 lg:mx-0">
-            <h1 className="font-sans-lg font-bold text-7xl mb-3">
+            <h1 className="font-title font-bold text-5xl mb-3">
               Hey 👋🏼, I&rsquo;m Jakob
             </h1>
             <p className="font-sans font-light leading-normal">
-              I&lsquo;m into the messy part of building things. I write about{" "}
+              I&lsquo;m the co-founder of{" "}
+              <a href="https://taskless.io">Taskless</a>, the world&lsquo;s
+              fastest job queueing system for serverless and edge computing.
+            </p>
+            <p className="font-sans font-light leading-normal mt-3">
+              The messy parts when we build things is my happy place.
+              Ocassionally, I write about{" "}
               <Link href="/thunked/tag/%F0%9F%93%9A%20Code">
-                <a
-                  href="/thunked/tag/%F0%9F%93%9A%20Code"
-                  className={linkClasses}
-                >
-                  code
-                </a>
+                <a className={linkClasses}>code</a>
               </Link>{" "}
               and the{" "}
               <Link href="/thunked/tag/%F0%9F%93%9A%20Leadership">
-                <a
-                  href="/thunked/tag/%F0%9F%93%9A%20Leadership"
-                  className={linkClasses}
-                >
-                  people
-                </a>
+                <a className={linkClasses}>people</a>
               </Link>{" "}
               who build it. I work in public as much as I can, and you can
-              always see what's on my mind in my{" "}
-              <Link href="/notes" passHref>
-                <a href="/notes" className={linkClasses}>
-                  working notes
-                </a>
+              always see what&apos;s on my mind in my{" "}
+              <Link href="/notes">
+                <a className={linkClasses}>working notes</a>
               </Link>
               .
             </p>
@@ -107,7 +102,7 @@ const Home: React.FC<{}> = () => {
                       href={`/thunked/tag/${post.category.name}`}
                       className={linkClasses}
                     >
-                      {post.category.name}
+                      {demoji(post.category.name)}
                     </a>
                   </Link>
                   {post.tags.length > 0 ? <>&nbsp;+&nbsp;</> : null}
@@ -119,13 +114,13 @@ const Home: React.FC<{}> = () => {
                           href={`/thunked/tag/${tag.name}`}
                           className={dullLinkClasses}
                         >
-                          {tag.name}
+                          {demoji(tag.name)}
                         </a>
                       </Link>
                     </span>
                   ))}
                 </div>
-                <div className="prose dark:prose-dark max-w-none">
+                <div className="prose prose-stone dark:prose-invert max-w-none">
                   {post.excerpt || post.description}
                 </div>
               </div>

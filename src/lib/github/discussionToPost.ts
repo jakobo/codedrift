@@ -58,6 +58,7 @@ export const discussionToBlog = (item: PostDetailsFragment): Post => {
       .filter((label) => label.name.indexOf("📚") === 0)
       .map((label) => ({
         name: label.name,
+        display: demoji(label.name),
         description: label.description || null,
         id: label.id,
       }))?.[0] || null;
