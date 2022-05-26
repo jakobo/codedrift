@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { Layout } from "src/components/Layout";
 import Link from "next/link";
 import React, { useMemo } from "react";
@@ -13,6 +12,7 @@ import {
 import { initDefaultUrqlClient, withDefaultUrqlClient } from "src/graphql";
 import { GetStaticProps } from "next";
 import { demoji } from "src/lib/demoji";
+import { NextSeo } from "next-seo";
 
 const linkClasses = `
 no-underline
@@ -43,9 +43,14 @@ const Home: React.FC<{}> = () => {
 
   return (
     <>
-      <Head>
-        <title>CodeDrift - Jakob Heuser</title>
-      </Head>
+      <NextSeo
+        title="Jakob Heuser"
+        description="Personal website of Jakob Heuser"
+        openGraph={{
+          title: "Jakob Heuser | Codedrift",
+          description: "Personal website of Jakob Heuser",
+        }}
+      />
       <Layout>
         <div className="flex-col flex-shrink-0 w-full lg:w-auto">
           <div className="max-w-reading mx-2 lg:mx-0">

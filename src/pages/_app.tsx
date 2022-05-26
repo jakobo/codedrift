@@ -25,6 +25,14 @@ const App = ({ Component, pageProps }: AppProps) => {
             locale: "en_US",
             url: "https://codedrift.com",
             site_name: "Codedrift",
+            images: [
+              {
+                url: "https://codedrift.com/images/v2.og.png",
+                width: 1200,
+                height: 600,
+                alt: "Codedrift",
+              },
+            ],
           }}
           twitter={{
             handle: "@jakobo",

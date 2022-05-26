@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { Layout } from "src/components/Layout";
 import { PostDirectory, groupPostsByYear } from "src/components/Directory";
 import React from "react";
@@ -13,6 +12,7 @@ import {
 import { initDefaultUrqlClient, withDefaultUrqlClient } from "src/graphql";
 import { GetStaticProps } from "next";
 import { SECTION_HEADLINE } from "src/constants";
+import { NextSeo } from "next-seo";
 
 const Thunked: React.FC<{}> = () => {
   const [{ data }] = useSelectRecentlyCreatedPostsQuery({
@@ -27,9 +27,14 @@ const Thunked: React.FC<{}> = () => {
 
   return (
     <>
-      <Head>
-        <title>Thunked. Essays by Jakob Heuser</title>
-      </Head>
+      <NextSeo
+        title="Thunked. Essays on Everything"
+        description="A collection of essays on a variety of topics"
+        openGraph={{
+          title: "Thunked. Essays on Everything",
+          description: "A collection of essays on a variety of topics",
+        }}
+      />
       <Layout>
         <div className="w-full">
           <h1 className={SECTION_HEADLINE}>Thunked</h1>

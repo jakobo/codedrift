@@ -1,14 +1,20 @@
-import Head from "next/head";
 import { Layout } from "src/components/Layout";
 import React from "react";
 import { PROSE, SECTION_HEADLINE } from "src/constants";
+import { NextSeo } from "next-seo";
 
 const Help: React.FC<{}> = () => {
   return (
     <>
-      <Head>
-        <title>Ways Jakob can Help You</title>
-      </Head>
+      <NextSeo
+        title="Supporting Others"
+        description="Ways I am currently helping others in their respective journeys"
+        openGraph={{
+          title: "Supporting Others",
+          description:
+            "Ways I am currently helping others in their respective journeys",
+        }}
+      />
       <Layout>
         <h1 className={SECTION_HEADLINE}>Ways I can Help</h1>
         <div className={PROSE}>

@@ -1,16 +1,21 @@
-import Head from "next/head";
 import { Layout } from "src/components/Layout";
 import React from "react";
 import { PROSE, SECTION_HEADLINE } from "src/constants";
 import Link from "next/link";
 import cx from "classnames";
+import { NextSeo } from "next-seo";
 
 const Colophon: React.FC<{}> = () => {
   return (
     <>
-      <Head>
-        <title>License</title>
-      </Head>
+      <NextSeo
+        title="License and Colophon"
+        description="About this site"
+        openGraph={{
+          title: "License and Colophon",
+          description: "About this site",
+        }}
+      />
       <Layout>
         <h1 className={cx(SECTION_HEADLINE, "text-center")}>
           &lt;colophon/&gt;

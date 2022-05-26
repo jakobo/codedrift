@@ -12,6 +12,7 @@ import {
 import { ShortlinkFile } from "types/shortlinks";
 import yaml from "js-yaml";
 import { PROSE, SECTION_HEADLINE } from "src/constants";
+import { NextSeo } from "next-seo";
 
 interface ShortLinkToProps {
   name: string;
@@ -26,9 +27,17 @@ const ShortLinkTo: React.FC<ShortLinkToProps> = ({
 }) => {
   return (
     <>
+      <NextSeo
+        noindex
+        nofollow
+        title="Redirecting"
+        description="Redirecting"
+        openGraph={{
+          title: "Redirecting",
+          description: "Redirecting",
+        }}
+      />
       <Head>
-        <title>Codedrift Short Link</title>
-        <meta name="robots" content="noindex" />
         {url ? <meta httpEquiv="refresh" content={`3;URL='${url}'`} /> : null}
       </Head>
       <Layout>
