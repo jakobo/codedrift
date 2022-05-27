@@ -39,6 +39,8 @@ const gfmMatter = (str: string) => {
   }) as gfmMatterResult;
 };
 
+const toHTML = withHtmlString(createGitHubParser());
+
 const excerpt = (str: string, size = 3): string => {
   const { content } = gfmMatter(str);
   const parser = createTextParser();
@@ -53,7 +55,6 @@ const excerpt = (str: string, size = 3): string => {
 };
 
 export const discussionToBlog = (item: PostDetailsFragment): Post => {
-  const parser = createGitHubParser();
   const isDraft = false;
   const { content, data: frontmatter } = gfmMatter(item.body);
   const canonicalUrl = `https://codedrift.com/thunked/${
@@ -84,7 +85,10 @@ export const discussionToBlog = (item: PostDetailsFragment): Post => {
     const changeOn = DateTime.fromISO(dt);
     return {
       isoDate: changeOn.isValid ? changeOn.toISO() : null,
-      change: evt,
+      change: {
+        body: evt,
+        html: toHTML.processSync(evt).toString(),
+      },
     };
   });
 
@@ -102,7 +106,7 @@ export const discussionToBlog = (item: PostDetailsFragment): Post => {
     excerpt: frontmatter?.description || excerpt(content),
     changelog,
     body: content,
-    html: withHtmlString(parser).processSync(content).toString(),
+    html: toHTML.processSync(content).toString(),
     source: item.url,
     canonicalUrl,
     updatedAt: item.lastEditedAt || null,

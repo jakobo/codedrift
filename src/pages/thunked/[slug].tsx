@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { Post } from "src/components/Post";
 import { Layout } from "src/components/Layout";
 import { Webmention as WebmentionItem } from "src/components/Webmention";
 import { usePrism } from "src/hooks/usePrism";
@@ -195,7 +194,9 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
             {post.changelog ? (
               <div
                 id="changelog"
-                className="mt-4 border rounded-md bg-gray-300 p-2 prose prose-sm prose-stone dark:prose-invert prose-tr:border-0 prose-table:w-full prose-table:mt-0 max-w-none"
+                className={cx(
+                  "mt-4 border rounded-md bg-gray-300 p-2 prose prose-sm prose-stone dark:prose-invert prose-tr:border-0 prose-table:w-full prose-table:mt-0 max-w-none"
+                )}
               >
                 <h4 className="font-bold">Changelog</h4>
                 <table className="border-0">
@@ -207,7 +208,12 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
                             DateTime.DATE_SHORT
                           )}
                         </td>
-                        <td>{evt.change}</td>
+                        <td
+                          className="heir-p:m-0"
+                          dangerouslySetInnerHTML={{
+                            __html: evt.change.html || evt.change.body,
+                          }}
+                        ></td>
                       </tr>
                     ))}
                   </tbody>

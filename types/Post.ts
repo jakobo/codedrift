@@ -22,6 +22,9 @@ export type Post = {
   tags: Tag[];
   changelog?: {
     isoDate: string | null;
-    change: string;
+    change: {
+      body: string;
+      html?: string;
+    };
   }[];
 };
