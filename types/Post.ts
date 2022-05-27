@@ -20,4 +20,8 @@ export type Post = {
   updatedAt: string;
   category?: Tag | null;
   tags: Tag[];
+  changelog?: {
+    isoDate: string | null;
+    change: string;
+  }[];
 };

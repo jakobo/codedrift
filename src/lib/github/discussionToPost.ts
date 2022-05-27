@@ -6,10 +6,12 @@ import { Post } from "types/Post";
 import { createParser as createGitHubParser } from "../parser/github";
 import { createParser as createTextParser } from "../parser/plaintext";
 import { withHtmlString } from "../parser/withHtmlString";
+import yaml from "js-yaml";
+import sort from "sort-array";
 
 export type PostFrontmatter = {
   slug: string;
-  published?: Date;
+  published?: string;
   description?: string;
   repost?: {
     url: string;
@@ -30,7 +32,11 @@ const gfmMatter = (str: string) => {
     // ^code  ^lang            ^actual frontmatter
     "$1"
   );
-  return matter(decoded) as gfmMatterResult;
+  return matter(decoded, {
+    engines: {
+      yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as any,
+    },
+  }) as gfmMatterResult;
 };
 
 const excerpt = (str: string, size = 3): string => {
@@ -72,6 +78,21 @@ export const discussionToBlog = (item: PostDetailsFragment): Post => {
       id: label.id,
     }));
 
+  // build changelog. Ensure we see a proper ISO date
+  const changelog = Object.keys(frontmatter?.changelog ?? {}).map((dt) => {
+    const evt = frontmatter.changelog[dt];
+    const changeOn = DateTime.fromISO(dt);
+    return {
+      isoDate: changeOn.isValid ? changeOn.toISO() : null,
+      change: evt,
+    };
+  });
+
+  sort(changelog, {
+    by: "isoDate",
+    order: "desc",
+  });
+
   return {
     id: "" + item.id,
     slug: frontmatter.slug,
@@ -79,13 +100,14 @@ export const discussionToBlog = (item: PostDetailsFragment): Post => {
     title: item.title || "A post on Thunked",
     description: frontmatter?.description || null,
     excerpt: frontmatter?.description || excerpt(content),
+    changelog,
     body: content,
     html: withHtmlString(parser).processSync(content).toString(),
     source: item.url,
     canonicalUrl,
     updatedAt: item.lastEditedAt || null,
     publishedAt: frontmatter.published
-      ? DateTime.fromJSDate(frontmatter.published).toISO()
+      ? DateTime.fromISO(frontmatter.published).toISO()
       : null,
     category,
     tags,
