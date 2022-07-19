@@ -140,7 +140,7 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
                   </a>
                 </Link>
               )}
-              {post.updatedAt && post.changelog ? (
+              {post.updatedAt && post.changelog && post.changelog.length > 0 ? (
                 <Link href="#changelog">
                   <a className="ml-2 text-sm text-primary-500">
                     updated{" "}
@@ -191,11 +191,11 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
               ref={content}
               dangerouslySetInnerHTML={{ __html: post.html || post.body }}
             />
-            {post.changelog ? (
+            {post.changelog && post.changelog.length > 0 ? (
               <div
                 id="changelog"
                 className={cx(
-                  "mt-4 border rounded-md bg-gray-300 p-2 prose prose-sm prose-stone dark:prose-invert prose-tr:border-0 prose-table:w-full prose-table:mt-0 max-w-none"
+                  "mt-4 border border-gray-400 dark:border-gray-700 rounded-md bg-gray-300 dark:bg-gray-800 p-2 prose prose-sm prose-stone dark:prose-invert prose-tr:border-0 prose-table:w-full prose-table:mt-0 max-w-none"
                 )}
               >
                 <h4 className="font-bold">Changelog</h4>
