@@ -49,11 +49,11 @@ const leather = (color) => {
 module.exports = {
   important: true, // https://github.com/tailwindlabs/tailwindcss-typography/issues/26#issuecomment-659362241
   content: [
-    "./src/*.ts",
-    "./src/components/*.tsx",
-    "./src/components/**/*.tsx",
-    "./src/pages/*.tsx",
-    "./src/pages/**/*.tsx",
+    "./*.ts",
+    "./components/*.tsx",
+    "./components/**/*.tsx",
+    "./pages/*.tsx",
+    "./pages/**/*.tsx",
   ],
   darkMode: "class", // or 'media' or false
   theme: {
