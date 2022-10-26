@@ -1,23 +1,21 @@
-import React, { useRef } from "react";
+import React, { useMemo } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { Layout } from "components/Layout";
-import { Webmention as WebmentionItem } from "components/Webmention";
-import { usePrism } from "hooks/usePrism";
-import WebmentionClient, { Webmention } from "lib/webmentions/client";
 import { discussionToBlog } from "lib/github/discussionToPost";
 import { useRouter } from "next/router";
 import { initDefaultUrqlClient, withDefaultUrqlClient } from "gql";
 import { PROSE, MINOR_LINK, SECTION_HEADLINE } from "data/constants";
 import cx from "classnames";
 import { NextSeo, ArticleJsonLd } from "next-seo";
-import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
 import { TwitterIcon } from "components/icons/Twitter";
 import { demoji } from "lib/demoji";
 import Link from "next/link";
 import { DateTime } from "luxon";
-import { Tag } from "types/Post";
-import { useQuery } from "urql";
+import { Post, Tag } from "types/Post";
 import { selectedPostsWithSearch } from "gql/posts";
+import Markdoc from "@markdoc/markdoc";
+import { markdocComponents } from "lib/markdoc/schema";
+import { GitHubIcon } from "components/icons/Github";
 
 export const slugToSearch = (slug: string) =>
   `"slug: ${slug}" in:body category:"Thunked" repo:jakobo/codedrift`;
@@ -29,29 +27,22 @@ const widont = (text: string) =>
 const tagSort = ["🏷", "⌛"];
 
 type ThunkedBySlugProps = {
-  webmentions?: Webmention[];
+  post?: Post;
 };
 
-const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
+const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ post }) => {
   const router = useRouter();
   const slug = Array.isArray(router.query.slug)
     ? router.query.slug[0]
     : router.query.slug;
-  const [{ data }] = useQuery({
-    query: selectedPostsWithSearch,
-    variables: {
-      search: slugToSearch(slug),
-      first: 1,
-    },
-    pause: !slug,
-  });
 
-  const result = data?.search?.nodes?.[0];
-
-  const post = result ? discussionToBlog(result) : null;
-
-  const content = useRef<HTMLDivElement>(null);
-  usePrism(content);
+  const md = useMemo(
+    () =>
+      Markdoc.renderers.react(post?.markdoc, React, {
+        components: markdocComponents,
+      }),
+    [post?.markdoc]
+  );
 
   const tagsByEmoji = (post?.tags ?? []).reduce((all, curr) => {
     const none = demoji(curr.name);
@@ -64,11 +55,6 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
   }, {});
 
   const tweetSlug = post?.title ? `${post.title} on CodeDrift` : null;
-  const hasMentions = webmentions.length > 0;
-  // add a TS to ensure caching works as expected
-  const tsWindow = Math.floor(
-    (post?.updatedAt ? new Date(post.updatedAt).getTime() : 0) / 86400
-  );
 
   const ogImage = new URL(
     `${
@@ -207,11 +193,7 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
                 );
               })}
             </div>
-            <div
-              className={cx(PROSE, "pt-4")}
-              ref={content}
-              dangerouslySetInnerHTML={{ __html: post.html || post.body }}
-            />
+            <div className={cx(PROSE, "pt-4")}>{md}</div>
             {post.changelog && post.changelog.length > 0 ? (
               <div
                 id="changelog"
@@ -243,50 +225,25 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ webmentions = [] }) => {
             ) : null}
           </div>
 
-          {/* Mentions */}
+          {/* Discuss */}
           <div className="border-t border-t-gray-500 mt-4 pt-4 max-w-reading">
-            <div className="flex flex-row pb-2">
-              <div className="flex-grow font-sans-caps font-bold">
-                Webmentions
-              </div>
-              <a
-                className="font-sans-caps block no-underline"
-                href="https://indieweb.org/Webmention"
-              >
-                <QuestionMarkCircleIcon className="inline-block h-3 w-3 -mt-1 mr-1" />
-                What&rsquo;s this?
-              </a>
-            </div>
-            <div className="pb-4">
-              <p>
-                <span className={cx(PROSE, "mr-2")}>
-                  Tweets, mentions, and trackbacks
-                </span>
-                <a
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                    tweetSlug
-                  )}&url=${encodeURIComponent(post.canonicalUrl)}&via=jakobo`}
-                  style={{ color: "#1DA1F2" }}
-                >
-                  <TwitterIcon className="inline-block h-3 w-4 fill-current mr-1 mb-1" />
-                  Share your thoughts
-                </a>
-              </p>
-            </div>
-            {hasMentions ? null : (
-              <div className={PROSE}>
-                <p>
-                  As this gets discussed, comments will show up here. If the
-                  post is new, it may take a bit for your thoughts to get from
-                  one side of the internet to the other.
-                </p>
-              </div>
-            )}
-            <div>
-              {webmentions.map((wm) => (
-                <WebmentionItem key={wm.id} mention={wm} className="pb-8" />
-              ))}
-            </div>
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                tweetSlug
+              )}&url=${encodeURIComponent(post.canonicalUrl)}&via=jakobo`}
+              style={{ color: "#1DA1F2" }}
+            >
+              <TwitterIcon className="inline-block h-3 w-4 fill-current mr-1 mb-1" />
+              Share your thoughts
+            </a>
+            &nbsp;or&nbsp;
+            <a
+              href={post.commentUrl}
+              className="text-[#333333] dark:text-[#f5f5f5]"
+            >
+              <GitHubIcon className="inline-block h-3 w-4 fill-current mr-1 mb-1" />
+              Leave a comment in the discussion
+            </a>
           </div>
         </div>
       </Layout>
@@ -325,18 +282,11 @@ export const getStaticProps: GetStaticProps<ThunkedBySlugProps> = async (
   }
 
   const post = discussionToBlog(res.data.search.nodes?.[0]);
-  const wm = new WebmentionClient();
-
-  const webmentions = await wm.get({
-    target: post.canonicalUrl,
-    page: 0,
-    perPage: 20,
-  });
 
   return {
     props: {
       urqlState: cache.extractData(),
-      webmentions: webmentions.links || [],
+      post,
     },
     revalidate: 300,
   };

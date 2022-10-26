@@ -1,3 +1,5 @@
+import { RenderableTreeNodes } from "@markdoc/markdoc";
+
 export type Tag = {
   name: string;
   display?: string;
@@ -13,6 +15,8 @@ export type Post = {
   slug: string;
   draft: boolean;
   canonicalUrl: string;
+  commentUrl: string;
+  markdoc: RenderableTreeNodes;
   body: string;
   html?: string;
   source: string;

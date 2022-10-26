@@ -11,23 +11,16 @@ import { NextSeo } from "next-seo";
 import { selectedPostsWithSearch } from "gql/posts";
 import { useQuery } from "urql";
 import { selectLabelDetails } from "gql/labels";
+import { Post } from "types/Post";
 
 const labelToSearch = (label: string) =>
   `label:"${label}" category:"Thunked" repo:jakobo/codedrift`;
 
-const ThunkedPostsByTag: React.FC<{}> = () => {
+const ThunkedPostsByTag: React.FC<{ posts: Post[] }> = ({ posts }) => {
   const router = useRouter();
   const tag = Array.isArray(router.query.name)
     ? router.query.name[0]
     : router.query.name;
-  const [{ data }] = useQuery({
-    query: selectedPostsWithSearch,
-    variables: {
-      search: labelToSearch(tag),
-      first: 100,
-    },
-    pause: !tag,
-  });
   const [{ data: labelData }] = useQuery({
     query: selectLabelDetails,
     variables: {
@@ -36,9 +29,6 @@ const ThunkedPostsByTag: React.FC<{}> = () => {
     pause: !tag,
   });
 
-  const posts = (data?.search?.nodes || []).map((discussion) =>
-    discussionToBlog(discussion)
-  );
   const byYear = groupPostsByYear(posts);
   const categoryDetails = labelData?.repository?.label || {
     name: "",
@@ -75,7 +65,7 @@ export const getStaticProps: GetStaticProps<{}> = async (ctx) => {
 
   const { client, cache } = initDefaultUrqlClient(false);
 
-  await Promise.allSettled([
+  const [search] = await Promise.allSettled([
     client
       .query(selectedPostsWithSearch, {
         search: labelToSearch(tag),
@@ -89,9 +79,14 @@ export const getStaticProps: GetStaticProps<{}> = async (ctx) => {
       .toPromise(),
   ]);
 
+  const posts = (
+    search.status === "fulfilled" ? search.value.data.search.nodes ?? [] : []
+  ).map((d) => discussionToBlog(d));
+
   return {
     props: {
       urqlState: cache.extractData(),
+      posts,
     },
     revalidate: 300,
   };

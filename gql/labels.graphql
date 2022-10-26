@@ -1,9 +1,0 @@
-query SelectLabelDetails($label: String!) {
-  repository(name: "codedrift", owner: "jakobo") {
-    label(name: $label) {
-      id
-      name
-      description
-    }
-  }
-}

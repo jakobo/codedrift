@@ -1,5 +1,4 @@
 import "tailwindcss/tailwind.css";
-import "public/styles/prism.css";
 import "public/styles/custom.css";
 import Head from "next/head";
 import { Providers } from "components/providers";

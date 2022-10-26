@@ -2,17 +2,16 @@ import matter from "gray-matter";
 import { DateTime } from "luxon";
 import { demoji } from "../demoji";
 import { Post } from "types/Post";
-import { createParser as createGitHubParser } from "../parser/github";
-import { createParser as createTextParser } from "../parser/plaintext";
-import { withHtmlString } from "../parser/withHtmlString";
 import yaml from "js-yaml";
 import sort from "sort-array";
 import { type ResultOf } from "@graphql-typed-document-node/core";
 import { postData } from "gql/posts";
+import Markdoc from "@markdoc/markdoc";
+import { markdocSchema } from "lib/markdoc/schema";
 
 export type PostFrontmatter = {
   slug: string;
-  published?: string;
+  published?: Date;
   description?: string;
   repost?: {
     url: string;
@@ -23,48 +22,41 @@ export type PostFrontmatter = {
   };
 };
 
-type gfmMatterResult = matter.GrayMatterFile<string> & {
-  data: PostFrontmatter;
-};
-
-const gfmMatter = (str: string) => {
-  const decoded = str.replace(
-    /^(?:```(?:yaml)?[\r\n]+)?(---[\r\n]+[\s\S]+?[\r\n]+---)(?:[\r\n]+```)?/gim,
-    // ^code  ^lang            ^actual frontmatter
-    "$1"
-  );
-  return matter(decoded, {
-    engines: {
-      yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as any,
-    },
-  }) as gfmMatterResult;
-};
-
-const toHTML = withHtmlString(createGitHubParser());
-
-const excerpt = (str: string, size = 3): string => {
-  const { content } = gfmMatter(str);
-  const parser = createTextParser();
-  const result = parser.processSync(content).toString();
-  return (
-    (result.split(/[\r\n]/g)?.[0] || "")
-      .split(".")
-      .slice(0, size)
-      .join(".")
-      .trim() + "."
-  );
-};
-
 type BlogPostFromGithub = ResultOf<
   typeof postData
 >["repository"]["discussions"]["nodes"][0];
 
 export const discussionToBlog = (item: BlogPostFromGithub): Post => {
   const isDraft = false;
-  const { content, data: frontmatter } = gfmMatter(item.body);
+
+  // de-decorate frontmatter
+  const demattered = item.body.replace(
+    /^(?:```(?:yaml)?[\r\n]+)?(---[\r\n]+[\s\S]+?[\r\n]+---)(?:[\r\n]+```)?/gim,
+    // ^fence ^lang            ^actual frontmatter                    ^ end fence
+    "$1"
+  );
+
+  const ast = Markdoc.parse(demattered);
+  const frontmatter: PostFrontmatter = ast.attributes.frontmatter
+    ? yaml.load(ast.attributes.frontmatter)
+    : {};
+
+  const markdoc = JSON.parse(
+    JSON.stringify(
+      Markdoc.transform(ast, {
+        ...markdocSchema,
+        variables: {
+          ...markdocSchema.variables,
+          frontmatter,
+        },
+      })
+    )
+  );
+
   const canonicalUrl = `https://codedrift.com/thunked/${
     frontmatter.slug || ""
   }`;
+
   const category =
     (item.labels?.nodes ?? [])
       .filter((label) => label.name.indexOf("📚") === 0)
@@ -92,7 +84,7 @@ export const discussionToBlog = (item: BlogPostFromGithub): Post => {
       isoDate: changeOn.isValid ? changeOn.toISO() : null,
       change: {
         body: evt,
-        html: toHTML.processSync(evt).toString(),
+        html: evt,
       },
     };
   });
@@ -104,19 +96,20 @@ export const discussionToBlog = (item: BlogPostFromGithub): Post => {
 
   return {
     id: "" + item.id,
+    commentUrl: item.url,
     slug: frontmatter.slug,
     draft: isDraft,
     title: item.title || "A post on Thunked",
     description: frontmatter?.description || null,
-    excerpt: frontmatter?.description || excerpt(content),
+    excerpt: frontmatter?.description ?? "",
     changelog,
-    body: content,
-    html: toHTML.processSync(content).toString(),
+    markdoc,
+    body: item.body,
     source: item.url,
     canonicalUrl,
     updatedAt: item.lastEditedAt || null,
     publishedAt: frontmatter.published
-      ? DateTime.fromISO(frontmatter.published).toISO()
+      ? DateTime.fromJSDate(frontmatter.published).toISO()
       : null,
     category,
     tags,

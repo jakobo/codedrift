@@ -19,9 +19,6 @@ Personal Website of Jakob Heuser, available at https://codedrift.com
 
 This is a rough list of things I'd like to do
 
-- [ ] Replace rehype/remark pipeline with markdoc, which would also remove the global Prism object
-- [ ] Shed babel for SWC (requires prism change)
 - [ ] Go digging for old posts from LinkedIn/Medium/Felocity.org
-- [ ] Explore bringing github comments into the webmentions area on individual posts
 
 You could file bugs. They'll be triaged. I file bugs against myself, if only so I remember something's broken.

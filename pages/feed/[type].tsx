@@ -20,7 +20,6 @@ export const getServerSideProps: GetServerSideProps<{}> = async ({
   res,
 }) => {
   const type = Array.isArray(params.type) ? params.type[0] : params.type;
-  console.log(type);
   const { client } = initDefaultUrqlClient(false);
 
   const { data } = await client
@@ -50,7 +49,6 @@ export const getServerSideProps: GetServerSideProps<{}> = async ({
   (data?.repository?.discussions?.nodes || [])
     .map((item) => discussionToBlog(item))
     .forEach((item) => {
-      console.log(item.html);
       feed.addItem({
         title: item.title,
         id: item.canonicalUrl,

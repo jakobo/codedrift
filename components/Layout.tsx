@@ -25,16 +25,6 @@ const IndieAuth = () => (
   </Head>
 );
 
-const WebMentionSupport = () => (
-  <Head>
-    <link
-      rel="webmention"
-      href="https://webmention.io/codedrift.com/webmention"
-    />
-    <link rel="pingback" href="https://webmention.io/codedrift.com/xmlrpc" />
-  </Head>
-);
-
 const Feeds = () => (
   <Head>
     <link
@@ -187,7 +177,6 @@ export const Layout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
       </div>
       <IndieAuth />
       <Feeds />
-      <WebMentionSupport />
     </>
   );
 };
