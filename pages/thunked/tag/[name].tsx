@@ -16,7 +16,7 @@ import { Post } from "types/Post";
 const labelToSearch = (label: string) =>
   `label:"${label}" category:"Thunked" repo:jakobo/codedrift`;
 
-const ThunkedPostsByTag: React.FC<{ posts: Post[] }> = ({ posts }) => {
+const ThunkedPostsByTag: React.FC<{ posts?: Post[] }> = ({ posts }) => {
   const router = useRouter();
   const tag = Array.isArray(router.query.name)
     ? router.query.name[0]
@@ -29,7 +29,7 @@ const ThunkedPostsByTag: React.FC<{ posts: Post[] }> = ({ posts }) => {
     pause: !tag,
   });
 
-  const byYear = groupPostsByYear(posts);
+  const byYear = groupPostsByYear(posts ?? []);
   const categoryDetails = labelData?.repository?.label || {
     name: "",
     description: "",

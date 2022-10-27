@@ -37,9 +37,10 @@ export const discussionToBlog = (item: BlogPostFromGithub): Post => {
   );
 
   const ast = Markdoc.parse(demattered);
-  const frontmatter: PostFrontmatter = ast.attributes.frontmatter
-    ? yaml.load(ast.attributes.frontmatter)
-    : {};
+  const frontmatter =
+    typeof ast.attributes.frontmatter === "undefined"
+      ? undefined
+      : (yaml.load(ast.attributes.frontmatter) as PostFrontmatter);
 
   const markdoc = JSON.parse(
     JSON.stringify(
@@ -47,7 +48,7 @@ export const discussionToBlog = (item: BlogPostFromGithub): Post => {
         ...markdocSchema,
         variables: {
           ...markdocSchema.variables,
-          frontmatter,
+          frontmatter: frontmatter ?? {},
         },
       })
     )
