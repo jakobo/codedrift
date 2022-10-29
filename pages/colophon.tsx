@@ -38,7 +38,7 @@ const Colophon: React.FC<{}> = () => {
           <hr />
 
           <p>
-            This is the second revision of the codedrift project, and the 11th
+            This is the second revision of the codedrift project, and the 14th
             revision of Jakob&lsquo;s personal site. In the last iteration, I
             wanted to play with a chunky interface while simultaneously learning
             tailwind. In this revision, I sought to take elements of codedrift I
