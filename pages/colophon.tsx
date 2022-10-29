@@ -23,12 +23,12 @@ const Colophon: React.FC<{}> = () => {
         <div className={PROSE}>
           <p>Copyright (c) 2021 Rudolph Jakob Heuser and the contributors.</p>
           <p>
-            Code for codedrift &amp; code in posts to codedrift are licensed
-            under the{" "}
+            Code for codedrift &amp; code samples posted to codedrift are
+            licensed under the{" "}
             <Link href="https://github.com/jakobo/codedrift/blob/main/LICENSE-posts">
               <a>MIT license</a>
             </Link>
-            . Post content unless otherwise noted is licensed under the{" "}
+            . Non-code content unless otherwise noted is licensed under the{" "}
             <a href="http://creativecommons.org/licenses/by-nc/4.0/">
               Creative Commons Attribution-NonCommercial 4.0 International
             </a>

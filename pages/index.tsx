@@ -61,16 +61,15 @@ const Home: React.FC<{}> = () => {
               Hey 👋🏼, I&rsquo;m Jakob
             </h1>
             <p className="font-sans">
-              I&lsquo;m the co-founder of{" "}
+              I&lsquo;m a co-founder of{" "}
               <a href="https://taskless.io" className={linkClasses}>
                 Taskless
               </a>
-              , the world&lsquo;s fastest job queueing system for serverless and
-              edge computing.
+              , a robust job queueing system for serverless and edge computing.
             </p>
             <p className="font-sans mt-3">
-              The messy parts when we build things is my happy place.
-              Ocassionally, I write about{" "}
+              The messy part of building things is my happy place. Ocassionally,
+              I write about{" "}
               <Link href="/thunked/tag/%F0%9F%93%9A%20Code">
                 <a className={linkClasses}>code</a>
               </Link>{" "}
@@ -83,7 +82,11 @@ const Home: React.FC<{}> = () => {
               <Link href="/notes">
                 <a className={linkClasses}>working notes</a>
               </Link>
-              .
+              . I also give back to the industry that&apos;s given me so much,{" "}
+              <Link href="/support">
+                <a className={linkClasses}>helping others</a>
+              </Link>{" "}
+              on their journey.
             </p>
           </div>
 
