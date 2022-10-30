@@ -55,6 +55,7 @@ specifiers:
   typed-graphql-builder: ^3.2.3
   typescript: ^4.6.4
   urql: ^3.0.3
+  yet-another-react-lightbox: ^2.2.0
 
 dependencies:
   '@graphql-typed-document-node/core': 3.1.1_graphql@15.8.0
@@ -82,6 +83,7 @@ dependencies:
   sort-array: 4.1.5
   strip-markdown: 5.0.0
   urql: 3.0.3_77h5kg6422vos5a7c32osaaxh4
+  yet-another-react-lightbox: 2.2.0_sfoxds7t5ydpegc3knd667wn6m
 
 devDependencies:
   '@babel/core': 7.19.6
@@ -4877,6 +4879,17 @@ packages:
       y18n: 5.0.8
       yargs-parser: 21.1.1
     dev: true
+
+  /yet-another-react-lightbox/2.2.0_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-dbpWAXX5L1DmdYCmPQKLvtLdgdA/9IwuFfmMvLXNu5yN3SRMkTG341Lx53ZM0F1k1ZTxs2QtcsjwCRQTeKHvig==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
 
   /yocto-queue/0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}

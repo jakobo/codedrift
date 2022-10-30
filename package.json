@@ -45,7 +45,8 @@
     "sharp": "^0.31.1",
     "sort-array": "^4.1.4",
     "strip-markdown": "^5.0.0",
-    "urql": "^3.0.3"
+    "urql": "^3.0.3",
+    "yet-another-react-lightbox": "^2.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.0",
