@@ -24,6 +24,7 @@ specifiers:
   autoprefixer: ^10.4.7
   babel-eslint: ^10.1.0
   classnames: ^2.3.1
+  copy-to-clipboard: ^3.3.2
   cross-fetch: ^3.1.5
   dotenv-cli: ^6.0.0
   eslint: ^7.20.0
@@ -64,6 +65,7 @@ dependencies:
   '@urql/core': 3.0.5_graphql@15.8.0
   '@urql/devtools': 2.0.3_ou2drs5aoqglkxwidgbr3a24pe
   classnames: 2.3.2
+  copy-to-clipboard: 3.3.2
   cross-fetch: 3.1.5
   feed: 4.2.2
   graphql: 15.8.0
