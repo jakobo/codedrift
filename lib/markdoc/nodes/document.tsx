@@ -39,7 +39,11 @@ export const Document: React.FC<
   return (
     <>
       <Head>
-        <title key="title">{matter?.title ?? "Taskless Docs"}</title>
+        {matter?.title ? (
+          <title key="title">{matter?.title ?? "Codedrift"}</title>
+        ) : (
+          <></>
+        )}
       </Head>
       <article {...rest} />
     </>

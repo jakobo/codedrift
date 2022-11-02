@@ -16,6 +16,7 @@ import { selectedPostsWithSearch } from "gql/posts";
 import Markdoc from "@markdoc/markdoc";
 import { markdocComponents } from "lib/markdoc/schema";
 import { GitHubIcon } from "components/icons/Github";
+import Head from "next/head";
 
 export const slugToSearch = (slug: string) =>
   `"slug: ${slug}" in:body category:"Thunked" repo:jakobo/codedrift`;
@@ -115,6 +116,9 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ post }) => {
           ],
         }}
       />
+      <Head>
+        <title key="title">{post.title ?? "Codedrift"}</title>
+      </Head>
       <ArticleJsonLd
         url={post.canonicalUrl}
         title={post.title}

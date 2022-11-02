@@ -12,6 +12,7 @@ import { selectedPostsWithSearch } from "gql/posts";
 import { useQuery } from "urql";
 import { selectLabelDetails } from "gql/labels";
 import { Post } from "types/Post";
+import Head from "next/head";
 
 const labelToSearch = (label: string) =>
   `label:"${label}" category:"Thunked" repo:jakobo/codedrift`;
@@ -42,6 +43,9 @@ const ThunkedPostsByTag: React.FC<{ posts?: Post[] }> = ({ posts }) => {
         title={`Posts on ${displayName}`}
         description={`A collection of posts covering "${displayName}"`}
       />
+      <Head>
+        <title key="title">Posts on {displayName}</title>
+      </Head>
       <Layout>
         <h1 className={SECTION_HEADLINE}>{displayName}</h1>
         <p>{categoryDetails.description || ""}</p>
