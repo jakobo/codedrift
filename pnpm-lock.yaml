@@ -21,6 +21,7 @@ specifiers:
   '@typescript-eslint/parser': ^5.6.0
   '@urql/core': ^3.0.3
   '@urql/devtools': ^2.0.3
+  '@vercel/analytics': ^0.1.3
   autoprefixer: ^10.4.7
   babel-eslint: ^10.1.0
   classnames: ^2.3.1
@@ -64,6 +65,7 @@ dependencies:
   '@markdoc/markdoc': 0.1.13_@types+react@17.0.51
   '@urql/core': 3.0.5_graphql@15.8.0
   '@urql/devtools': 2.0.3_ou2drs5aoqglkxwidgbr3a24pe
+  '@vercel/analytics': 0.1.3_react@17.0.2
   classnames: 2.3.2
   copy-to-clipboard: 3.3.2
   cross-fetch: 3.1.5
@@ -107,7 +109,7 @@ devDependencies:
   babel-eslint: 10.1.0_eslint@7.32.0
   dotenv-cli: 6.0.0
   eslint: 7.32.0
-  eslint-config-next: 13.0.0_3rubbgt5ekhqrcgx4uwls3neim
+  eslint-config-next: 13.0.1_3rubbgt5ekhqrcgx4uwls3neim
   husky: 8.0.1
   lint-staged: 10.5.4
   postcss: 8.4.18
@@ -592,8 +594,8 @@ packages:
     resolution: {integrity: sha512-9P9THmRFVKGKt9DYqeC2aKIxm8rlvkK38V1P1sRE7qyoPBIs8l9oo79QoSdPtOWfzkbDAVUqvbQGgTMsb8BtJg==}
     dev: false
 
-  /@next/eslint-plugin-next/13.0.0:
-    resolution: {integrity: sha512-z+gnX4Zizatqatc6f4CQrcC9oN8Us3Vrq/OLyc98h7K/eWctrnV91zFZodmJHUjx0cITY8uYM7LXD7IdYkg3kg==}
+  /@next/eslint-plugin-next/13.0.1:
+    resolution: {integrity: sha512-t3bggJhKE/oB4pvMM7hMNnmIpIqsMGJ+OLklk8llOkSeXtfCV+MBQbhImWxf5QODkxNAmMK3IJGAAecQhBTc/Q==}
     dependencies:
       glob: 7.1.7
     dev: true
@@ -1004,6 +1006,14 @@ packages:
       '@urql/core': 3.0.5_graphql@15.8.0
       graphql: 15.8.0
       wonka: 6.1.0
+    dev: false
+
+  /@vercel/analytics/0.1.3_react@17.0.2:
+    resolution: {integrity: sha512-zJuEwzvi0bBmWrMrj9jvyMS+X6iUdW3m/y5P7aOLwJQKHsJyfpdINo/4Rv+wxubz3gl4nRqIQdtOFCe1P1ErXQ==}
+    peerDependencies:
+      react: ^16.8||^17||^18
+    dependencies:
+      react: 17.0.2
     dev: false
 
   /@xobotyi/scrollbar-width/1.9.5:
@@ -1846,8 +1856,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /eslint-config-next/13.0.0_3rubbgt5ekhqrcgx4uwls3neim:
-    resolution: {integrity: sha512-y2nqWS2tycWySdVhb+rhp6CuDmDazGySqkzzQZf3UTyfHyC7og1m5m/AtMFwCo5mtvDqvw1BENin52kV9733lg==}
+  /eslint-config-next/13.0.1_3rubbgt5ekhqrcgx4uwls3neim:
+    resolution: {integrity: sha512-/N9UpSwkbEMj5pIiB235p7QHaSW08ta/iKVaIHF44wufxr+PuJVLwg5LzlAaQbmCZCBpYvVttl3ZxTusP1g2sg==}
     peerDependencies:
       eslint: ^7.23.0 || ^8.0.0
       typescript: '>=3.3.1'
@@ -1855,7 +1865,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@next/eslint-plugin-next': 13.0.0
+      '@next/eslint-plugin-next': 13.0.1
       '@rushstack/eslint-patch': 1.2.0
       '@typescript-eslint/parser': 5.41.0_3rubbgt5ekhqrcgx4uwls3neim
       eslint: 7.32.0

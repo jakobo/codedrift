@@ -5,6 +5,7 @@ import { Providers } from "components/providers";
 import React from "react";
 import type { AppProps /*, AppContext */ } from "next/app";
 import { DefaultSeo } from "next-seo";
+import { Analytics } from "@vercel/analytics/react";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -40,6 +41,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         />
         <Component {...pageProps} />
       </Providers>
+      <Analytics />
     </>
   );
 };
