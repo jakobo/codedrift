@@ -228,13 +228,18 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ post }) => {
           {/* Discuss */}
           <div className="border-t border-t-gray-500 mt-4 pt-4 max-w-reading">
             <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                tweetSlug
-              )}&url=${encodeURIComponent(post.canonicalUrl)}&via=jakobo`}
+              className="cursor-pointer"
+              href="https://twitter.com"
+              onClick={(e) => {
+                e.preventDefault();
+                location.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                  tweetSlug
+                )}&url=${encodeURIComponent(post.canonicalUrl)}&via=jakobo`;
+              }}
               style={{ color: "#1DA1F2" }}
             >
               <TwitterIcon className="inline-block h-3 w-4 fill-current mr-1 mb-1" />
-              Share your thoughts
+              Share this via Twitter
             </a>
             &nbsp;or&nbsp;
             <a
@@ -242,7 +247,7 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ post }) => {
               className="text-[#333333] dark:text-[#f5f5f5]"
             >
               <GitHubIcon className="inline-block h-3 w-4 fill-current mr-1 mb-1" />
-              Leave a comment in the discussion
+              Join the Discussion on GitHub
             </a>
           </div>
         </div>
