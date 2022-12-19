@@ -13,9 +13,11 @@ import cx from "classnames";
 import { ICON_LINK, LINK } from "data/constants";
 import { TwitterIcon } from "./icons/Twitter";
 import { GitHubIcon } from "./icons/Github";
+import { MastodonIcon } from "./icons/Mastodon";
 
 const IndieAuth = () => (
   <Head>
+    <link rel="me" href="https://hachyderm.io/@jakobo" />
     <link rel="me" href="https://twitter.com/jakobo" />
     <link rel="me" href="https://linkedin.com/in/jakobheuser" />
     <link rel="me" href="https://github.com/jakobo" />
@@ -70,6 +72,7 @@ const navigation: {
   label?: string;
   icon?: React.FC;
   className?: string;
+  rel?: string;
 }[] = [
   {
     href: "/thunked",
@@ -88,15 +91,23 @@ const navigation: {
     icon: () => <SupportIcon className="h-4 w-4 fill-current" />,
     className: ICON_LINK,
   },
+  // {
+  //   href: "https://twitter.com/jakobo",
+  //   icon: () => <TwitterIcon className="h-4 w-4 fill-current" />,
+  //   className: ICON_LINK,
+  // },
   {
-    href: "https://twitter.com/jakobo",
-    icon: () => <TwitterIcon className="h-4 w-4 fill-current" />,
+    href: "https://hachyderm.io/@jakobo",
+    icon: () => <MastodonIcon className="h-4 w-4 fill-current" />,
     className: ICON_LINK,
+    rel: "me",
   },
+
   {
     href: "https://github.com/jakobo",
     icon: () => <GitHubIcon className="h-4 w-4 fill-current" />,
     className: ICON_LINK,
+    rel: "me",
   },
 ];
 
@@ -138,7 +149,12 @@ export const Layout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
             {navigation.map((v) => (
               <React.Fragment key={v.href}>
                 <Link href={v.href} passHref>
-                  <a className={cx(LINK, v.className)}>
+                  <a
+                    className={cx(LINK, v.className)}
+                    {...{
+                      rel: v.rel ?? undefined,
+                    }}
+                  >
                     {v.icon ? <v.icon /> : v.label}
                   </a>
                 </Link>
