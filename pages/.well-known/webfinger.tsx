@@ -4,23 +4,23 @@ import z from "zod";
 const jakob = {
   subject: "acct:jakob@codedrift.com",
   aliases: [
-    "https://mastodon.social/@jakobo",
-    "https://mastodon.social/users/jakobo",
+    "https://hachyderm.io/@jakobo",
+    "https://hachyderm.io/users/jakobo",
   ],
   links: [
     {
       rel: "http://webfinger.net/rel/profile-page",
       type: "text/html",
-      href: "https://mastodon.social/@jakobo",
+      href: "https://hachyderm.io/@jakobo",
     },
     {
       rel: "self",
       type: "application/activity+json",
-      href: "https://mastodon.social/users/jakobo",
+      href: "https://hachyderm.io/users/jakobo",
     },
     {
       rel: "http://ostatus.org/schema/1.0/subscribe",
-      template: "https://mastodon.social/authorize_interaction?uri={uri}",
+      template: "https://hachyderm.io/authorize_interaction?uri={uri}",
     },
   ],
 };
