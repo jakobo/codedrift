@@ -1,21 +1,22 @@
+import React from "react";
+import { useRouter } from "next/router";
+import { GetStaticPaths, GetStaticProps } from "next";
+import { NextSeo } from "next-seo";
+import { useQuery } from "urql";
+import Head from "next/head";
 import { Layout } from "components/Layout";
 import { PostDirectory, groupPostsByYear } from "components/Directory";
-import React from "react";
 import { discussionToBlog } from "lib/github/discussionToPost";
-import { useRouter } from "next/router";
 import { initDefaultUrqlClient, withDefaultUrqlClient } from "gql";
 import { demoji } from "lib/demoji";
-import { GetStaticPaths, GetStaticProps } from "next";
 import { SECTION_HEADLINE } from "data/constants";
-import { NextSeo } from "next-seo";
 import { selectedPostsWithSearch } from "gql/posts";
-import { useQuery } from "urql";
 import { selectLabelDetails } from "gql/labels";
 import { Post } from "types/Post";
-import Head from "next/head";
+import { REPO_FQN } from "lib/constants";
 
 const labelToSearch = (label: string) =>
-  `label:"${label}" category:"Thunked" repo:jakobo/codedrift`;
+  `label:"${label}" category:"Thunked" repo:${REPO_FQN}`;
 
 const ThunkedPostsByTag: React.FC<{ posts?: Post[] }> = ({ posts }) => {
   const router = useRouter();

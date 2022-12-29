@@ -1,10 +1,10 @@
 import { DateTime } from "luxon";
 import { GetServerSideProps } from "next";
 import React from "react";
-import { initDefaultUrqlClient } from "gql";
-import { discussionToBlog } from "lib/github/discussionToPost";
 import sort from "sort-array";
 import { Feed } from "feed";
+import { initDefaultUrqlClient } from "gql";
+import { discussionToBlog } from "lib/github/discussionToPost";
 import { recentPosts } from "gql/posts";
 
 const NoReact: React.FC = () => null;

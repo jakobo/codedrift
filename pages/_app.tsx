@@ -1,11 +1,11 @@
 import "tailwindcss/tailwind.css";
 import "public/styles/custom.css";
 import Head from "next/head";
-import { Providers } from "components/providers";
 import React from "react";
 import type { AppProps /*, AppContext */ } from "next/app";
 import { DefaultSeo } from "next-seo";
 import { Analytics } from "@vercel/analytics/react";
+import { Providers } from "components/providers";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (

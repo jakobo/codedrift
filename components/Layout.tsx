@@ -1,4 +1,3 @@
-import { useColorScheme } from "hooks/useColorScheme";
 import Head from "next/head";
 import Link from "next/link";
 import React, { PropsWithChildren, useCallback } from "react";
@@ -10,10 +9,11 @@ import {
   SupportIcon,
 } from "@heroicons/react/solid";
 import cx from "classnames";
-import { ICON_LINK, LINK } from "data/constants";
 import { TwitterIcon } from "./icons/Twitter";
 import { GitHubIcon } from "./icons/Github";
 import { MastodonIcon } from "./icons/Mastodon";
+import { ICON_LINK, LINK } from "data/constants";
+import { useColorScheme } from "hooks/useColorScheme";
 
 const IndieAuth = () => (
   <Head>

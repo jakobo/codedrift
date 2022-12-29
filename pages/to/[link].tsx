@@ -1,12 +1,12 @@
 import Head from "next/head";
-import { Layout } from "components/Layout";
 import React from "react";
 import { GetStaticProps } from "next";
+import yaml from "js-yaml";
+import { NextSeo } from "next-seo";
+import { Layout } from "components/Layout";
 import { initDefaultUrqlClient } from "gql";
 import { ShortlinkFile } from "types/shortlinks";
-import yaml from "js-yaml";
 import { PROSE, SECTION_HEADLINE } from "data/constants";
-import { NextSeo } from "next-seo";
 import { selectShortlinkData } from "gql/shortlinks";
 
 interface ShortLinkToProps {

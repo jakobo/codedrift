@@ -1,12 +1,12 @@
 import matter from "gray-matter";
 import { DateTime } from "luxon";
-import { demoji } from "../demoji";
-import { Post } from "types/Post";
 import yaml from "js-yaml";
 import sort from "sort-array";
 import { type ResultOf } from "@graphql-typed-document-node/core";
-import { postData } from "gql/posts";
 import Markdoc from "@markdoc/markdoc";
+import { demoji } from "../demoji";
+import { postData } from "gql/posts";
+import { Post } from "types/Post";
 import { markdocSchema } from "lib/markdoc/schema";
 
 export type PostFrontmatter = {

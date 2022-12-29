@@ -1,8 +1,8 @@
 import { DateTime } from "luxon";
 import Link from "next/link";
 import React from "react";
-import { Post } from "types/Post";
 import cx from "classnames";
+import { Post } from "types/Post";
 import { LINK } from "data/constants";
 
 type PostsByYear = {

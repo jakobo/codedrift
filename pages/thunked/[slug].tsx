@@ -1,25 +1,26 @@
 import React, { useMemo } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { Layout } from "components/Layout";
-import { discussionToBlog } from "lib/github/discussionToPost";
 import { useRouter } from "next/router";
-import { initDefaultUrqlClient, withDefaultUrqlClient } from "gql";
-import { PROSE, MINOR_LINK, SECTION_HEADLINE } from "data/constants";
 import cx from "classnames";
 import { NextSeo, ArticleJsonLd } from "next-seo";
-import { TwitterIcon } from "components/icons/Twitter";
-import { demoji } from "lib/demoji";
 import Link from "next/link";
 import { DateTime } from "luxon";
+import Markdoc from "@markdoc/markdoc";
+import Head from "next/head";
+import { Layout } from "components/Layout";
+import { discussionToBlog } from "lib/github/discussionToPost";
+import { initDefaultUrqlClient, withDefaultUrqlClient } from "gql";
+import { PROSE, MINOR_LINK, SECTION_HEADLINE } from "data/constants";
+import { TwitterIcon } from "components/icons/Twitter";
+import { demoji } from "lib/demoji";
 import { Post, Tag } from "types/Post";
 import { selectedPostsWithSearch } from "gql/posts";
-import Markdoc from "@markdoc/markdoc";
 import { markdocComponents } from "lib/markdoc/schema";
 import { GitHubIcon } from "components/icons/Github";
-import Head from "next/head";
+import { REPO_FQN } from "lib/constants";
 
 export const slugToSearch = (slug: string) =>
-  `"slug: ${slug}" in:body category:"Thunked" repo:jakobo/codedrift`;
+  `"slug: ${slug}" in:body category:"Thunked" repo:${REPO_FQN}`;
 
 const widont = (text: string) =>
   text.replace(/([^\s])\s+([^\s]+)\s*$/, "$1\u00a0$2");

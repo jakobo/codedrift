@@ -1,4 +1,4 @@
-import Highlight, { defaultProps, Language } from "prism-react-renderer";
+import Highlight, { defaultProps, type Language } from "prism-react-renderer";
 import vsDark from "prism-react-renderer/themes/vsDark";
 import { Schema, Tag } from "@markdoc/markdoc";
 import React, { useEffect } from "react";

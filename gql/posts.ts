@@ -1,3 +1,4 @@
+import { DISCUSSION_CATEGORIES, REPO_NAME, REPO_OWNER } from "lib/constants";
 import {
   $,
   $$,
@@ -21,6 +22,7 @@ export const postDetails = fragment(Discussion, (d) => [
   d.body,
 ]);
 
+/** A query object representing post data for the purposes of converting data from github to codedrift */
 export const postData = query((q) => [
   q.repository({ owner: "", name: "" }, (r) => [
     r.discussions((c) => [c.nodes((d) => [...postDetails])]),
@@ -49,10 +51,10 @@ export const selectedPostsWithSearch = query((q) => [
 ]);
 
 export const recentPosts = query((q) => [
-  q.repository({ owner: "jakobo", name: "codedrift" }, (r) => [
+  q.repository({ owner: REPO_OWNER, name: REPO_NAME }, (r) => [
     r.discussions(
       {
-        categoryId: "DIC_kwDOFC_g4s4CAYqP",
+        categoryId: DISCUSSION_CATEGORIES.blog,
         first: $$("first"),
         after: $("after"),
         orderBy: {

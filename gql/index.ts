@@ -1,7 +1,7 @@
 import {
   initUrqlClient,
   withUrqlClient,
-  WithUrqlClientOptions,
+  type WithUrqlClientOptions,
 } from "next-urql";
 import {
   dedupExchange,

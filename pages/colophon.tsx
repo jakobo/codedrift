@@ -1,12 +1,11 @@
-import { Layout } from "components/Layout";
+import "yet-another-react-lightbox/styles.css";
+
 import React, { useState } from "react";
-import { PROSE, SECTION_HEADLINE } from "data/constants";
 import Link from "next/link";
 import cx from "classnames";
 import { NextSeo } from "next-seo";
 import Image, { StaticImageData } from "next/image";
-import Lightbox from "yet-another-react-lightbox";
-import "yet-another-react-lightbox/styles.css";
+import { default as Lightbox } from "yet-another-react-lightbox";
 
 import i20010502 from "../public/images/legacy/20010502.png";
 import i20020206 from "../public/images/legacy/20020206.png";
@@ -23,6 +22,9 @@ import i20140814 from "../public/images/legacy/20140814.png";
 import i20161026 from "../public/images/legacy/20161026.png";
 import i20200224 from "../public/images/legacy/20200224.png";
 import i20220525 from "../public/images/legacy/20220525.png";
+
+import { PROSE, SECTION_HEADLINE } from "data/constants";
+import { Layout } from "components/Layout";
 
 const previousDesigns = [
   i20010502,

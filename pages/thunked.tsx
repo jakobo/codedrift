@@ -1,13 +1,13 @@
+import React from "react";
+import { GetStaticProps } from "next";
+import { NextSeo } from "next-seo";
+import { useQuery } from "urql";
 import { Layout } from "components/Layout";
 import { PostDirectory, groupPostsByYear } from "components/Directory";
-import React from "react";
 import { discussionToBlog } from "lib/github/discussionToPost";
 import { initDefaultUrqlClient, withDefaultUrqlClient } from "gql";
-import { GetStaticProps } from "next";
 import { SECTION_HEADLINE } from "data/constants";
-import { NextSeo } from "next-seo";
 import { recentPosts } from "gql/posts";
-import { useQuery } from "urql";
 
 const POST_SHOW_COUNT = 100;
 

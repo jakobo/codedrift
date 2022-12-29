@@ -1,13 +1,13 @@
-import { Layout } from "components/Layout";
 import Link from "next/link";
 import React, { useMemo } from "react";
-import { discussionToBlog } from "lib/github/discussionToPost";
 import { DateTime } from "luxon";
-import { initDefaultUrqlClient, withDefaultUrqlClient } from "gql";
 import { GetStaticProps } from "next";
-import { demoji } from "lib/demoji";
 import { NextSeo } from "next-seo";
 import { useQuery } from "urql";
+import { demoji } from "lib/demoji";
+import { initDefaultUrqlClient, withDefaultUrqlClient } from "gql";
+import { discussionToBlog } from "lib/github/discussionToPost";
+import { Layout } from "components/Layout";
 import { recentPosts } from "gql/posts";
 
 const linkClasses = `
