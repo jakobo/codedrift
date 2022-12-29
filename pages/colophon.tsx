@@ -119,13 +119,13 @@ const Colophon: React.FC<{}> = () => {
           </p>
           <p>We are only limited by the limits we place.</p>
         </div>
-        <h2 className="text-2xl pt-8 pb-4">Previous Versions</h2>
+        <h2 className="pt-8 pb-4 text-2xl">Previous Versions</h2>
         <section>
           <div className="flex flex-row flex-wrap gap-6">
             {previousDesigns.map((m, i) => (
               <div
                 key={m.src}
-                className="relative w-[100px] h-[100px] border-2 border-gray-400"
+                className="relative h-[100px] w-[100px] border-2 border-gray-400"
               >
                 <Image
                   src={m}

@@ -43,10 +43,10 @@ export const PostDirectory: React.FC<PostDirectoryProps> = ({
         .reverse()
         .map((year) => (
           <div key={year} className={cx("mb-8", className)}>
-            <h2 className="w-full font-sans text-2xl text-left text-gray-800 dark:text-gray-100 border-b border-gray-800 mb-1">
+            <h2 className="mb-1 w-full border-b border-gray-800 text-left font-sans text-2xl text-gray-800 dark:text-gray-100">
               {year}
             </h2>
-            <ul className="grid gap-8 grid-cols-2">
+            <ul className="grid grid-cols-2 gap-8">
               {postsByYear[year].map((post: Post) => (
                 <li key={post.id} className={`w-full ${postClassName}`}>
                   <h2>
@@ -59,7 +59,7 @@ export const PostDirectory: React.FC<PostDirectoryProps> = ({
                       </a>
                     </Link>
                   </h2>
-                  <div className="max-w-none prose dark:prose-invert">
+                  <div className="prose max-w-none dark:prose-invert">
                     <p>{post.excerpt}</p>
                   </div>
                 </li>

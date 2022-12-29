@@ -55,9 +55,9 @@ const Home: React.FC<{}> = () => {
         }}
       />
       <Layout>
-        <div className="flex-col flex-shrink-0 w-full lg:w-auto">
+        <div className="w-full flex-shrink-0 flex-col lg:w-auto">
           <div className="max-w-reading mx-2 lg:mx-0">
-            <h1 className="font-title text-6xl mb-3">
+            <h1 className="mb-3 font-title text-6xl">
               Hey 👋🏼, I&rsquo;m Jakob
             </h1>
             <p className="font-sans">
@@ -67,7 +67,7 @@ const Home: React.FC<{}> = () => {
               </a>
               , a robust job queueing system for serverless and edge computing.
             </p>
-            <p className="font-sans mt-3">
+            <p className="mt-3 font-sans">
               The messy part of building things is my happy place. Ocassionally,
               I write about{" "}
               <Link href="/thunked/tag/%F0%9F%93%9A%20Code">
@@ -90,7 +90,7 @@ const Home: React.FC<{}> = () => {
             </p>
           </div>
 
-          <div className="max-w-reading mt-4 mx-2 lg:mx-0 flex flex-col space-y-8 pt-6">
+          <div className="max-w-reading mx-2 mt-4 flex flex-col space-y-8 pt-6 lg:mx-0">
             {(posts || []).map((post) => (
               <div key={post.id}>
                 <h3 className="font-sans text-2xl">
@@ -133,7 +133,7 @@ const Home: React.FC<{}> = () => {
                     </span>
                   ))}
                 </div>
-                <div className="prose prose-stone dark:prose-invert max-w-none">
+                <div className="prose prose-stone max-w-none dark:prose-invert">
                   {post.excerpt || post.description}
                 </div>
               </div>

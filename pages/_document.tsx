@@ -33,7 +33,7 @@ class MyDocument extends Document {
           <meta name="theme-color" content="#f5f5f4" />
         </Head>
         <body
-          className="bg-gray-100 bg-paper-stone-200 dark:bg-gray-900 dark:bg-paper-stone-800 text-gray-800 dark:text-gray-100"
+          className="bg-gray-100 bg-paper-stone-200 text-gray-800 dark:bg-gray-900 dark:bg-paper-stone-800 dark:text-gray-100"
           style={{
             margin: 0,
             padding: 0,

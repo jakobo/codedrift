@@ -63,14 +63,14 @@ export const Fence: React.FC<
         )}
       </Highlight>
       <button
-        className="absolute right-2 top-2 py-1 px-1 bg-primary-400/50 text-white rounded"
+        className="absolute right-2 top-2 rounded bg-primary-400/50 py-1 px-1 text-white"
         title="copy to clipboard"
         onClick={() => setCopied(true)}
       >
         {copied ? (
-          <ClipboardCopyIconSolid className="w-5 h-5" />
+          <ClipboardCopyIconSolid className="h-5 w-5" />
         ) : (
-          <ClipboardCopyIcon className="w-5 h-5" />
+          <ClipboardCopyIcon className="h-5 w-5" />
         )}
       </button>
     </div>

@@ -130,7 +130,7 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ post }) => {
         description={post.description}
       />
       <Layout>
-        <div className="flex-col w-full">
+        <div className="w-full flex-col">
           {/* Post */}
           <div className="w-full flex-shrink-0">
             <h1 className={cx(SECTION_HEADLINE)}>{widont(post.title)}</h1>
@@ -161,7 +161,7 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ post }) => {
                 </Link>
               ) : null}
             </div>
-            <div className="text-gray-500 text-sm">
+            <div className="text-sm text-gray-500">
               {post.category ? (
                 <span>
                   in&nbsp;
@@ -203,7 +203,7 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ post }) => {
               <div
                 id="changelog"
                 className={cx(
-                  "mt-4 border border-gray-400 dark:border-gray-700 rounded-md bg-gray-300 dark:bg-gray-800 p-2 prose prose-sm prose-stone dark:prose-invert prose-tr:border-0 prose-table:w-full prose-table:mt-0 max-w-none"
+                  "prose-sm prose prose-stone mt-4 max-w-none rounded-md border border-gray-400 bg-gray-300 p-2 prose-table:mt-0 prose-table:w-full prose-tr:border-0 dark:border-gray-700 dark:bg-gray-800 dark:prose-invert"
                 )}
               >
                 <h4 className="font-bold">Changelog</h4>
@@ -231,7 +231,7 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ post }) => {
           </div>
 
           {/* Discuss */}
-          <div className="border-t border-t-gray-500 mt-4 pt-4 max-w-reading">
+          <div className="max-w-reading mt-4 border-t border-t-gray-500 pt-4">
             <a
               className="cursor-pointer"
               href="https://twitter.com"
@@ -243,7 +243,7 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ post }) => {
               }}
               style={{ color: "#1DA1F2" }}
             >
-              <TwitterIcon className="inline-block h-3 w-4 fill-current mr-1 mb-1" />
+              <TwitterIcon className="mr-1 mb-1 inline-block h-3 w-4 fill-current" />
               Share this via Twitter
             </a>
             &nbsp;or&nbsp;
@@ -251,7 +251,7 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ post }) => {
               href={post.commentUrl}
               className="text-[#333333] dark:text-[#f5f5f5]"
             >
-              <GitHubIcon className="inline-block h-3 w-4 fill-current mr-1 mb-1" />
+              <GitHubIcon className="mr-1 mb-1 inline-block h-3 w-4 fill-current" />
               Join the Discussion on GitHub
             </a>
           </div>

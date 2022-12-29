@@ -36,7 +36,7 @@ const ShortLinkTo: React.FC<ShortLinkToProps> = ({
         {url ? <meta httpEquiv="refresh" content={`3;URL='${url}'`} /> : null}
       </Head>
       <Layout>
-        <div className="flex-col w-full max-w-reading">
+        <div className="max-w-reading w-full flex-col">
           <h1 className={SECTION_HEADLINE}>Redirecting</h1>
           <div className={PROSE}>
             <p>
