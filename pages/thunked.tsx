@@ -37,7 +37,7 @@ const Thunked: React.FC<{}> = () => {
         <div className="w-full">
           <h1 className={SECTION_HEADLINE}>Thunked</h1>
           <p>
-            Thoughts thought through. Esasys on products, leadership,
+            Thoughts thought through. Essays on products, leadership,
             engineering, culture, and more.
           </p>
           <PostDirectory className="pt-5" postsByYear={byYear} />
