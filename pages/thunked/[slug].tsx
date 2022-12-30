@@ -8,7 +8,7 @@ import { DateTime } from "luxon";
 import Markdoc, { RenderableTreeNodes } from "@markdoc/markdoc";
 import Head from "next/head";
 import { Layout } from "components/Layout";
-import { discussionToBlog } from "lib/github/discussionToPost";
+import { discussionToBlog } from "lib/github/discussionToBlog";
 import { initDefaultUrqlClient, withDefaultUrqlClient } from "gql";
 import { PROSE, MINOR_LINK, SECTION_HEADLINE } from "data/constants";
 import { TwitterIcon } from "components/icons/Twitter";

@@ -4,7 +4,7 @@ import React from "react";
 import sort from "sort-array";
 import { Feed } from "feed";
 import { initDefaultUrqlClient } from "gql";
-import { discussionToBlog } from "lib/github/discussionToPost";
+import { discussionToBlog } from "lib/github/discussionToBlog";
 import { recentPosts } from "gql/posts";
 
 const NoReact: React.FC = () => null;

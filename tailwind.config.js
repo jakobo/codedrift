@@ -15,10 +15,15 @@ const toDataUri = (s) =>
     `')`,
   ].join("");
 
+const TILE_W = 2048;
+const TILE_H = 500;
+
 // https://tympanus.net/codrops/2019/02/19/svg-filter-effects-creating-texture-with-feturbulence/
 const paper = (color) => {
   const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="2400" height="500" viewBox="0 0 2400 500">
+    <svg xmlns="http://www.w3.org/2000/svg" width="${TILE_W}" height="${TILE_H}" viewBox="1 1 ${
+    TILE_W + 1
+  } ${TILE_H + 1}">
       <filter id="roughpaper" x="0%" y="0%" width="100%" height="100%">
         <feTurbulence type="fractalNoise" baseFrequency="0.02" result="noise" numOctaves="4" />
         <feDiffuseLighting in="noise" lighting-color="${color}" surfaceScale="2">
@@ -33,7 +38,9 @@ const paper = (color) => {
 
 const leather = (color) => {
   const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="2400" height="500" viewBox="0 0 2400 500">
+    <svg xmlns="http://www.w3.org/2000/svg" width="${TILE_W}" height="${TILE_H}" viewBox="1 1 ${
+    TILE_W + 1
+  } ${TILE_H}">
       <filter id="leather" x="0%" y="0%" width="100%" height="100%">
         <feTurbulence type="fractalNoise" baseFrequency="0.24" result="noise" numOctaves="5" />
         <feDiffuseLighting in="noise" lighting-color="${color}" surfaceScale="2">

@@ -4,7 +4,7 @@ import { NextSeo } from "next-seo";
 import { useQuery } from "urql";
 import { Layout } from "components/Layout";
 import { PostDirectory, groupPostsByYear } from "components/Directory";
-import { discussionToBlog } from "lib/github/discussionToPost";
+import { discussionToBlog } from "lib/github/discussionToBlog";
 import { initDefaultUrqlClient, withDefaultUrqlClient } from "gql";
 import { SECTION_HEADLINE } from "data/constants";
 import { recentPosts } from "gql/posts";

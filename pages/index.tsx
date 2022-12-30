@@ -6,7 +6,7 @@ import { NextSeo } from "next-seo";
 import { useQuery } from "urql";
 import { demoji } from "lib/demoji";
 import { initDefaultUrqlClient, withDefaultUrqlClient } from "gql";
-import { discussionToBlog } from "lib/github/discussionToPost";
+import { discussionToBlog } from "lib/github/discussionToBlog";
 import { Layout } from "components/Layout";
 import { recentPosts } from "gql/posts";
 

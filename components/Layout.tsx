@@ -9,7 +9,6 @@ import {
   SupportIcon,
 } from "@heroicons/react/solid";
 import cx from "classnames";
-import { TwitterIcon } from "./icons/Twitter";
 import { GitHubIcon } from "./icons/Github";
 import { MastodonIcon } from "./icons/Mastodon";
 import { ICON_LINK, LINK } from "data/constants";
@@ -61,7 +60,10 @@ const Logo: React.FC<LogoProps> = ({ className }) => {
         <ChevronRightIcon
           className={cx(`color-current mt-[10px] ml-[-17px] h-[30px] w-[30px]`)}
         />
-        <span className="mt-[7px] ml-[-5px] hidden md:block">codedrift</span>
+        <span className="mt-[7px] ml-[-5px] hidden md:block">
+          code
+          <span className="brightness-50 dark:brightness-75">drift</span>
+        </span>
       </a>
     </Link>
   );
@@ -70,6 +72,7 @@ const Logo: React.FC<LogoProps> = ({ className }) => {
 const navigation: {
   href: string;
   label?: string;
+  title?: string;
   icon?: React.FC;
   className?: string;
   rel?: string;
@@ -81,23 +84,21 @@ const navigation: {
   {
     href: "https://github.com/jakobo/codedrift/discussions/categories/ask-me-anything-ama",
     label: "ama",
+    className: "hidden md:block",
   },
   {
     href: "/notes",
     label: "notes",
   },
   {
-    href: "/support",
+    href: "/help",
+    title: "Helping Others",
     icon: () => <SupportIcon className="h-4 w-4 fill-current" />,
     className: ICON_LINK,
   },
-  // {
-  //   href: "https://twitter.com/jakobo",
-  //   icon: () => <TwitterIcon className="h-4 w-4 fill-current" />,
-  //   className: ICON_LINK,
-  // },
   {
     href: "https://hachyderm.io/@jakobo",
+    title: "@jakobo@hachyderm.io",
     icon: () => <MastodonIcon className="h-4 w-4 fill-current" />,
     className: ICON_LINK,
     rel: "me",
@@ -105,6 +106,7 @@ const navigation: {
 
   {
     href: "https://github.com/jakobo",
+    title: "jakobo // github",
     icon: () => <GitHubIcon className="h-4 w-4 fill-current" />,
     className: ICON_LINK,
     rel: "me",
@@ -151,6 +153,7 @@ export const Layout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
                 <Link href={v.href} passHref>
                   <a
                     className={cx(LINK, v.className)}
+                    title={v.title ?? undefined}
                     {...{
                       rel: v.rel ?? undefined,
                     }}

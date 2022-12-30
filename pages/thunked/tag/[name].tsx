@@ -6,7 +6,7 @@ import { useQuery } from "urql";
 import Head from "next/head";
 import { Layout } from "components/Layout";
 import { PostDirectory, groupPostsByYear } from "components/Directory";
-import { discussionToBlog } from "lib/github/discussionToPost";
+import { discussionToBlog } from "lib/github/discussionToBlog";
 import { initDefaultUrqlClient, withDefaultUrqlClient } from "gql";
 import { demoji } from "lib/demoji";
 import { SECTION_HEADLINE } from "data/constants";
