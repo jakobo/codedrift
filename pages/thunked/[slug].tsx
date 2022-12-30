@@ -1,11 +1,11 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import cx from "classnames";
 import { NextSeo, ArticleJsonLd } from "next-seo";
 import Link from "next/link";
 import { DateTime } from "luxon";
-import Markdoc from "@markdoc/markdoc";
+import Markdoc, { RenderableTreeNodes } from "@markdoc/markdoc";
 import Head from "next/head";
 import { Layout } from "components/Layout";
 import { discussionToBlog } from "lib/github/discussionToPost";
@@ -32,38 +32,54 @@ type ThunkedBySlugProps = {
   post?: Post;
 };
 
+const useMarkdoc = (content?: RenderableTreeNodes) => {
+  const md = useMemo(
+    () =>
+      content
+        ? Markdoc.renderers.react(content, React, {
+            components: markdocComponents,
+          })
+        : null,
+    [content]
+  );
+  return md;
+};
+
+const useMarkdocs = <T,>(
+  content: T[],
+  selectorCallback: (item: T) => RenderableTreeNodes
+) => {
+  const mds = useMemo(() => {
+    const out: React.ReactNode[] = [];
+    for (const item of content ?? []) {
+      const text = selectorCallback(item);
+      if (!text) {
+        out.push(null);
+        continue;
+      }
+      const doc = Markdoc.renderers.react(text, React, {
+        components: markdocComponents,
+      });
+      out.push(doc);
+    }
+    return out;
+  }, [content, selectorCallback]);
+  return mds;
+};
+
 const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ post }) => {
   const router = useRouter();
   const slug = Array.isArray(router.query.slug)
     ? router.query.slug[0]
     : router.query.slug;
 
-  const md = useMemo(
-    () =>
-      Markdoc.renderers.react(post?.markdoc, React, {
-        components: markdocComponents,
-      }),
-    [post?.markdoc]
-  );
+  const md = useMarkdoc(post?.markdoc);
 
-  const changelogs = useMemo(() => {
-    if (!post || !post.changelog || post.changelog.length === 0) {
-      return [];
-    }
-    return post.changelog.map((cl) => {
-      if (cl.change.markdoc) {
-        return {
-          ...cl,
-          change: {
-            ...cl.change,
-            node: Markdoc.renderers.react(cl.change.markdoc, React, {
-              components: markdocComponents,
-            }),
-          },
-        };
-      }
-    });
-  }, [post]);
+  const repost = useMarkdoc(post?.repost?.markdoc);
+  const changelogs = useMarkdocs(
+    post?.changelog,
+    useCallback((item) => item.change.markdoc, [])
+  );
 
   const tagsByEmoji = (post?.tags ?? []).reduce((all, curr) => {
     const none = demoji(curr.name);
@@ -217,7 +233,17 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ post }) => {
                 );
               })}
             </div>
-            <div className={cx(PROSE, "pt-4")}>{md}</div>
+
+            {post.repost ? (
+              <div className={cx(PROSE, "mx-8 pt-4 pb-1 text-sm italic")}>
+                {repost ?? post.repost.text}
+              </div>
+            ) : null}
+
+            <div className={cx(PROSE, post.repost ? undefined : "pt-4")}>
+              {md}
+            </div>
+
             {post.changelog && post.changelog.length > 0 ? (
               <div
                 id="changelog"
@@ -228,7 +254,7 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ post }) => {
                 <h4 className="font-bold">Changelog</h4>
                 <table className="border-0">
                   <tbody>
-                    {changelogs.map((evt, idx) => (
+                    {(post?.changelog ?? []).map((evt, idx) => (
                       <tr key={idx}>
                         <td>
                           {DateTime.fromISO(evt.isoDate).toLocaleString(
@@ -236,7 +262,7 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ post }) => {
                           )}
                         </td>
                         <td className="heir-p:m-0">
-                          {evt.change.node ?? evt.change.body}
+                          {changelogs?.[idx] ?? evt.change.body}
                         </td>
                       </tr>
                     ))}

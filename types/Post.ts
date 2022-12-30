@@ -28,7 +28,12 @@ export type Post = {
     isoDate: string | null;
     change: {
       body: string;
-      markdoc?: RenderableTreeNodes;
+      markdoc?: RenderableTreeNodes | null;
     };
   }[];
+  repost?: {
+    url: string;
+    text: string;
+    markdoc?: RenderableTreeNodes | null;
+  };
 };

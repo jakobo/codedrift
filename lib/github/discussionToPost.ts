@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import yaml from "js-yaml";
 import sort from "sort-array";
 import { type ResultOf } from "@graphql-typed-document-node/core";
-import Markdoc from "@markdoc/markdoc";
+import Markdoc, { RenderableTreeNodes } from "@markdoc/markdoc";
 import { demoji } from "../demoji";
 import { postData } from "gql/posts";
 import { Post } from "types/Post";
@@ -101,6 +101,30 @@ export const discussionToBlog = (item: BlogPostFromGithub): Post => {
     };
   });
 
+  // repost info
+  const repost: { url: string; text: string; markdoc?: RenderableTreeNodes } = {
+    url: "",
+    text: "",
+    markdoc: undefined,
+  };
+
+  if (frontmatter.repost) {
+    repost.url = frontmatter.repost.url;
+    repost.text = frontmatter.repost.text;
+    const ast = Markdoc.parse(frontmatter.repost.text);
+    const markdoc = JSON.parse(
+      JSON.stringify(
+        Markdoc.transform(ast, {
+          ...markdocSchema,
+          variables: {
+            ...markdocSchema.variables,
+          },
+        })
+      )
+    );
+    repost.markdoc = markdoc;
+  }
+
   sort(changelog, {
     by: "isoDate",
     order: "desc",
@@ -125,5 +149,6 @@ export const discussionToBlog = (item: BlogPostFromGithub): Post => {
       : null,
     category,
     tags,
+    repost: frontmatter.repost ? repost : null,
   };
 };
