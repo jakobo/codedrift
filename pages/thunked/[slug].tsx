@@ -46,6 +46,25 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ post }) => {
     [post?.markdoc]
   );
 
+  const changelogs = useMemo(() => {
+    if (!post || !post.changelog || post.changelog.length === 0) {
+      return [];
+    }
+    return post.changelog.map((cl) => {
+      if (cl.change.markdoc) {
+        return {
+          ...cl,
+          change: {
+            ...cl.change,
+            node: Markdoc.renderers.react(cl.change.markdoc, React, {
+              components: markdocComponents,
+            }),
+          },
+        };
+      }
+    });
+  }, [post]);
+
   const tagsByEmoji = (post?.tags ?? []).reduce((all, curr) => {
     const none = demoji(curr.name);
     const icon = curr.name.replace(none, "").trim();
@@ -209,19 +228,16 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ post }) => {
                 <h4 className="font-bold">Changelog</h4>
                 <table className="border-0">
                   <tbody>
-                    {post.changelog.map((evt, idx) => (
+                    {changelogs.map((evt, idx) => (
                       <tr key={idx}>
                         <td>
                           {DateTime.fromISO(evt.isoDate).toLocaleString(
                             DateTime.DATE_SHORT
                           )}
                         </td>
-                        <td
-                          className="heir-p:m-0"
-                          dangerouslySetInnerHTML={{
-                            __html: evt.change.html || evt.change.body,
-                          }}
-                        ></td>
+                        <td className="heir-p:m-0">
+                          {evt.change.node ?? evt.change.body}
+                        </td>
                       </tr>
                     ))}
                   </tbody>

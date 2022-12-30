@@ -28,7 +28,7 @@ export type Post = {
     isoDate: string | null;
     change: {
       body: string;
-      html?: string;
+      markdoc?: RenderableTreeNodes;
     };
   }[];
 };

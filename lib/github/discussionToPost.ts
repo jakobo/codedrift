@@ -1,4 +1,3 @@
-import matter from "gray-matter";
 import { DateTime } from "luxon";
 import yaml from "js-yaml";
 import sort from "sort-array";
@@ -18,8 +17,9 @@ export type PostFrontmatter = {
     text: string;
   };
   changelog?: {
-    [date: string]: string;
-  };
+    on: Date;
+    note: string;
+  }[];
 };
 
 type BlogPostFromGithub = ResultOf<
@@ -67,6 +67,7 @@ export const discussionToBlog = (item: BlogPostFromGithub): Post => {
         description: label.description || null,
         id: label.id,
       }))?.[0] || null;
+
   const tags = (item.labels?.nodes ?? [])
     .filter((label) => !category?.id || label.id !== category.id)
     .filter((label) => label.name.toLowerCase().indexOf("thunked") === -1)
@@ -78,14 +79,24 @@ export const discussionToBlog = (item: BlogPostFromGithub): Post => {
     }));
 
   // build changelog. Ensure we see a proper ISO date
-  const changelog = Object.keys(frontmatter?.changelog ?? {}).map((dt) => {
-    const evt = frontmatter.changelog[dt];
-    const changeOn = DateTime.fromISO(dt);
+  const changelog = (frontmatter?.changelog ?? []).map((dt) => {
+    const changeOn = DateTime.fromJSDate(dt.on);
+    const ast = Markdoc.parse(dt.note);
+    const markdoc = JSON.parse(
+      JSON.stringify(
+        Markdoc.transform(ast, {
+          ...markdocSchema,
+          variables: {
+            ...markdocSchema.variables,
+          },
+        })
+      )
+    );
     return {
       isoDate: changeOn.isValid ? changeOn.toISO() : null,
       change: {
-        body: evt,
-        html: evt,
+        body: dt.note,
+        markdoc,
       },
     };
   });
