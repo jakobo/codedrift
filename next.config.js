@@ -8,6 +8,15 @@ module.exports = () => {
       domains: ["codedrift.com", "localhost"],
     },
     experimental: { esmExternals: true },
+    async redirects() {
+      return [
+        {
+          source: "/support",
+          destination: "/help",
+          permanent: true,
+        },
+      ];
+    },
     async rewrites() {
       return [
         {
