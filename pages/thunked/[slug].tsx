@@ -7,6 +7,7 @@ import Link from "next/link";
 import { DateTime } from "luxon";
 import Markdoc, { RenderableTreeNodes } from "@markdoc/markdoc";
 import Head from "next/head";
+import Giscus from "@giscus/react";
 import { Layout } from "components/Layout";
 import { discussionToBlog } from "lib/github/discussionToBlog";
 import { initDefaultUrqlClient, withDefaultUrqlClient } from "gql";
@@ -29,6 +30,7 @@ const widont = (text: string) =>
 const tagSort = ["🏷", "⌛"];
 
 type ThunkedBySlugProps = {
+  ghDiscussionTitle?: string;
   post?: Post;
 };
 
@@ -67,7 +69,10 @@ const useMarkdocs = <T,>(
   return mds;
 };
 
-const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ post }) => {
+const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({
+  post,
+  ghDiscussionTitle,
+}) => {
   const router = useRouter();
   const slug = Array.isArray(router.query.slug)
     ? router.query.slug[0]
@@ -274,28 +279,27 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({ post }) => {
 
           {/* Discuss */}
           <div className="max-w-reading mt-4 border-t border-t-gray-500 pt-4">
-            <a
-              className="cursor-pointer"
-              href="https://twitter.com"
-              onClick={(e) => {
-                e.preventDefault();
-                location.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                  tweetSlug
-                )}&url=${encodeURIComponent(post.canonicalUrl)}&via=jakobo`;
-              }}
-              style={{ color: "#1DA1F2" }}
-            >
-              <TwitterIcon className="mr-1 mb-1 inline-block h-3 w-4 fill-current" />
-              Share this via Twitter
-            </a>
-            &nbsp;or&nbsp;
-            <a
-              href={post.commentUrl}
-              className="text-[#333333] dark:text-[#f5f5f5]"
-            >
-              <GitHubIcon className="mr-1 mb-1 inline-block h-3 w-4 fill-current" />
-              Join the Discussion on GitHub
-            </a>
+            {ghDiscussionTitle ? (
+              <Giscus
+                id="giscus"
+                repo="jakobo/codedrift"
+                repoId="MDEwOlJlcG9zaXRvcnkzMzg2ODIwODI="
+                category="Thunked"
+                categoryId="DIC_kwDOFC_g4s4CAYqP"
+                mapping="specific"
+                term={ghDiscussionTitle}
+                reactionsEnabled="0"
+                strict="1"
+                inputPosition="bottom"
+                theme={
+                  (process.env.NODE_ENV === "development"
+                    ? "http://localhost:3000"
+                    : "https://codedrift.com") + "/api/giscus.css"
+                }
+                lang="en"
+                loading="lazy"
+              />
+            ) : null}
           </div>
         </div>
       </Layout>
@@ -338,6 +342,7 @@ export const getStaticProps: GetStaticProps<ThunkedBySlugProps> = async (
   return {
     props: {
       urqlState: cache.extractData(),
+      ghDiscussionTitle: res.data.search.nodes?.[0].title,
       post,
     },
     revalidate: 300,

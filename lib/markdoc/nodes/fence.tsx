@@ -4,7 +4,11 @@ import { Schema, Tag } from "@markdoc/markdoc";
 import React, { useEffect } from "react";
 import copy from "copy-to-clipboard";
 import { ClipboardCopyIcon } from "@heroicons/react/outline";
-import { ClipboardCopyIcon as ClipboardCopyIconSolid } from "@heroicons/react/solid";
+import {
+  CheckCircleIcon,
+  CheckIcon,
+  ClipboardCopyIcon as ClipboardCopyIconSolid,
+} from "@heroicons/react/solid";
 
 interface CodeProps {
   "data-language": string;
@@ -63,12 +67,12 @@ export const Fence: React.FC<
         )}
       </Highlight>
       <button
-        className="absolute right-2 top-2 rounded bg-primary-400/50 py-1 px-1 text-white"
+        className="absolute right-2 top-2 rounded bg-primary-400/50 py-1 px-1 text-white transition hover:bg-primary-300/50"
         title="copy to clipboard"
         onClick={() => setCopied(true)}
       >
         {copied ? (
-          <ClipboardCopyIconSolid className="h-5 w-5" />
+          <CheckCircleIcon className="h-5 w-5" />
         ) : (
           <ClipboardCopyIcon className="h-5 w-5" />
         )}

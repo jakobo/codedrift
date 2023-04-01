@@ -18,6 +18,8 @@ export const PROSE = [
   "dark:prose-headings:text-slate-100",
   "dark:prose-p:text-slate-100",
   "dark:prose-li:text-slate-100",
+  "dark:prose-strong:text-slate-100",
+  "dark:prose-td:text-slate-300",
   // headings
   "prose-h2:font-normal",
   "prose-h3:font-normal",
