@@ -23,7 +23,7 @@ const Help: React.FC<{}> = () => {
             Over the years, I&apos;ve responded in an ad-hoc manner to requests
             for help both inside and outside of my network. Requests ranged from
             interview preparation to networking to funding. The answer to these
-            all is &ldquo;yes, if I can&rdquo;. This page is udpated with how
+            all is &ldquo;yes, if I can&rdquo;. This page is updated with how
             I&apos;m currently supporting others on their journey. You may
             always reach out to{" "}
             <span className="underline">jakob [at] this domain</span> about any
