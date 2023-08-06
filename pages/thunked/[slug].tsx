@@ -129,182 +129,178 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({
     return null;
   }
 
-  return (
-    <>
-      <NextSeo
-        title={post.title}
-        description={post.description}
-        canonical={post.canonicalUrl}
-        openGraph={{
-          url: post.canonicalUrl,
-          type: "article",
-          article: {
-            authors: ["https://codedrift.com"],
-            publishedTime: post.publishedAt,
-            modifiedTime: post.updatedAt,
-            tags: [
-              post.category?.display ?? "",
-              ...(post.tags || []).map((t) => t.display),
-            ].filter((t) => t),
+  return <>
+    <NextSeo
+      title={post.title}
+      description={post.description}
+      canonical={post.canonicalUrl}
+      openGraph={{
+        url: post.canonicalUrl,
+        type: "article",
+        article: {
+          authors: ["https://codedrift.com"],
+          publishedTime: post.publishedAt,
+          modifiedTime: post.updatedAt,
+          tags: [
+            post.category?.display ?? "",
+            ...(post.tags || []).map((t) => t.display),
+          ].filter((t) => t),
+        },
+        images: [
+          {
+            url: ogImage.toString(),
+            width: 1200,
+            height: 600,
+            alt: post.title,
           },
-          images: [
-            {
-              url: ogImage.toString(),
-              width: 1200,
-              height: 600,
-              alt: post.title,
-            },
-          ],
-        }}
-      />
-      <Head>
-        <title key="title">{post.title ?? "Codedrift"}</title>
-      </Head>
-      <ArticleJsonLd
-        url={post.canonicalUrl}
-        title={post.title}
-        images={[ogImage.toString()]}
-        datePublished={post.publishedAt}
-        dateModified={post.updatedAt}
-        authorName={["Jakob Heuser"]}
-        description={post.description}
-      />
-      <Layout>
-        <div className="w-full flex-col">
-          {/* Post */}
-          <div className="w-full flex-shrink-0">
-            <h1 className={cx(SECTION_HEADLINE)}>{widont(post.title)}</h1>
-            <div>
-              {!post.publishedAt ? (
-                <Link href={`/thunked/${slug}`}>
-                  <a className="text-sm text-gray-500"># permalink</a>
+        ],
+      }}
+    />
+    <Head>
+      <title key="title">{post.title ?? "Codedrift"}</title>
+    </Head>
+    <ArticleJsonLd
+      url={post.canonicalUrl}
+      title={post.title}
+      images={[ogImage.toString()]}
+      datePublished={post.publishedAt}
+      dateModified={post.updatedAt}
+      authorName={["Jakob Heuser"]}
+      description={post.description}
+    />
+    <Layout>
+      <div className="w-full flex-col">
+        {/* Post */}
+        <div className="w-full flex-shrink-0">
+          <h1 className={cx(SECTION_HEADLINE)}>{widont(post.title)}</h1>
+          <div>
+            {!post.publishedAt ? (
+              <Link href={`/thunked/${slug}`} className="text-sm text-gray-500">
+                # permalink
+              </Link>
+            ) : (
+              (<Link
+                href={`/thunked/${slug}`}
+                className="text-sm text-gray-500"
+                title={DateTime.fromISO(post.publishedAt).toLocaleString(
+                  DateTime.DATETIME_MED
+                )}>
+                written{" "}
+                {DateTime.fromISO(post.publishedAt).toRelativeCalendar()}
+
+              </Link>)
+            )}
+            {post.updatedAt && post.changelog && post.changelog.length > 0 ? (
+              (<Link href="#changelog" className="ml-2 text-sm text-primary-500">
+                updated{" "}
+                {DateTime.fromISO(post.updatedAt).toRelativeCalendar()}
+
+              </Link>)
+            ) : null}
+          </div>
+          <div className="text-sm text-gray-500">
+            {post.category ? (
+              <span>
+                in&nbsp;
+                <Link
+                  href={`/thunked/tag/${post.category.name}`}
+                  className={cx(MINOR_LINK, "mr-1")}
+                  title={post.category.description ?? ""}>
+
+                  {post.category.display ?? post.category?.name ?? null}
+
                 </Link>
-              ) : (
-                <Link href={`/thunked/${slug}`}>
-                  <a
-                    className="text-sm text-gray-500"
-                    title={DateTime.fromISO(post.publishedAt).toLocaleString(
-                      DateTime.DATETIME_MED
-                    )}
-                  >
-                    written{" "}
-                    {DateTime.fromISO(post.publishedAt).toRelativeCalendar()}
-                  </a>
-                </Link>
+              </span>
+            ) : null}
+            {tagSort.map((name, typeIdx) => {
+              const list = tagsByEmoji[name] || [];
+              if (list.length === 0) return null;
+              return (
+                <div key={name} className={`inline-block space-x-1`}>
+                  <span>+</span>
+                  {list.map((tag: Tag, idx: number, all: any[]) => (
+                    <span key={tag.id} className="text-gray-500">
+                      <Link
+                        href={`/thunked/tag/${tag.name}`}
+                        className={cx(MINOR_LINK, "mr-1")}
+                        title={tag.description ?? ""}>
+
+                        {tag.display ?? tag.name ?? null}
+
+                      </Link>
+                      {idx < all.length - 1 ? "," : ""}
+                    </span>
+                  ))}
+                </div>
+              );
+            })}
+          </div>
+
+          {post.repost ? (
+            <div className={cx(PROSE, "mx-8 pt-4 pb-1 text-sm italic")}>
+              {repost ?? post.repost.text}
+            </div>
+          ) : null}
+
+          <div className={cx(PROSE, post.repost ? undefined : "pt-4")}>
+            {md}
+          </div>
+
+          {post.changelog && post.changelog.length > 0 ? (
+            <div
+              id="changelog"
+              className={cx(
+                "prose-sm prose prose-stone mt-4 max-w-none rounded-md border border-gray-400 bg-gray-300 p-2 prose-table:mt-0 prose-table:w-full prose-tr:border-0 dark:border-gray-700 dark:bg-gray-800 dark:prose-invert"
               )}
-              {post.updatedAt && post.changelog && post.changelog.length > 0 ? (
-                <Link href="#changelog">
-                  <a className="ml-2 text-sm text-primary-500">
-                    updated{" "}
-                    {DateTime.fromISO(post.updatedAt).toRelativeCalendar()}
-                  </a>
-                </Link>
-              ) : null}
+            >
+              <h4 className="font-bold">Changelog</h4>
+              <table className="border-0">
+                <tbody>
+                  {(post?.changelog ?? []).map((evt, idx) => (
+                    <tr key={idx}>
+                      <td>
+                        {DateTime.fromISO(evt.isoDate).toLocaleString(
+                          DateTime.DATE_SHORT
+                        )}
+                      </td>
+                      <td className="heir-p:m-0">
+                        {changelogs?.[idx] ?? evt.change.body}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-            <div className="text-sm text-gray-500">
-              {post.category ? (
-                <span>
-                  in&nbsp;
-                  <Link href={`/thunked/tag/${post.category.name}`}>
-                    <a
-                      className={cx(MINOR_LINK, "mr-1")}
-                      title={post.category.description ?? ""}
-                    >
-                      {post.category.display ?? post.category?.name ?? null}
-                    </a>
-                  </Link>
-                </span>
-              ) : null}
-              {tagSort.map((name, typeIdx) => {
-                const list = tagsByEmoji[name] || [];
-                if (list.length === 0) return null;
-                return (
-                  <div key={name} className={`inline-block space-x-1`}>
-                    <span>+</span>
-                    {list.map((tag: Tag, idx: number, all: any[]) => (
-                      <span key={tag.id} className="text-gray-500">
-                        <Link href={`/thunked/tag/${tag.name}`}>
-                          <a
-                            className={cx(MINOR_LINK, "mr-1")}
-                            title={tag.description ?? ""}
-                          >
-                            {tag.display ?? tag.name ?? null}
-                          </a>
-                        </Link>
-                        {idx < all.length - 1 ? "," : ""}
-                      </span>
-                    ))}
-                  </div>
-                );
-              })}
-            </div>
-
-            {post.repost ? (
-              <div className={cx(PROSE, "mx-8 pt-4 pb-1 text-sm italic")}>
-                {repost ?? post.repost.text}
-              </div>
-            ) : null}
-
-            <div className={cx(PROSE, post.repost ? undefined : "pt-4")}>
-              {md}
-            </div>
-
-            {post.changelog && post.changelog.length > 0 ? (
-              <div
-                id="changelog"
-                className={cx(
-                  "prose-sm prose prose-stone mt-4 max-w-none rounded-md border border-gray-400 bg-gray-300 p-2 prose-table:mt-0 prose-table:w-full prose-tr:border-0 dark:border-gray-700 dark:bg-gray-800 dark:prose-invert"
-                )}
-              >
-                <h4 className="font-bold">Changelog</h4>
-                <table className="border-0">
-                  <tbody>
-                    {(post?.changelog ?? []).map((evt, idx) => (
-                      <tr key={idx}>
-                        <td>
-                          {DateTime.fromISO(evt.isoDate).toLocaleString(
-                            DateTime.DATE_SHORT
-                          )}
-                        </td>
-                        <td className="heir-p:m-0">
-                          {changelogs?.[idx] ?? evt.change.body}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : null}
-          </div>
-
-          {/* Discuss */}
-          <div className="max-w-reading mt-4 border-t border-t-gray-500 pt-4">
-            {ghDiscussionTitle ? (
-              <Giscus
-                id="giscus"
-                repo="jakobo/codedrift"
-                repoId="MDEwOlJlcG9zaXRvcnkzMzg2ODIwODI="
-                category="Thunked"
-                categoryId="DIC_kwDOFC_g4s4CAYqP"
-                mapping="specific"
-                term={ghDiscussionTitle}
-                reactionsEnabled="0"
-                strict="1"
-                inputPosition="bottom"
-                theme={
-                  (process.env.NODE_ENV === "development"
-                    ? "http://localhost:3000"
-                    : "https://codedrift.com") + "/api/giscus.css"
-                }
-                lang="en"
-                loading="lazy"
-              />
-            ) : null}
-          </div>
+          ) : null}
         </div>
-      </Layout>
-    </>
-  );
+
+        {/* Discuss */}
+        <div className="max-w-reading mt-4 border-t border-t-gray-500 pt-4">
+          {ghDiscussionTitle ? (
+            <Giscus
+              id="giscus"
+              repo="jakobo/codedrift"
+              repoId="MDEwOlJlcG9zaXRvcnkzMzg2ODIwODI="
+              category="Thunked"
+              categoryId="DIC_kwDOFC_g4s4CAYqP"
+              mapping="specific"
+              term={ghDiscussionTitle}
+              reactionsEnabled="0"
+              strict="1"
+              inputPosition="bottom"
+              theme={
+                (process.env.NODE_ENV === "development"
+                  ? "http://localhost:3000"
+                  : "https://codedrift.com") + "/api/giscus.css"
+              }
+              lang="en"
+              loading="lazy"
+            />
+          ) : null}
+        </div>
+      </div>
+    </Layout>
+  </>;
 };
 
 export default withDefaultUrqlClient({

@@ -1,5 +1,4 @@
-import Highlight, { defaultProps, type Language } from "prism-react-renderer";
-import vsDark from "prism-react-renderer/themes/vsDark";
+import {Highlight, themes, type Language } from "prism-react-renderer";
 import { Schema, Tag } from "@markdoc/markdoc";
 import React, { useEffect } from "react";
 import copy from "copy-to-clipboard";
@@ -49,8 +48,7 @@ export const Fence: React.FC<
   return (
     <div className="code relative" aria-live="polite">
       <Highlight
-        {...defaultProps}
-        theme={vsDark}
+        theme={themes.vsDark}
         code={content}
         language={language as Language}
       >

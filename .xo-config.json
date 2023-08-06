@@ -1,0 +1,17 @@
+{
+  "prettier": true,
+  "space": true,
+  "nodeVersion": false,
+  "rules": {
+    "@typescript-eslint/naming-convention": "off",
+    "@typescript-eslint/no-floating-promises": "off",
+
+    "capitalized-comments": "off",
+    "no-template-curly-in-string": "warn",
+    "unicorn/filename-case": "off",
+    "unicorn/no-array-callback-reference": "off",
+    "unicorn/no-array-method-this-argument": "off"
+  },
+  "plugins": [],
+  "ignores": ["*.config.*"]
+}

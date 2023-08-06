@@ -54,18 +54,20 @@ interface LogoProps {
 }
 const Logo: React.FC<LogoProps> = ({ className }) => {
   return (
-    <Link href="/">
-      <a className={cx(`h-[40px]`, "flex flex-row items-center", className)}>
-        <ChevronLeftIcon className={cx(`color-current h-[30px] w-[30px]`)} />
-        <ChevronRightIcon
-          className={cx(`color-current mt-[10px] ml-[-17px] h-[30px] w-[30px]`)}
-        />
-        <span className="mt-[7px] ml-[-5px] hidden md:block">
-          code
-          <span className="brightness-50 dark:brightness-75">drift</span>
-        </span>
-      </a>
-    </Link>
+    (<Link
+      href="/"
+      className={cx(`h-[40px]`, "flex flex-row items-center", className)}>
+
+      <ChevronLeftIcon className={cx(`color-current h-[30px] w-[30px]`)} />
+      <ChevronRightIcon
+        className={cx(`color-current mt-[10px] ml-[-17px] h-[30px] w-[30px]`)}
+      />
+      <span className="mt-[7px] ml-[-5px] hidden md:block">
+        code
+        <span className="brightness-50 dark:brightness-75">drift</span>
+      </span>
+
+    </Link>)
   );
 };
 
@@ -141,61 +143,62 @@ const LightSwitch: React.FC<LightSwitchProps> = ({ className }) => {
 };
 
 export const Layout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
-  return (
-    <>
-      <div className="flex h-screen min-w-full max-w-full flex-col items-start">
-        <div className="h-4 w-full flex-shrink-0 bg-gray-600 dark:bg-gray-700" />
-        <header className="flex w-full max-w-limit flex-row px-4">
-          <Logo className={cx(LINK, "pt-2")} />
-          <nav className="flex flex-grow flex-row items-center justify-end space-x-2 self-end">
-            {navigation.map((v) => (
-              <React.Fragment key={v.href}>
-                <Link href={v.href} passHref>
-                  <a
-                    className={cx(LINK, v.className)}
-                    title={v.title ?? undefined}
-                    {...{
-                      rel: v.rel ?? undefined,
-                    }}
-                  >
-                    {v.icon ? <v.icon /> : v.label}
-                  </a>
-                </Link>
-              </React.Fragment>
-            ))}
-            <LightSwitch className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300" />
-          </nav>
-        </header>
-        <main className="w-full max-w-limit flex-grow p-4 pt-12">
-          {children}
-        </main>
-        <footer className="mt-8 h-20 w-full bg-gray-700 bg-leather-stone-700 dark:bg-gray-800 dark:bg-leather-stone-700">
-          <div className="flex max-w-limit flex-row items-center p-4 text-sm text-gray-100 dark:text-gray-200">
-            <div className="w-1/4">&lt;/&gt;</div>
-            <div className="flex-grow text-center">
-              <button
-                className="border-b border-dotted border-gray-500 hover:text-gray-300"
-                onClick={() => {
-                  if (typeof window !== "undefined") {
-                    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-                  }
-                }}
-              >
-                top
-              </button>
-            </div>
-            <div className="w-1/4 text-right">
-              <Link href="/colophon">
-                <a className="border-b border-dotted border-gray-500 hover:text-gray-300">
-                  &copy; 2022 Jakob Heuser
-                </a>
+  return <>
+    <div className="flex h-screen min-w-full max-w-full flex-col items-start">
+      <div className="h-4 w-full flex-shrink-0 bg-gray-600 dark:bg-gray-700" />
+      <header className="flex w-full max-w-limit flex-row px-4">
+        <Logo className={cx(LINK, "pt-2")} />
+        <nav className="flex flex-grow flex-row items-center justify-end space-x-2 self-end">
+          {navigation.map((v) => (
+            <React.Fragment key={v.href}>
+              <Link
+                href={v.href}
+                passHref
+                className={cx(LINK, v.className)}
+                title={v.title ?? undefined}
+                {...{
+                  rel: v.rel ?? undefined,
+                }}>
+
+                {v.icon ? <v.icon /> : v.label}
+
               </Link>
-            </div>
+            </React.Fragment>
+          ))}
+          <LightSwitch className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300" />
+        </nav>
+      </header>
+      <main className="w-full max-w-limit flex-grow p-4 pt-12">
+        {children}
+      </main>
+      <footer className="mt-8 h-20 w-full bg-gray-700 bg-leather-stone-700 dark:bg-gray-800 dark:bg-leather-stone-700">
+        <div className="flex max-w-limit flex-row items-center p-4 text-sm text-gray-100 dark:text-gray-200">
+          <div className="w-1/4">&lt;/&gt;</div>
+          <div className="flex-grow text-center">
+            <button
+              className="border-b border-dotted border-gray-500 hover:text-gray-300"
+              onClick={() => {
+                if (typeof window !== "undefined") {
+                  window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+                }
+              }}
+            >
+              top
+            </button>
           </div>
-        </footer>
-      </div>
-      <IndieAuth />
-      <Feeds />
-    </>
-  );
+          <div className="w-1/4 text-right">
+            <Link
+              href="/colophon"
+              className="border-b border-dotted border-gray-500 hover:text-gray-300">
+              
+                &copy; 2022 Jakob Heuser
+              
+            </Link>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <IndieAuth />
+    <Feeds />
+  </>;
 };

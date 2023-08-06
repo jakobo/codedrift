@@ -15,8 +15,8 @@ export const Link: React.FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({
 }) => {
   if (!href) return <a {...rest} />;
   return (
-    <NextLink href={href}>
-      <a {...rest} />
-    </NextLink>
+    (<NextLink href={href} {...rest}>
+
+    </NextLink>)
   );
 };
