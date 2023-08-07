@@ -4,7 +4,5 @@ export type Shortlink = {
 };
 
 export type ShortlinkFile = {
-  links: {
-    [link: string]: string | Shortlink;
-  };
+  links: Record<string, string | Shortlink>;
 };

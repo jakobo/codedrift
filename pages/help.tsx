@@ -1,9 +1,9 @@
 import React from "react";
 import { NextSeo } from "next-seo";
-import { Layout } from "components/Layout";
-import { PROSE, SECTION_HEADLINE } from "data/constants";
+import { Layout } from "@/components/Layout.js";
+import { PROSE, SECTION_HEADLINE } from "@/data/constants.js";
 
-const Help: React.FC<{}> = () => {
+const Help: React.FC = () => {
   return (
     <>
       <NextSeo

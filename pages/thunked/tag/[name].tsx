@@ -1,19 +1,20 @@
 import React from "react";
-import { useRouter } from "next/router";
-import { GetStaticPaths, GetStaticProps } from "next";
+import { useRouter } from "next/router.js";
+import { type GetStaticPaths, type GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
 import { useQuery } from "urql";
-import Head from "next/head";
-import { Layout } from "components/Layout";
-import { PostDirectory, groupPostsByYear } from "components/Directory";
-import { discussionToBlog } from "lib/github/discussionToBlog";
-import { initDefaultUrqlClient, withDefaultUrqlClient } from "gql";
-import { demoji } from "lib/demoji";
-import { SECTION_HEADLINE } from "data/constants";
-import { selectedPostsWithSearch } from "gql/posts";
-import { selectLabelDetails } from "gql/labels";
-import { Post } from "types/Post";
-import { REPO_FQN } from "lib/constants";
+import { isPresent } from "ts-is-present";
+import Head from "next/head.js";
+import { Layout } from "@/components/Layout.js";
+import { PostDirectory, groupPostsByYear } from "@/components/Directory.js";
+import { discussionToBlog } from "@/lib/github/discussionToBlog.js";
+import { initDefaultUrqlClient, withDefaultUrqlClient } from "@/gql/index.js";
+import { demoji } from "@/lib/demoji.js";
+import { SECTION_HEADLINE } from "@/data/constants.js";
+import { selectedPostsWithSearch } from "@/gql/posts.js";
+import { selectLabelDetails } from "@/gql/labels.js";
+import { type Post } from "@/types/Post.js";
+import { REPO_FQN } from "@/lib/constants.js";
 
 const labelToSearch = (label: string) =>
   `label:"${label}" category:"Thunked" repo:${REPO_FQN}`;
@@ -26,13 +27,13 @@ const ThunkedPostsByTag: React.FC<{ posts?: Post[] }> = ({ posts }) => {
   const [{ data: labelData }] = useQuery({
     query: selectLabelDetails,
     variables: {
-      label: tag,
+      label: tag ?? "",
     },
     pause: !tag,
   });
 
   const byYear = groupPostsByYear(posts ?? []);
-  const categoryDetails = labelData?.repository?.label || {
+  const categoryDetails = labelData?.repository?.label ?? {
     name: "",
     description: "",
   };
@@ -49,12 +50,13 @@ const ThunkedPostsByTag: React.FC<{ posts?: Post[] }> = ({ posts }) => {
       </Head>
       <Layout>
         <h1 className={SECTION_HEADLINE}>{displayName}</h1>
-        <p>{categoryDetails.description || ""}</p>
+        <p>{categoryDetails.description ?? ""}</p>
         <PostDirectory postsByYear={byYear} className="pt-10" />
       </Layout>
     </>
   );
 };
+
 export default withDefaultUrqlClient({
   ssr: false,
   staleWhileRevalidate: true,
@@ -63,10 +65,13 @@ export default withDefaultUrqlClient({
 // https://formidable.com/open-source/urql/docs/advanced/server-side-rendering/#using-getstaticprops-or-getserversideprops
 // get data ahead of time for static rendering, but on withDefaultUrql
 // enable SWR in case post was updated beind the scenes
-export const getStaticProps: GetStaticProps<{}> = async (ctx) => {
-  const tag = Array.isArray(ctx.params.name)
-    ? ctx.params.name[0]
-    : ctx.params.name;
+export const getStaticProps: GetStaticProps<Record<string, unknown>> = async (
+  ctx
+) => {
+  const tag =
+    ctx.params && Array.isArray(ctx.params.name)
+      ? ctx.params.name[0]
+      : (ctx.params?.name as string);
 
   const { client, cache } = initDefaultUrqlClient(false);
 
@@ -85,8 +90,10 @@ export const getStaticProps: GetStaticProps<{}> = async (ctx) => {
   ]);
 
   const posts = (
-    search.status === "fulfilled" ? search.value.data.search.nodes ?? [] : []
-  ).map((d) => discussionToBlog(d));
+    search.status === "fulfilled" ? search.value.data?.search.nodes ?? [] : []
+  )
+    .filter(isPresent)
+    .map((d) => discussionToBlog(d));
 
   return {
     props: {

@@ -1,8 +1,8 @@
 // changes the beheavior of a link to a Link object from next.js
 
-import { Schema, nodes } from "@markdoc/markdoc";
-import NextLink from "next/link";
-import React, { AnchorHTMLAttributes } from "react";
+import { type Schema, nodes } from "@markdoc/markdoc";
+import React, { type AnchorHTMLAttributes } from "react";
+import NextLink from "next/link.js";
 
 export const link: Schema = {
   ...nodes.link,
@@ -14,9 +14,5 @@ export const Link: React.FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({
   ...rest
 }) => {
   if (!href) return <a {...rest} />;
-  return (
-    (<NextLink href={href} {...rest}>
-
-    </NextLink>)
-  );
+  return <NextLink href={href} {...rest}></NextLink>;
 };

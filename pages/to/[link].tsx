@@ -1,19 +1,20 @@
-import Head from "next/head";
 import React from "react";
-import { GetStaticProps } from "next";
+import { type GetStaticProps } from "next";
 import yaml from "js-yaml";
 import { NextSeo } from "next-seo";
-import { Layout } from "components/Layout";
-import { initDefaultUrqlClient } from "gql";
-import { ShortlinkFile } from "types/shortlinks";
-import { PROSE, SECTION_HEADLINE } from "data/constants";
-import { selectShortlinkData } from "gql/shortlinks";
+import Head from "next/head.js";
+import { Layout } from "@/components/Layout.js";
+import { initDefaultUrqlClient } from "@/gql/index.js";
+import { type ShortlinkFile } from "@/types/shortlinks.js";
+import { PROSE, SECTION_HEADLINE } from "@/data/constants.js";
+import { selectShortlinkData } from "@/gql/shortlinks.js";
+import { firstOf } from "@/lib/firstOf.js";
 
-interface ShortLinkToProps {
+type ShortLinkToProps = {
   name: string;
   description?: string;
   url: string;
-}
+};
 
 const ShortLinkTo: React.FC<ShortLinkToProps> = ({
   name,
@@ -57,17 +58,16 @@ const ShortLinkTo: React.FC<ShortLinkToProps> = ({
     </>
   );
 };
+
 export default ShortLinkTo;
 
 export const getStaticProps: GetStaticProps<ShortLinkToProps> = async (ctx) => {
-  const link = Array.isArray(ctx.params.link)
-    ? ctx.params.link[0]
-    : ctx.params.link;
+  const link = firstOf(ctx.params?.link);
   const { client, cache } = initDefaultUrqlClient(false);
-  const res = await client.query(selectShortlinkData, {}).toPromise();
+  const result = await client.query(selectShortlinkData, {}).toPromise();
 
   // allow for legacy location
-  const contents = res.data.repository.object.text;
+  const contents = result.data?.repository?.object?.text;
   if (!contents) {
     return {
       notFound: true,
@@ -75,8 +75,8 @@ export const getStaticProps: GetStaticProps<ShortLinkToProps> = async (ctx) => {
   }
 
   const data = yaml.load(contents) as ShortlinkFile;
-  const row = data.links[link];
-  if (!row) {
+  const row = data.links[link ?? ""];
+  if (!row || !link) {
     return {
       notFound: true,
     };
@@ -87,7 +87,7 @@ export const getStaticProps: GetStaticProps<ShortLinkToProps> = async (ctx) => {
       urqlState: cache.extractData(),
       name: link,
       url: typeof row === "string" ? row : row.url,
-      description: typeof row === "string" ? null : row.description,
+      description: typeof row === "string" ? undefined : row.description,
     },
     revalidate: 300,
   };

@@ -1,11 +1,11 @@
 import "tailwindcss/tailwind.css";
 import "public/styles/custom.css";
-import Head from "next/head";
 import React from "react";
-import type { AppProps /*, AppContext */ } from "next/app";
+import type { AppProps /* , AppContext */ } from "next/app.js";
 import { DefaultSeo } from "next-seo";
-import { Analytics } from "@vercel/analytics/react";
-import { Providers } from "components/providers";
+import { Analytics } from "@vercel/analytics/react"; // eslint-disable-line n/file-extension-in-import
+import Head from "next/head.js";
+import { Providers } from "@/components/providers.js";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (

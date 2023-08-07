@@ -1,13 +1,23 @@
 // this file is not transpiled using babel
 // it should work in your node.js environment with no additional changes
+// IT MUST BE TREATED AS COMMONJS REGARDLESS OF EXTENSION
 
 module.exports = () => {
-  return {
+  /** @type {import('next').NextConfig} */
+  const nextConfig = {
     poweredByHeader: false,
     images: {
       domains: ["codedrift.com", "localhost"],
     },
     experimental: { esmExternals: true },
+    webpack: (webpackConfig, { webpack }) => {
+      webpackConfig.resolve.extensionAlias = {
+        ".js": [".ts", ".tsx", ".js", ".jsx"],
+        ".mjs": [".mts", ".mjs"],
+        ".cjs": [".cts", ".cjs"],
+      };
+      return webpackConfig;
+    },
     async redirects() {
       return [
         {
@@ -32,4 +42,6 @@ module.exports = () => {
       ];
     },
   };
+
+  return nextConfig;
 };

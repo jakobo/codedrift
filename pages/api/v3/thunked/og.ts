@@ -1,9 +1,10 @@
-import fs from "fs/promises";
-import path from "path";
-import { NextApiRequest, NextApiResponse } from "next";
+import process from "node:process";
+import path from "node:path";
+import { Buffer } from "node:buffer";
+import { type NextApiRequest, type NextApiResponse } from "next";
 import sharp from "sharp";
 import { DateTime } from "luxon";
-import { firstOf } from "lib/firstOf";
+import { firstOf } from "@/lib/firstOf.js";
 
 const chevronLeft = `
 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#047857" stroke-width="3">
@@ -32,20 +33,20 @@ const openSans = path.resolve(
 );
 
 const createOpenGraphImage = async (
-  req: NextApiRequest,
-  res: NextApiResponse
+  request: NextApiRequest,
+  response: NextApiResponse
 ) => {
   const lt = await sharp(Buffer.from(chevronLeft)).resize(CS, CS).toBuffer();
   const rt = await sharp(Buffer.from(chevronRight)).resize(CS, CS).toBuffer();
 
-  const title = firstOf(req.query.title);
-  const category = firstOf(req.query.category) ?? "unknown";
-  const tags = firstOf(req.query.tags);
-  const updated = firstOf(req.query.updated);
-  const published = firstOf(req.query.published);
+  const title = firstOf(request.query.title);
+  const category = firstOf(request.query.category) ?? "unknown";
+  const tags = firstOf(request.query.tags);
+  const updated = firstOf(request.query.updated);
+  const published = firstOf(request.query.published);
 
   const ts = DateTime.fromSeconds(
-    parseInt(updated ?? published ?? "0", 10)
+    Number.parseInt(updated ?? published ?? "0", 10)
   ).toRelative();
 
   const s = await sharp({
@@ -173,16 +174,19 @@ const createOpenGraphImage = async (
     .png()
     .toBuffer({ resolveWithObject: true });
 
-  res.status(200);
-  res.setHeader("content-type", "image/png");
-  res.setHeader("content-length", s.info.size);
+  response.status(200);
+  response.setHeader("content-type", "image/png");
+  response.setHeader("content-length", s.info.size);
 
   // https://vercel.com/docs/concepts/edge-network/caching#serverless-functions-(lambdas)
   // fresh for 5 min (in case of changes), swr with 5 hours
-  res.setHeader("Cache-Control", `s-maxage=300, stale-while-revalidate=18000`);
+  response.setHeader(
+    "Cache-Control",
+    `s-maxage=300, stale-while-revalidate=18000`
+  );
 
-  res.write(s.data);
-  res.end();
+  response.write(s.data);
+  response.end();
 };
 
 export default createOpenGraphImage;

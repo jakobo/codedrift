@@ -17,4 +17,6 @@ export const pager = (offset: number, limit: number) => {
       }
     }
   }
+
+  throw new Error("Unable to convert offset/limit to page/per_page");
 };

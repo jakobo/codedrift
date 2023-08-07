@@ -1,4 +1,4 @@
-import React, { SVGProps } from "react";
+import React, { type SVGProps } from "react";
 
 /* Font Awesome Brands 5.8.8 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license */
 export const MastodonIcon: React.FC<SVGProps<SVGSVGElement>> = (props) => {

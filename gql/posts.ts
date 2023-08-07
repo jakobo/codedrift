@@ -1,4 +1,8 @@
-import { DISCUSSION_CATEGORIES, REPO_NAME, REPO_OWNER } from "lib/constants";
+import {
+  DISCUSSION_CATEGORIES,
+  REPO_NAME,
+  REPO_OWNER,
+} from "@/lib/constants.js";
 import {
   $,
   $$,
@@ -8,7 +12,7 @@ import {
   OrderDirection,
   query,
   SearchType,
-} from "__generated__/github";
+} from "@/__generated__/github.js";
 
 export const postDetails = fragment(Discussion, (d) => [
   d.id,

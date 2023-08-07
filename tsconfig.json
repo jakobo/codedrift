@@ -1,24 +1,67 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "*": ["*"]
-    },
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
+    // Output Style & Features
+    "module": "ES2020",
+    "moduleResolution": "Bundler",
     "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true
+    "target": "es5",
+    "noEmit": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "importHelpers": true,
+    "inlineSources": true,
+    "sourceMap": true,
+    "jsx": "react-jsx",
+
+    // Strict Checks
+    "alwaysStrict": false,
+    "strict": true,
+    "strictBindCallApply": false,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // Specific loosening of rules
+    "allowJs": true,
+    // "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    // https://github.com/microsoft/TypeScript/issues/50175#issuecomment-1204986989
+    // "skipLibCheck": true,
+
+    // Importables
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "resolveJsonModule": true,
+
+    // TS Linting Rules
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+
+    // QoL Settings
+    "preserveWatchOutput": true,
+    "pretty": true,
+
+    // Plugins
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+
+    // TS Path Info
+    "paths": {
+      "@/*": ["./*"]
+    }
+
+    // Additional Global Types
+    // "types": ["node"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  // ts-node common settings
+  "ts-node": {
+    "transpileOnly": true,
+    "esm": true,
+    "noEmit": true
+  }
 }

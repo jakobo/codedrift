@@ -2,11 +2,13 @@ import { DateTime } from "luxon";
 import yaml from "js-yaml";
 import sort from "sort-array";
 import { type ResultOf } from "@graphql-typed-document-node/core";
-import Markdoc, { RenderableTreeNodes } from "@markdoc/markdoc";
-import { demoji } from "../demoji";
-import { postData } from "gql/posts";
-import { Post } from "types/Post";
-import { markdocSchema } from "lib/markdoc/schema";
+import Markdoc, { type RenderableTreeNodes } from "@markdoc/markdoc";
+import { type Get } from "type-fest";
+import { isPresent } from "ts-is-present";
+import { demoji } from "../demoji.js";
+import { type postData } from "@/gql/posts.js";
+import { type Post } from "@/types/Post.js";
+import { markdocSchema } from "@/lib/markdoc/schema.js";
 
 export type PostFrontmatter = {
   slug: string;
@@ -16,21 +18,21 @@ export type PostFrontmatter = {
     url: string;
     text: string;
   };
-  changelog?: {
+  changelog?: Array<{
     on: Date;
     note: string;
-  }[];
+  }>;
 };
 
-type BlogPostFromGithub = ResultOf<
-  typeof postData
->["repository"]["discussions"]["nodes"][0];
+type BlogPostFromGithub = NonNullable<
+  Get<ResultOf<typeof postData>, "repository.discussions.nodes[0]">
+>;
 
 export const discussionToBlog = (item: BlogPostFromGithub): Post => {
   const isDraft = false;
 
   // de-decorate frontmatter
-  const demattered = item.body.replace(
+  const demattered = (item.body ?? "").replaceAll(
     /^(?:```(?:yaml)?[\r\n]+)?(---[\r\n]+[\s\S]+?[\r\n]+---)(?:[\r\n]+```)?/gim,
     // ^fence ^lang            ^actual frontmatter                    ^ end fence
     "$1"
@@ -38,9 +40,9 @@ export const discussionToBlog = (item: BlogPostFromGithub): Post => {
 
   const ast = Markdoc.parse(demattered);
   const frontmatter =
-    typeof ast.attributes.frontmatter === "undefined"
+    ast.attributes.frontmatter === undefined
       ? undefined
-      : (yaml.load(ast.attributes.frontmatter) as PostFrontmatter);
+      : (yaml.load(ast.attributes.frontmatter as string) as PostFrontmatter);
 
   const markdoc = JSON.parse(
     JSON.stringify(
@@ -52,35 +54,36 @@ export const discussionToBlog = (item: BlogPostFromGithub): Post => {
         },
       })
     )
-  );
+  ) as RenderableTreeNodes;
 
   const canonicalUrl = `https://codedrift.com/thunked/${
-    frontmatter.slug || ""
+    frontmatter?.slug ?? ""
   }`;
 
-  const category =
-    (item.labels?.nodes ?? [])
-      .filter((label) => label.name.indexOf("📚") === 0)
-      .map((label) => ({
-        name: label.name,
-        display: demoji(label.name),
-        description: label.description || null,
-        id: label.id,
-      }))?.[0] || null;
-
-  const tags = (item.labels?.nodes ?? [])
-    .filter((label) => !category?.id || label.id !== category.id)
-    .filter((label) => label.name.toLowerCase().indexOf("thunked") === -1)
+  const category = (item?.labels?.nodes ?? [])
+    .filter((label) => label?.name.startsWith("📚"))
+    .filter(isPresent)
     .map((label) => ({
       name: label.name,
       display: demoji(label.name),
-      description: label.description || null,
+      description: label.description ?? undefined,
+      id: label.id,
+    }))?.[0];
+
+  const tags = (item.labels?.nodes ?? [])
+    .filter((label) => !category?.id || label?.id !== category.id)
+    .filter((label) => !label?.name.toLowerCase().includes("thunked"))
+    .filter(isPresent)
+    .map((label) => ({
+      name: label.name,
+      display: demoji(label.name),
+      description: label.description ?? undefined,
       id: label.id,
     }));
 
   // build changelog. Ensure we see a proper ISO date
   const changelog = (frontmatter?.changelog ?? []).map((dt) => {
-    const changeOn = DateTime.fromJSDate(dt.on);
+    const changeOn = DateTime.fromJSDate(dt.on as unknown as Date);
     const ast = Markdoc.parse(dt.note);
     const markdoc = JSON.parse(
       JSON.stringify(
@@ -91,9 +94,9 @@ export const discussionToBlog = (item: BlogPostFromGithub): Post => {
           },
         })
       )
-    );
+    ) as RenderableTreeNodes;
     return {
-      isoDate: changeOn.isValid ? changeOn.toISO() : null,
+      isoDate: changeOn.toISO() ?? DateTime.now().toISO()!,
       change: {
         body: dt.note,
         markdoc,
@@ -108,7 +111,7 @@ export const discussionToBlog = (item: BlogPostFromGithub): Post => {
     markdoc: undefined,
   };
 
-  if (frontmatter.repost) {
+  if (frontmatter?.repost) {
     repost.url = frontmatter.repost.url;
     repost.text = frontmatter.repost.text;
     const ast = Markdoc.parse(frontmatter.repost.text);
@@ -121,7 +124,7 @@ export const discussionToBlog = (item: BlogPostFromGithub): Post => {
           },
         })
       )
-    );
+    ) as RenderableTreeNodes;
     repost.markdoc = markdoc;
   }
 
@@ -130,25 +133,27 @@ export const discussionToBlog = (item: BlogPostFromGithub): Post => {
     order: "desc",
   });
 
+  if (!frontmatter?.slug || !item.lastEditedAt || !frontmatter.published) {
+    throw new Error("No slug found");
+  }
+
   return {
-    id: "" + item.id,
+    id: String(item.id),
     commentUrl: item.url,
-    slug: frontmatter.slug,
+    slug: frontmatter?.slug,
     draft: isDraft,
     title: item.title || "A post on Thunked",
-    description: frontmatter?.description || null,
-    excerpt: frontmatter?.description ?? "",
+    description: frontmatter?.description,
+    excerpt: frontmatter?.description,
     changelog,
     markdoc,
     body: item.body,
     source: item.url,
     canonicalUrl,
-    updatedAt: item.lastEditedAt || null,
-    publishedAt: frontmatter.published
-      ? DateTime.fromJSDate(frontmatter.published).toISO()
-      : null,
+    updatedAt: item.lastEditedAt,
+    publishedAt: DateTime.fromJSDate(frontmatter.published).toISO()!,
     category,
     tags,
-    repost: frontmatter.repost ? repost : null,
+    repost: frontmatter.repost ? repost : undefined,
   };
 };

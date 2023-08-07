@@ -1,3 +1,4 @@
+import process from "node:process";
 import {
   initUrqlClient,
   withUrqlClient,
@@ -42,7 +43,7 @@ export const initDefaultUrqlClient = (canEnableSuspense?: boolean) => {
         fetchExchange,
       ],
     },
-    canEnableSuspense
+    canEnableSuspense ?? false
   );
   return { client, cache: ssrCache };
 };

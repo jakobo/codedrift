@@ -1,8 +1,8 @@
 // Applies frontmatter to external next.js attributes
 
-import { Schema, nodes, Tag } from "@markdoc/markdoc";
-import Head from "next/head";
-import React, { BaseHTMLAttributes } from "react";
+import { type Schema, nodes, Tag } from "@markdoc/markdoc";
+import React, { type BaseHTMLAttributes } from "react";
+import Head from "next/head.js";
 
 export const document: Schema = {
   ...nodes.document,
@@ -21,7 +21,12 @@ export const document: Schema = {
     const children = node.transformChildren(config);
     return new Tag(
       `Document`,
-      { ...attributes, matter: config.variables?.frontmatter ?? {} },
+      {
+        ...attributes,
+        matter:
+          (config.variables?.frontmatter as Record<string, unknown>) ??
+          undefined,
+      },
       children
     );
   },
@@ -39,8 +44,8 @@ export const Document: React.FC<
   return (
     <>
       <Head>
-        {matter?.title ? (
-          <title key="title">{matter?.title ?? "Codedrift"}</title>
+        {matter?.title && typeof matter.title === "string" ? (
+          <title key="title">{matter.title ?? "Codedrift"}</title>
         ) : (
           <></>
         )}

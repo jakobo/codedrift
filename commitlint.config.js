@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
   extends: ["@commitlint/config-conventional"],
   rules: {
     "scope-empty": [0, "always"],
@@ -22,3 +22,5 @@ module.exports = {
     "signed-off-by": [0, "always"],
   },
 };
+
+export default config;

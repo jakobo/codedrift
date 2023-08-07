@@ -1,26 +1,27 @@
 import React from "react";
-import { GetStaticProps } from "next";
+import { type GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
 import { useQuery } from "urql";
-import { Layout } from "components/Layout";
-import { PostDirectory, groupPostsByYear } from "components/Directory";
-import { discussionToBlog } from "lib/github/discussionToBlog";
-import { initDefaultUrqlClient, withDefaultUrqlClient } from "gql";
-import { SECTION_HEADLINE } from "data/constants";
-import { recentPosts } from "gql/posts";
+import { isPresent } from "ts-is-present";
+import { Layout } from "@/components/Layout.js";
+import { PostDirectory, groupPostsByYear } from "@/components/Directory.js";
+import { discussionToBlog } from "@/lib/github/discussionToBlog.js";
+import { initDefaultUrqlClient, withDefaultUrqlClient } from "@/gql/index.js";
+import { SECTION_HEADLINE } from "@/data/constants.js";
+import { recentPosts } from "@/gql/posts.js";
 
 const POST_SHOW_COUNT = 100;
 
-const Thunked: React.FC<{}> = () => {
+const Thunked: React.FC = () => {
   const [{ data }] = useQuery({
     query: recentPosts,
     variables: {
       first: POST_SHOW_COUNT,
     },
   });
-  const posts = (data?.repository?.discussions?.nodes || []).map((item) =>
-    discussionToBlog(item)
-  );
+  const posts = (data?.repository?.discussions?.nodes ?? [])
+    .filter(isPresent)
+    .map((item) => discussionToBlog(item));
   const byYear = groupPostsByYear(posts || []);
 
   return (
@@ -46,12 +47,15 @@ const Thunked: React.FC<{}> = () => {
     </>
   );
 };
+
 export default withDefaultUrqlClient({
   ssr: false,
   staleWhileRevalidate: true,
 })(Thunked);
 
-export const getStaticProps: GetStaticProps<{}> = async () => {
+export const getStaticProps: GetStaticProps<
+  Record<string, unknown>
+> = async () => {
   const { client, cache } = initDefaultUrqlClient(false);
   await client
     .query(recentPosts, {

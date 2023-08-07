@@ -1,4 +1,4 @@
-import { RenderableTreeNodes } from "@markdoc/markdoc";
+import { type RenderableTreeNodes } from "@markdoc/markdoc";
 
 export type Tag = {
   name: string;
@@ -22,18 +22,18 @@ export type Post = {
   source: string;
   publishedAt: string;
   updatedAt: string;
-  category?: Tag | null;
+  category?: Tag | undefined;
   tags: Tag[];
-  changelog?: {
-    isoDate: string | null;
+  changelog?: Array<{
+    isoDate: string | undefined;
     change: {
       body: string;
-      markdoc?: RenderableTreeNodes | null;
+      markdoc?: RenderableTreeNodes | undefined;
     };
-  }[];
+  }>;
   repost?: {
     url: string;
     text: string;
-    markdoc?: RenderableTreeNodes | null;
+    markdoc?: RenderableTreeNodes | undefined;
   };
 };

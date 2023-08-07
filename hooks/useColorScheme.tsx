@@ -1,5 +1,5 @@
 import React, {
-  PropsWithChildren,
+  type PropsWithChildren,
   useCallback,
   useContext,
   useEffect,
@@ -14,17 +14,21 @@ type ColorSchemeContext = {
 };
 
 const Context = React.createContext<ColorSchemeContext>({
-  setColorScheme: () => {},
+  setColorScheme() {
+    // empty
+  },
   mode: "dark",
 });
 
-const modes = ["dark", "light"];
+const modes = new Set(["dark", "light"]);
 
-const ColorSchemeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+const ColorSchemeProvider: React.FC<
+  PropsWithChildren<Record<string, unknown>>
+> = ({ children }) => {
   const [mode, setMode] = useState<ValidMode>("dark");
   const isBrowser = typeof window !== "undefined";
 
-  const handleMediaChange = useCallback((evt) => {
+  const handleMediaChange = useCallback((evt: MediaQueryListEvent) => {
     if (evt.matches) {
       setMode("dark");
     } else {
@@ -45,7 +49,7 @@ const ColorSchemeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     if (!isBrowser) return;
     const mm = window.matchMedia("(prefers-color-scheme: dark)");
     const saved = localStorage.getItem("colorScheme");
-    if ((saved && saved === "light") || saved === "dark") {
+    if ((saved && saved === "light") ?? saved === "dark") {
       setMode(saved);
     } else if (mm.matches) {
       setMode("dark");
@@ -56,14 +60,14 @@ const ColorSchemeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
 
   useEffect(() => {
     if (!isBrowser) return;
-    document.body.parentElement.classList.remove("light");
-    document.body.parentElement.classList.remove("dark");
-    document.body.parentElement.classList.add(mode);
+    document.body.parentElement?.classList.remove("light");
+    document.body.parentElement?.classList.remove("dark");
+    document.body.parentElement?.classList.add(mode);
     localStorage.setItem("colorScheme", mode);
   }, [isBrowser, mode]);
 
-  const setColorScheme = useCallback((setTo) => {
-    if (modes.includes(setTo)) {
+  const setColorScheme = useCallback((setTo: ValidMode) => {
+    if (modes.has(setTo)) {
       setMode(setTo);
     }
   }, []);
@@ -78,6 +82,7 @@ const ColorSchemeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
 
   return <Context.Provider value={payload}>{children}</Context.Provider>;
 };
+
 export default ColorSchemeProvider;
 
 export const useColorScheme = () => {

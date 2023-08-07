@@ -1,1 +1,4 @@
 __generated__/*
+next-env.d.ts
+next.config.js
+commitlint.config.js

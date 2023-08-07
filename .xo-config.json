@@ -2,10 +2,11 @@
   "prettier": true,
   "space": true,
   "nodeVersion": false,
+  "extends": ["plugin:@next/next/recommended"],
   "rules": {
+    "complexity": "off",
     "@typescript-eslint/naming-convention": "off",
     "@typescript-eslint/no-floating-promises": "off",
-
     "capitalized-comments": "off",
     "no-template-curly-in-string": "warn",
     "unicorn/filename-case": "off",

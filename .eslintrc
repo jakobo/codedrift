@@ -1,9 +1,0 @@
-{
-  "root": true,
-  "parser": "@typescript-eslint/parser",
-  "extends": ["next/core-web-vitals", "plugin:import/recommended"],
-  "plugins": ["import"],
-  "rules": {
-    "import/order": 2
-  }
-}

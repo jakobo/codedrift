@@ -1,7 +1,7 @@
-import React, { PropsWithChildren } from "react";
-import ColorSchemeProvider from "hooks/useColorScheme";
+import React, { type PropsWithChildren } from "react";
+import ColorSchemeProvider from "@/hooks/useColorScheme.js";
 
-interface ProvidersProps {}
+type ProvidersProps = Record<string, unknown>;
 export const Providers: React.FC<PropsWithChildren<ProvidersProps>> = ({
   children,
 }) => {

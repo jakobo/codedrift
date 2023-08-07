@@ -1,12 +1,12 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { type NextApiRequest, type NextApiResponse } from "next";
 import postcss from "postcss";
 import autoprefixer from "autoprefixer";
 import tailwindcss from "tailwindcss";
-import twnesting from "tailwindcss/nesting";
-import Cors from "cors";
-import { PROSE } from "data/constants";
+import twnesting from "tailwindcss/nesting/index.js";
+import createCors from "cors";
+import { PROSE } from "@/data/constants.js";
 
-const cors = Cors({
+const cors = createCors({
   methods: ["POST", "GET", "HEAD"],
 });
 
@@ -92,29 +92,40 @@ main {
 }
 `;
 
+type MiddlewareCallback = (error?: unknown) => void;
+type MiddlewareFunction = (
+  request: NextApiRequest,
+  response: NextApiResponse,
+  callback: MiddlewareCallback
+) => void;
+
 // Helper method to wait for a middleware to execute before continuing
 // And to throw an error when an error happens in a middleware
-function runMiddleware(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  fn: Function
+async function runMiddleware(
+  request: NextApiRequest,
+  response: NextApiResponse,
+  fn: MiddlewareFunction
 ) {
   return new Promise((resolve, reject) => {
-    fn(req, res, (result: any) => {
+    fn(request, response, (result: any) => {
       if (result instanceof Error) {
-        return reject(result);
+        reject(result);
+        return;
       }
 
-      return resolve(result);
+      resolve(result);
     });
   });
 }
 
-export default async function (req: NextApiRequest, res: NextApiResponse) {
-  await runMiddleware(req, res, cors);
+const giscussCss = async function (
+  request: NextApiRequest,
+  response: NextApiResponse
+) {
+  await runMiddleware(request, response, cors);
 
-  const theme = req.query.theme === "dark" ? "dark" : "light";
-  const c = theme === "dark" ? css.replace(/dark:/g, "") : css;
+  const theme = request.query.theme === "dark" ? "dark" : "light";
+  const c = theme === "dark" ? css.replaceAll("dark:", "") : css;
 
   const result = await postcss([twnesting, tailwindcss, autoprefixer]).process(
     c,
@@ -123,5 +134,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       to: "public/styles/giscus-rendered.css",
     }
   );
-  res.send(result.css);
-}
+  response.send(result.css);
+};
+
+export default giscussCss;
