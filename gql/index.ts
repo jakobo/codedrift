@@ -1,28 +1,17 @@
-import process from "node:process";
+import process from "process"; // eslint-disable-line unicorn/prefer-node-protocol
 import {
   initUrqlClient,
   withUrqlClient,
   type WithUrqlClientOptions,
 } from "next-urql";
-import {
-  dedupExchange,
-  cacheExchange,
-  fetchExchange,
-  ssrExchange,
-} from "@urql/core";
+import { cacheExchange, fetchExchange, ssrExchange } from "@urql/core";
 import { devtoolsExchange } from "@urql/devtools";
 
 export const withDefaultUrqlClient = (options?: WithUrqlClientOptions) =>
   withUrqlClient((ssrExchange) => {
     return {
       url: `${process.env.NEXT_PUBLIC_URL}/api/proxy/api.github.com/graphql`,
-      exchanges: [
-        devtoolsExchange,
-        dedupExchange,
-        cacheExchange,
-        ssrExchange,
-        fetchExchange,
-      ],
+      exchanges: [devtoolsExchange, cacheExchange, ssrExchange, fetchExchange],
     };
   }, options);
 
@@ -35,13 +24,7 @@ export const initDefaultUrqlClient = (canEnableSuspense?: boolean) => {
   const client = initUrqlClient(
     {
       url: `${process.env.NEXT_PUBLIC_URL}/api/proxy/api.github.com/graphql`,
-      exchanges: [
-        devtoolsExchange,
-        dedupExchange,
-        cacheExchange,
-        ssrCache,
-        fetchExchange,
-      ],
+      exchanges: [devtoolsExchange, cacheExchange, ssrCache, fetchExchange],
     },
     canEnableSuspense ?? false
   );

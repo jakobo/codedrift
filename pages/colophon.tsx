@@ -9,21 +9,21 @@ import { Layout } from "@/components/Layout.js";
 import { PROSE, SECTION_HEADLINE } from "@/data/constants.js";
 
 const previousDesigns: Array<{ src: string }> = [
-  { src: "../public/images/legacy/20010502.png" },
-  { src: "../public/images/legacy/20020206.png" },
-  { src: "../public/images/legacy/20020320.png" },
-  { src: "../public/images/legacy/20020604.png" },
-  { src: "../public/images/legacy/20030210.png" },
-  { src: "../public/images/legacy/20031022.png" },
-  { src: "../public/images/legacy/20040831.png" },
-  { src: "../public/images/legacy/20050329.png" },
-  { src: "../public/images/legacy/20060411.png" },
-  { src: "../public/images/legacy/20061012.png" },
-  { src: "../public/images/legacy/20100102.png" },
-  { src: "../public/images/legacy/20140814.png" },
-  { src: "../public/images/legacy/20161026.png" },
-  { src: "../public/images/legacy/20200224.png" },
-  { src: "../public/images/legacy/20220525.png" },
+  { src: "/images/legacy/20010502.png" },
+  { src: "/images/legacy/20020206.png" },
+  { src: "/images/legacy/20020320.png" },
+  { src: "/images/legacy/20020604.png" },
+  { src: "/images/legacy/20030210.png" },
+  { src: "/images/legacy/20031022.png" },
+  { src: "/images/legacy/20040831.png" },
+  { src: "/images/legacy/20050329.png" },
+  { src: "/images/legacy/20060411.png" },
+  { src: "/images/legacy/20061012.png" },
+  { src: "/images/legacy/20100102.png" },
+  { src: "/images/legacy/20140814.png" },
+  { src: "/images/legacy/20161026.png" },
+  { src: "/images/legacy/20200224.png" },
+  { src: "/images/legacy/20220525.png" },
 ].reverse();
 
 const Colophon: React.FC = () => {
@@ -103,6 +103,12 @@ const Colophon: React.FC = () => {
         </div>
         <h2 className="pb-4 pt-8 text-2xl">Previous Versions</h2>
         <section>
+          <p className="pb-6">
+            As best I could, I&apos;ve retrieved old screenshots from the
+            Wayback Machine, before this site was ever called codedrift. From
+            "mechanicalruins.net" to Felocity (.org, then .com), to my own name,
+            then to codedrift.
+          </p>
           <div className="flex flex-row flex-wrap gap-6">
             {previousDesigns.map((m, i) => (
               <div
@@ -111,16 +117,12 @@ const Colophon: React.FC = () => {
               >
                 <Image
                   src={m.src}
-                  layout="fill"
-                  placeholder="blur"
-                  objectFit="cover"
-                  width="100"
-                  height="100"
-                  alt=""
+                  alt={"alt" in m ? `${m.alt as string}` : ""}
                   onClick={() => {
                     setIndex(i);
                   }}
-                  className="cursor-pointer"
+                  className="cursor-pointer object-cover"
+                  fill
                 />
               </div>
             ))}
@@ -136,28 +138,12 @@ const Colophon: React.FC = () => {
               slide(props) {
                 const image = props.slide;
                 return (
-                  <div
-                    style={{
-                      position: "relative",
-                      width: image.width,
-                      height: image.height,
-                      maxWidth: "80vw",
-                    }}
-                  >
+                  <div className="relative mx-10 h-[99vh] w-full max-w-[80vw]">
                     <Image
-                      src={image as StaticImageData}
-                      layout="fill"
-                      loading="eager"
-                      placeholder="blur"
-                      objectFit="contain"
+                      src={image.src}
                       alt={"alt" in image ? image.alt ?? "" : ""}
-                      sizes={
-                        typeof window === "undefined"
-                          ? `${image.width ?? 100}px`
-                          : `${Math.ceil(
-                              (image.width ?? 100 / window.innerWidth) * 100
-                            )}vw`
-                      }
+                      className="object-contain"
+                      fill
                     />
                   </div>
                 );

@@ -1,4 +1,4 @@
-import process from "node:process";
+import process from "process"; // eslint-disable-line unicorn/prefer-node-protocol
 import React, { useCallback, useMemo } from "react";
 import { type GetStaticPaths, type GetStaticProps } from "next";
 import { useRouter } from "next/router.js";
@@ -19,6 +19,7 @@ import { type Post, type Tag } from "@/types/Post.js";
 import { selectedPostsWithSearch } from "@/gql/posts.js";
 import { markdocComponents } from "@/lib/markdoc/schema.js";
 import { REPO_FQN } from "@/lib/constants.js";
+import { deleteUndefined } from "@/lib/deleteUndefined.js";
 
 export const slugToSearch = (slug: string) =>
   `"slug: ${slug}" in:body category:"Thunked" repo:${REPO_FQN}`;
@@ -349,11 +350,11 @@ export const getStaticProps: GetStaticProps<ThunkedBySlugProps> = async (
   const post = postData ? discussionToBlog(postData) : null;
 
   return {
-    props: {
+    props: deleteUndefined({
       urqlState: cache.extractData(),
       ghDiscussionTitle: result.data?.search?.nodes?.[0]?.title,
       post: post ?? undefined,
-    },
+    }),
     revalidate: 300,
   };
 };

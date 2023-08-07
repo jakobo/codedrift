@@ -1,6 +1,6 @@
 // an explicit proxy for github graphql requests
 // hides the PAT
-import process from "node:process";
+import process from "process"; // eslint-disable-line unicorn/prefer-node-protocol
 import { createProxyMiddleware } from "http-proxy-middleware";
 
 const mw = createProxyMiddleware({

@@ -9,6 +9,7 @@ import { type ShortlinkFile } from "@/types/shortlinks.js";
 import { PROSE, SECTION_HEADLINE } from "@/data/constants.js";
 import { selectShortlinkData } from "@/gql/shortlinks.js";
 import { firstOf } from "@/lib/firstOf.js";
+import { deleteUndefined } from "@/lib/deleteUndefined.js";
 
 type ShortLinkToProps = {
   name: string;
@@ -83,12 +84,12 @@ export const getStaticProps: GetStaticProps<ShortLinkToProps> = async (ctx) => {
   }
 
   return {
-    props: {
+    props: deleteUndefined({
       urqlState: cache.extractData(),
       name: link,
       url: typeof row === "string" ? row : row.url,
       description: typeof row === "string" ? undefined : row.description,
-    },
+    }),
     revalidate: 300,
   };
 };

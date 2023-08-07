@@ -11,26 +11,22 @@
     "importHelpers": true,
     "inlineSources": true,
     "sourceMap": true,
-    "jsx": "react-jsx",
-
+    "jsx": "preserve",
     // Strict Checks
     "alwaysStrict": false,
     "strict": true,
     "strictBindCallApply": false,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
-
     // Specific loosening of rules
     "allowJs": true,
     // "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     // https://github.com/microsoft/TypeScript/issues/50175#issuecomment-1204986989
     // "skipLibCheck": true,
-
     // Importables
     "lib": ["dom", "dom.iterable", "esnext"],
     "resolveJsonModule": true,
-
     // TS Linting Rules
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
@@ -38,30 +34,30 @@
     "noImplicitThis": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-
     // QoL Settings
     "preserveWatchOutput": true,
     "pretty": true,
-
     // Plugins
     "plugins": [
       {
         "name": "next"
       }
     ],
-
     // TS Path Info
     "paths": {
       "@/*": ["./*"]
-    }
-
+    },
     // Additional Global Types
     // "types": ["node"]
+    "skipLibCheck": true,
+    "incremental": true
   },
   // ts-node common settings
   "ts-node": {
     "transpileOnly": true,
     "esm": true,
     "noEmit": true
-  }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }

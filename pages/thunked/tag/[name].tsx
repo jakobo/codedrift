@@ -15,6 +15,7 @@ import { selectedPostsWithSearch } from "@/gql/posts.js";
 import { selectLabelDetails } from "@/gql/labels.js";
 import { type Post } from "@/types/Post.js";
 import { REPO_FQN } from "@/lib/constants.js";
+import { deleteUndefined } from "@/lib/deleteUndefined.js";
 
 const labelToSearch = (label: string) =>
   `label:"${label}" category:"Thunked" repo:${REPO_FQN}`;
@@ -96,10 +97,10 @@ export const getStaticProps: GetStaticProps<Record<string, unknown>> = async (
     .map((d) => discussionToBlog(d));
 
   return {
-    props: {
+    props: deleteUndefined({
       urqlState: cache.extractData(),
       posts,
-    },
+    }),
     revalidate: 300,
   };
 };

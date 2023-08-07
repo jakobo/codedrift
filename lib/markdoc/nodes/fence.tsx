@@ -42,6 +42,8 @@ export const Fence: React.FC<
         clearTimeout(to);
       };
     }
+
+    return undefined;
   }, [copied]);
 
   return (

@@ -4,11 +4,13 @@ import { DateTime } from "luxon";
 import { type GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
 import { useQuery } from "urql";
+import { isPresent } from "ts-is-present";
 import { demoji } from "@/lib/demoji.js";
 import { initDefaultUrqlClient, withDefaultUrqlClient } from "@/gql/index.js";
 import { discussionToBlog } from "@/lib/github/discussionToBlog.js";
 import { Layout } from "@/components/Layout.js";
 import { recentPosts } from "@/gql/posts.js";
+import { deleteUndefined } from "@/lib/deleteUndefined.js";
 
 const linkClasses = `
 no-underline
@@ -38,9 +40,11 @@ const Home: React.FC = () => {
   });
   const posts = useMemo(
     () =>
-      (data?.repository?.discussions?.nodes ?? []).map((post) => {
-        return discussionToBlog(post);
-      }),
+      (data?.repository?.discussions?.nodes ?? [])
+        .filter(isPresent)
+        .map((post) => {
+          return discussionToBlog(post);
+        }),
     [data?.repository?.discussions?.nodes]
   );
 
@@ -160,9 +164,9 @@ export const getStaticProps: GetStaticProps<
   await client.query(recentPosts, { first: POSTS_TO_SHOW }).toPromise();
 
   return {
-    props: {
+    props: deleteUndefined({
       urqlState: cache.extractData(),
-    },
+    }),
     revalidate: 300,
   };
 };

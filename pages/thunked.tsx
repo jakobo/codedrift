@@ -9,6 +9,7 @@ import { discussionToBlog } from "@/lib/github/discussionToBlog.js";
 import { initDefaultUrqlClient, withDefaultUrqlClient } from "@/gql/index.js";
 import { SECTION_HEADLINE } from "@/data/constants.js";
 import { recentPosts } from "@/gql/posts.js";
+import { deleteUndefined } from "@/lib/deleteUndefined.js";
 
 const POST_SHOW_COUNT = 100;
 
@@ -64,9 +65,9 @@ export const getStaticProps: GetStaticProps<
     .toPromise();
 
   return {
-    props: {
+    props: deleteUndefined({
       urqlState: cache.extractData(),
-    },
+    }),
     revalidate: 300,
   };
 };

@@ -1,4 +1,4 @@
-import process from "node:process";
+import process from "process"; // eslint-disable-line unicorn/prefer-node-protocol
 import path from "node:path";
 import { Buffer } from "node:buffer";
 import { type NextApiRequest, type NextApiResponse } from "next";
