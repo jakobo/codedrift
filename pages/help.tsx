@@ -42,7 +42,7 @@ const Help: React.FC = () => {
             <a href="https://www.linkedin.com/in/jakobheuser/">
               LinkedIn Network
             </a>{" "}
-            represents about 15 years working in the technology industry. I am
+            represents about 20 years working in the technology industry. I am
             able to introduce you to anyone in my network as a warm
             introduction. To do this, please provide me with a brief summary
             about who you are and what you need so that I can pass this along to
