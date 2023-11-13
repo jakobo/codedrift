@@ -134,7 +134,7 @@ export const discussionToBlog = (item: BlogPostFromGithub): Post => {
   });
 
   if (!frontmatter?.slug || !item.lastEditedAt || !frontmatter.published) {
-    throw new Error("No slug found on " + item.url);
+    throw new Error(`No slug found on ${item.url}. Found ${frontmatter}`);
   }
 
   return {
