@@ -21,7 +21,7 @@ export type Post = {
   html?: string;
   source: string;
   publishedAt: string;
-  updatedAt: string;
+  updatedAt?: string;
   category?: Tag | undefined;
   tags: Tag[];
   changelog?: Array<{

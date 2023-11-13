@@ -134,8 +134,18 @@ export const discussionToBlog = (item: BlogPostFromGithub): Post => {
   });
 
   // drop posts with no slug or publish data
-  if (!frontmatter?.slug || !frontmatter.published) {
-    throw new Error(`No slug found on ${item.url}. Found ${JSON.stringify(frontmatter)}`);
+  if (!frontmatter) {
+    throw new Error(
+      `No slug found on ${item.url}. Found ${JSON.stringify(frontmatter)}`
+    );
+  }
+
+  if (!frontmatter.published) {
+    throw new Error(
+      `No published date found on ${item.url}. Found ${JSON.stringify(
+        frontmatter
+      )}`
+    );
   }
 
   return {
@@ -151,7 +161,7 @@ export const discussionToBlog = (item: BlogPostFromGithub): Post => {
     body: item.body,
     source: item.url,
     canonicalUrl,
-    updatedAt: item.lastEditedAt,
+    updatedAt: item.lastEditedAt ?? undefined,
     publishedAt: DateTime.fromJSDate(frontmatter.published).toISO()!,
     category,
     tags,
