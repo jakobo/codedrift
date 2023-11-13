@@ -133,7 +133,8 @@ export const discussionToBlog = (item: BlogPostFromGithub): Post => {
     order: "desc",
   });
 
-  if (!frontmatter?.slug || !item.lastEditedAt || !frontmatter.published) {
+  // drop posts with no slug or publish data
+  if (!frontmatter?.slug || !frontmatter.published) {
     throw new Error(`No slug found on ${item.url}. Found ${JSON.stringify(frontmatter)}`);
   }
 
