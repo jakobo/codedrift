@@ -4,13 +4,12 @@ import {
   ChevronRightIcon,
   MoonIcon,
   SunIcon,
-  SupportIcon,
+  HeartIcon,
+  ChatAlt2Icon,
 } from "@heroicons/react/solid/index.js";
 import cx from "classnames";
 import Head from "next/head.js";
 import Link from "next/link.js";
-import { GitHubIcon } from "./icons/Github.js";
-import { MastodonIcon } from "./icons/Mastodon.js";
 import { ICON_LINK, LINK } from "@/data/constants.js";
 import { useColorScheme } from "@/hooks/useColorScheme.js";
 
@@ -94,23 +93,14 @@ const navigation: Array<{
   {
     href: "/help",
     title: "Helping Others",
-    icon: () => <SupportIcon className="h-4 w-4 fill-current" />,
+    icon: () => <HeartIcon className="h-6 w-6 fill-current" />,
     className: ICON_LINK,
   },
   {
-    href: "https://hachyderm.io/@jakobo",
-    title: "@jakobo@hachyderm.io",
-    icon: () => <MastodonIcon className="h-4 w-4 fill-current" />,
+    href: "/social",
+    title: "Elsewhere on the Web",
+    icon: () => <ChatAlt2Icon className="h-6 w-6 fill-current" />,
     className: ICON_LINK,
-    rel: "me",
-  },
-
-  {
-    href: "https://github.com/jakobo",
-    title: "jakobo // github",
-    icon: () => <GitHubIcon className="h-4 w-4 fill-current" />,
-    className: ICON_LINK,
-    rel: "me",
   },
 ];
 
@@ -133,9 +123,9 @@ const LightSwitch: React.FC<LightSwitchProps> = ({ className }) => {
       tabIndex={-1}
     >
       {mode === "dark" ? (
-        <MoonIcon className={cx("h-4 w-4", className)} />
+        <MoonIcon className={cx("h-6 w-6", className)} />
       ) : (
-        <SunIcon className={cx("h-4 w-4", className)} />
+        <SunIcon className={cx("h-6 w-6", className)} />
       )}
     </div>
   );
@@ -147,7 +137,7 @@ export const Layout: React.FC<PropsWithChildren<Record<string, unknown>>> = ({
   return (
     <>
       <div className="flex h-screen min-w-full max-w-full flex-col items-start">
-        <div className="h-4 w-full flex-shrink-0 bg-gray-600 dark:bg-gray-700" />
+        <div className="h-6 w-full flex-shrink-0 bg-gray-600 dark:bg-gray-700" />
         <header className="flex w-full max-w-limit flex-row px-4">
           <Logo className={cx(LINK, "pt-2")} />
           <nav className="flex flex-grow flex-row items-center justify-end space-x-2 self-end">
