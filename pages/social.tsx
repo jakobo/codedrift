@@ -31,8 +31,7 @@ const Colophon: React.FC = () => {
         <h1 className={SECTION_HEADLINE}>Elsewhere on the Web</h1>
         <div className={PROSE}>
           <p>
-            I'm on a few other websites, in case one website wasn't enough. I
-            keep this updated when I remember, which isn't often enough. There's
+            I'm on a few other websites, in case one website wasn't enough. There's
             a lot of internet out there; looking forward to meeting you
             digitally.
             <br />
