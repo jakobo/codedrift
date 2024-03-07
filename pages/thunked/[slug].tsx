@@ -31,6 +31,7 @@ const tagSort = ["🏷", "⌛"];
 
 type ThunkedBySlugProps = {
   ghDiscussionTitle?: string;
+  ghDiscussionId?: string;
   post?: Post;
 };
 
@@ -74,6 +75,7 @@ const useMarkdocs = <T,>(
 const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({
   post,
   ghDiscussionTitle,
+  ghDiscussionId,
 }) => {
   const router = useRouter();
   const slug = Array.isArray(router.query.slug)
@@ -287,8 +289,8 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({
           </div>
 
           {/* Discuss */}
-          <div className="max-w-reading mt-4 border-t border-t-gray-500 pt-4">
-            {ghDiscussionTitle ? (
+          {ghDiscussionId ? (
+            <div className="max-w-reading mt-4 border-t border-t-gray-500 pt-4">
               <Giscus
                 id="giscus"
                 repo="jakobo/codedrift"
@@ -296,7 +298,7 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({
                 category="Thunked"
                 categoryId="DIC_kwDOFC_g4s4CAYqP"
                 mapping="specific"
-                term={ghDiscussionTitle}
+                term={ghDiscussionId}
                 reactionsEnabled="0"
                 strict="1"
                 inputPosition="bottom"
@@ -308,8 +310,8 @@ const ThunkedBySlug: React.FC<ThunkedBySlugProps> = ({
                 lang="en"
                 loading="lazy"
               />
-            ) : null}
-          </div>
+            </div>
+          ) : null}
         </div>
       </Layout>
     </>
@@ -353,6 +355,7 @@ export const getStaticProps: GetStaticProps<ThunkedBySlugProps> = async (
     props: deleteUndefined({
       urqlState: cache.extractData(),
       ghDiscussionTitle: result.data?.search?.nodes?.[0]?.title,
+      ghDiscussionId: result.data?.search?.nodes?.[0]?.id,
       post: post ?? undefined,
     }),
     revalidate: 300,

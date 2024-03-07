@@ -62,7 +62,7 @@ export const recentPosts = query((q) => [
         first: $$("first"),
         after: $("after"),
         orderBy: {
-          field: DiscussionOrderField.CREATED_AT,
+          field: DiscussionOrderField.UPDATED_AT,
           direction: OrderDirection.DESC,
         },
       },
